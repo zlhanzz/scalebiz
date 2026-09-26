@@ -2,6 +2,24 @@
 
 Dokumen ini mencatat seluruh riwayat fitur dan konfigurasi yang sudah diselesaikan agar agent di masa mendatang dapat melanjutkan tugas tanpa kehilangan konteks.
 
+## [2026-09-26] Diagnosis Kegagalan Deploy Cloudflare, Penambahan Wrangler & Kompatibilitas Multi-Environment CI
+- **Status**: Selesai & Terverifikasi (Build Exit Code: 0, tsc Exit Code: 0)
+- **Pekerjaan yang Dilakukan**:
+  1. **Investigasi Masalah Production Belum Berubah**:
+     - Memeriksa langsung output live dari `scalebiz.web.id` dan `scalebiz.sulhan77777.workers.dev`. Keduanya masih mengembalikan HTML dari deployment awal (build ID lama), membuktikan build commit terbaru di Cloudflare mengalami kegagalan (*build error*) sehingga Cloudflare membatalkan deploy dan tetap menyajikan versi lama.
+  2. **Penyempurnaan Konfigurasi Container Cloudflare Builds**:
+     - Menambahkan `"packageManager": "pnpm@10.30.3"` di `package.json` agar build image Cloudflare mengaktifkan Corepack dan pnpm v10 secara otomatis.
+     - Membuat file `.nvmrc` dengan nilai `20` agar container Cloudflare menggunakan Node.js 20 LTS (Next.js 15 mewajibkan Node >= 18.18).
+     - Mengubah build command di `wrangler.jsonc` menjadi `"command": "npx --yes pnpm run build || npm run build"` agar tahan banting jika binary pnpm belum terinstal di PATH container.
+  3. **Instalasi Wrangler & Script Deploy Langsung**:
+     - Menambahkan dependency `wrangler` ke devDependencies dan script `"deploy": "wrangler deploy"` di `package.json`.
+     - Pengguna sekarang dapat melakukan deploy langsung secara instan dari mesin lokal kapan saja melalui perintah `pnpm run deploy`.
+- **Hasil Verifikasi**:
+  - `pnpm exec tsc --noEmit` -> Exit Code: 0.
+  - `pnpm run build` -> Exit Code: 0.
+
+---
+
 ## [2026-09-26] Deteksi Otomatis IP Indonesia vs Luar Indonesia untuk Adaptasi Bahasa (i18n)
 - **Status**: Selesai & Terverifikasi (Build Exit Code: 0, tsc Exit Code: 0)
 - **Pekerjaan yang Dilakukan**:

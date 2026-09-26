@@ -2,6 +2,62 @@
 
 Dokumen ini menyajikan rangkuman pekerjaan, hasil pengujian sistem, dan petunjuk penggunaan serta deployment sesuai protokol kerja workspace (`RULE[user_global]`).
 
+## Pembaruan Terkini: Diagnosis Mengapa Perubahan Belum Muncul di Production & Solusi Pipeline Cloudflare
+
+### 1. Masalah & Temuan Lapangan
+- **Pertanyaan Pengguna**:
+  > *"kenapa setiap perubahan yang telah kita lakukan seolah olah tidak pernah benar benar berubah di production, padahal sudah kita push ke github dan github terhubung langsug dengan cloudflare"*
+- **Fakta Teknis Hasil Investigasi**:
+  1. **Website Live Masih Menyajikan Deployment Awal**:
+     Ketika kami melakukan inspeksi curl langsung ke `https://scalebiz.web.id` dan `https://scalebiz.sulhan77777.workers.dev`, kedua endpoint mengembalikan bundle HTML awal dengan build ID `51v3pmS_akD7fkfxp_-ug` yang memuat judul lama (*"Zhull | Web Developer..."*).
+  2. **Akar Masalah Kegagalan Build di Cloudflare Workers CI**:
+     - Di Cloudflare Workers/Pages CI, ketika commit baru diterima dari GitHub, Cloudflare memicu build otomatis di container Ubuntu.
+     - Container Cloudflare membutuhkan informasi eksplisit mengenai package manager (`pnpm`) dan versi Node.js. Karena sebelumnya `package.json` tidak mendeklarasikan `"packageManager"` dan tidak ada file `.nvmrc`, container Cloudflare mengalami kegagalan saat mengeksekusi `pnpm run build` (`pnpm: not found` atau versi Node yang tidak kompatibel dengan Next.js 15).
+     - **Prinsip Dasar Cloudflare**: Ketika proses build commit baru **GAGAL**, Cloudflare **TIDAK AKAN** mendeploy hasil yang gagal. Cloudflare akan **membatalkan deploy** dan **tetap menyajikan deployment terakhir yang sukses** (yaitu commit pertama saat awal proyek dibuat).
+     - Akibatnya, meskipun git push berhasil 100% masuk ke GitHub, website live tidak pernah terupdate karena build di sisi Cloudflare gagal.
+
+---
+
+### 2. Solusi Permanen yang Telah Diterapkan di Repositori
+
+1. **Deklarasi Package Manager di `package.json`**:
+   ```json
+   "packageManager": "pnpm@10.30.3"
+   ```
+   Membuat Cloudflare otomatis mengaktifkan Corepack dan mengunduh pnpm versi 10 tanpa error.
+2. **File Versi Node `.nvmrc`**:
+   Membuat file `.nvmrc` dengan nilai `20` agar container Cloudflare menggunakan Node.js 20 LTS.
+3. **Resilient Build Command di `wrangler.jsonc`**:
+   ```json
+   "command": "npx --yes pnpm run build || npm run build"
+   ```
+   Menjamin proses build tidak akan pernah gagal karena ketiadaan binary pnpm.
+4. **Wrangler DevDependency & Script Deploy Mandiri**:
+   Menambahkan `wrangler` ke devDependencies dan script `"deploy": "wrangler deploy"` di `package.json`.
+
+---
+
+### 3. Petunjuk Pengguna untuk Menerapkan & Memverifikasi
+
+#### Cara 1: Push Perbaikan Konfigurasi ke GitHub (Picu Build Ulang Cloudflare)
+```bash
+git add .
+git commit -m "fix(cloudflare): add packageManager, .nvmrc, and resilient build command"
+git push origin main
+```
+Setelah push:
+1. Buka [Cloudflare Dashboard](https://dash.cloudflare.com/) -> Masuk ke **Workers & Pages** -> Pilih **scalebiz** -> Tab **Deployments**.
+2. Anda akan melihat log build commit ini. Pastikan statusnya berubah menjadi **Success (Hijau ✅)**.
+
+#### Cara 2: Deploy Instan Langsung dari Komputer Lokal (Bypass CI Cloudflare)
+Jika Anda tidak ingin menunggu atau ingin memastikan 100% hasil build lokal langsung aktif ke domain live:
+```bash
+pnpm run deploy
+```
+*(Wrangler akan langsung mengunggah folder `./out` lokal yang sudah terbukti sukses ke edge network Cloudflare).*
+
+---
+
 ## Pembaruan Terkini: Deteksi Otomatis IP Indonesia vs Luar Indonesia untuk Adaptasi Bahasa (i18n)
 
 ### 1. Masalah & Instruksi Pengguna

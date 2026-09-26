@@ -2,9 +2,11 @@
   "name": "freelance-portfolio",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@10.30.3",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "deploy": "wrangler deploy",
     "start": "next start",
     "lint": "next lint"
   },
@@ -21,6 +23,7 @@
     "puppeteer-core": "^25.12.0",
     "sharp": "^0.35.4",
     "typescript": "^5.7.0",
+    "wrangler": "^4.141.0",
     "xlsx": "^0.18.5"
   }
 }
