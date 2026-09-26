@@ -2,6 +2,28 @@
 
 Dokumen ini mencatat seluruh riwayat fitur dan konfigurasi yang sudah diselesaikan agar agent di masa mendatang dapat melanjutkan tugas tanpa kehilangan konteks.
 
+## [2026-09-26] Deteksi Otomatis IP Indonesia vs Luar Indonesia untuk Adaptasi Bahasa (i18n)
+- **Status**: Selesai & Terverifikasi (Build Exit Code: 0, tsc Exit Code: 0)
+- **Pekerjaan yang Dilakukan**:
+  1. **Arsitektur Deteksi IP Multi-Tier Berbasis Cloudflare Native Edge**:
+     - Menggunakan endpoint internal Cloudflare `/cdn-cgi/trace` (same-origin, sub-15ms, zero-CORS) pada domain live `scalebiz.web.id` yang langsung mengembalikan kode negara (`loc=ID`, `loc=US`, `loc=SG`, dsb.).
+     - Balapan paralel (*concurrent race*) fallback dengan `https://cloudflare.com/cdn-cgi/trace`, `https://api.country.is`, dan `https://get.geojs.io/v1/ip/country.json`.
+     - Fallback offline berbasis heuristik browser locale dan zona waktu Indonesia (`Asia/Jakarta`, `Asia/Pontianak`, `Asia/Makassar`, `Asia/Jayapura`).
+  2. **Aturan Adaptasi Bahasa Otomatis**:
+     - IP Indonesia (`loc=ID` / `countryCode === "ID"`): Otomatis menampilkan situs dalam **Bahasa Indonesia** (`id`), `document.documentElement.lang = "id"`, serta `document.title = "Scalebiz | Scaleup dan Optimalisasi Bisnis Kamu"`.
+     - IP Luar Indonesia (`loc !== "ID"`): Otomatis menampilkan situs dalam **Bahasa Inggris** (`en`), `document.documentElement.lang = "en"`, serta `document.title = "Scalebiz | Scale Up and Optimize Your Business"`.
+  3. **Penanganan Dinamis Pergantian IP / VPN Pengguna**:
+     - Memperbaiki bug penguncian (*locking*) `localStorage`: Ketika pengguna berganti jaringan atau mengaktifkan VPN luar negeri, sistem mendeteksi perbedaan negara (`lastCountry !== countryCode`), secara otomatis mereset preferensi usang, dan menerapkan bahasa negara yang baru.
+  4. **Dukungan Testing Instan via URL Query Parameters**:
+     - Mendukung parameter URL pengujian langsung:
+       - `https://scalebiz.web.id/?geo=US` atau `https://scalebiz.web.id/?lang=en` -> Menguji tampilan Bahasa Inggris.
+       - `https://scalebiz.web.id/?geo=ID` atau `https://scalebiz.web.id/?lang=id` -> Menguji tampilan Bahasa Indonesia.
+- **Hasil Verifikasi**:
+  - `pnpm exec tsc --noEmit` -> Exit Code: 0.
+  - `pnpm run build` -> Exit Code: 0.
+
+---
+
 ## [2026-09-26] Pembaruan Metadata Scalebiz, OpenGraph Tags & Panduan Pembersihan Cache Edge / Social Crawler
 - **Status**: Selesai & Terverifikasi
 - **Pekerjaan yang Dilakukan**:

@@ -2,6 +2,54 @@
 
 Dokumen ini menyajikan rangkuman pekerjaan, hasil pengujian sistem, dan petunjuk penggunaan serta deployment sesuai protokol kerja workspace (`RULE[user_global]`).
 
+## Pembaruan Terkini: Deteksi Otomatis IP Indonesia vs Luar Indonesia untuk Adaptasi Bahasa (i18n)
+
+### 1. Masalah & Instruksi Pengguna
+- **Instruksi Pengguna**:
+  > *"pastikan agar sistem kita bisa mengetahui ip indonesia dan ip luar indonesia untuk menampilkan website dengan bahasa yang sesuai. indonesia untuk dalam indonesia dan inggris untuk luar indonesia"*
+- **Akar Masalah yang Diselesaikan**:
+  1. **Locking Penyimpanan Lokal (`localStorage`)**:
+     Sebelumnya, jika pengguna pernah mengklik tombol manual bahasa di browser, preferensi tersebut tersimpan secara permanen dan menonaktifkan pengecekan IP. Ketika pengguna menyalakan VPN ke luar negeri (AS, Eropa, Singapura) untuk mengetes, website tetap terkunci pada Bahasa Indonesia.
+  2. **Latency & Keandalan Deteksi Geografis**:
+     Website live Scalebiz beroperasi di jaringan CDN Cloudflare. Cloudflare menyediakan endpoint internal native `/cdn-cgi/trace` (same-origin, respons < 15ms) yang langsung menyajikan kode negara pengguna tanpa batasan CORS atau batasan kuota API pihak ketiga.
+  3. **Respon Otomatis Saat IP / VPN Berubah**:
+     Sistem kini membandingkan kode negara sesi aktif (`lastCountry`). Jika terdeteksi perubahan negara (misalnya pengguna mengaktifkan atau menonaktifkan VPN), sistem secara cerdas menghapus preferensi lama dan langsung menerapkan bahasa yang sesuai dengan IP baru secara instan.
+
+---
+
+### 2. Solusi & Perubahan yang Diterapkan
+
+#### A. Arsitektur Multi-Tier GeoIP di `src/context/LanguageContext.tsx`
+- **Tier 1 (Cloudflare Native Trace)**: Mengambil `/cdn-cgi/trace` dari domain live `scalebiz.web.id`. Membaca field `loc=ID` atau `loc=US`/`loc=SG` secara langsung.
+- **Tier 2 (Parallel Concurrent Race)**: Balapan paralel dengan `https://cloudflare.com/cdn-cgi/trace`, `https://api.country.is`, dan `https://get.geojs.io/v1/ip/country.json`.
+- **Tier 3 (Offline / Strict Firewall Heuristic)**: Jika seluruh endpoint jaringan offline, mendeteksi zona waktu (`Asia/Jakarta`, `Asia/Pontianak`, `Asia/Makassar`, `Asia/Jayapura`) dan locale browser.
+
+#### B. Logika Adaptasi Bahasa & Sinkronisasi Judul
+- **Jika IP Indonesia (`loc=ID`)**:
+  - Bahasa aktif: `"id"` (Bahasa Indonesia).
+  - Atribut HTML: `<html lang="id">`.
+  - Judul Halaman: `Scalebiz | Scaleup dan Optimalisasi Bisnis Kamu`.
+- **Jika IP Luar Indonesia (`loc !== "ID"`)**:
+  - Bahasa aktif: `"en"` (English).
+  - Atribut HTML: `<html lang="en">`.
+  - Judul Halaman: `Scalebiz | Scale Up and Optimize Your Business`.
+  - Seluruh modul: Navigasi, Hero Editorial, 4 Pilar Layanan, Bisnis Solusi, 4 Langkah Wizard Diagnosa Kinetik, dan FAQ otomatis berganti ke Bahasa Inggris.
+
+#### C. Parameter Bypass untuk Pengujian Instan Tanpa VPN
+Pengguna atau tim penguji dapat memverifikasi tampilan kedua bahasa langsung di browser manapun tanpa harus menyalakan VPN:
+- **Uji Bahasa Inggris**: `https://scalebiz.web.id/?geo=US` atau `https://scalebiz.web.id/?lang=en`
+- **Uji Bahasa Indonesia**: `https://scalebiz.web.id/?geo=ID` atau `https://scalebiz.web.id/?lang=id`
+
+---
+
+### 3. Hasil Pengujian Sistem
+- **TypeScript Typecheck (`pnpm exec tsc --noEmit`)**:
+  - Hasil: `Exit Code 0` (Bebas error tipe).
+- **Next.js Production Build (`pnpm run build`)**:
+  - Hasil: `Exit Code 0` (Kompilasi sukses, static export valid).
+
+---
+
 ## Pembaruan Terkini: Konfigurasi Metadata OpenGraph, Arsitektur Tag Preview & Panduan Purge Cache Cloudflare / WhatsApp
 
 ### 1. Masalah & Temuan Pengguna

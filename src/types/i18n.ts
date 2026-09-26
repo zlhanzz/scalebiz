@@ -4,4 +4,5 @@ export interface LanguageContextType {
   lang: Language;
   setLang: (lang: Language) => void;
   isAutoDetected: boolean;
+  detectedCountry?: string | null;
 }
