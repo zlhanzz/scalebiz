@@ -249,7 +249,7 @@ export default function HeroEditorial() {
           <div className="hero-portrait-stage">
             <img
               src={currentProject.portraitImg}
-              alt={`Zhull - Web Developer Spesialis Bisnis Lokal (${currentProject.name})`}
+              alt={`Scalebiz - Scaleup & Optimalisasi Bisnis (${currentProject.name})`}
               className="portrait-img"
               key={`portrait-solid`}
             />

@@ -3,19 +3,35 @@
 Dokumen ini mencatat seluruh riwayat fitur dan konfigurasi yang sudah diselesaikan agar agent di masa mendatang dapat melanjutkan tugas tanpa kehilangan konteks.
 
 
+
 ---
 
+## [2026-09-26] Pembaruan Judul Web & Metadata Branding Scalebiz
+- **Status**: Selesai & Terverifikasi
+- **Pekerjaan yang Dilakukan**:
+  1. Mengubah `metadata.title` dari `Zhull | Web Developer Spesialis Bisnis Lokal & UMKM` menjadi `Scalebiz | Scaleup dan Optimalisasi Bisnis Kamu` di [src/app/layout.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/app/layout.tsx).
+  2. Menyelaraskan seluruh meta tag terkait (OpenGraph title/description, Twitter card title/description, keywords, dan authors) dengan profil Scalebiz.
+  3. Menyelaraskan atribut `alt` gambar portrait developer di [src/components/HeroEditorial.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/components/HeroEditorial.tsx) menjadi `Scalebiz - Scaleup & Optimalisasi Bisnis`.
+- **Hasil Verifikasi**:
+  - `pnpm.cmd run build` tuntas 100% (Exit Code: 0).
+  - Berkas [out/index.html](file:///c:/Users/ZHULL/Documents/Freelance/out/index.html) kini memuat tag `<title>Scalebiz | Scaleup dan Optimalisasi Bisnis Kamu</title>` dan `<meta property="og:title" content="Scalebiz | Scaleup dan Optimalisasi Bisnis Kamu"/>`.
+
+
 ## [2026-09-26] Konfigurasi Cloudflare Workers Static Assets (Fix OpenNext ENOENT Error)
-- **Status**: Selesai
+- **Status**: Selesai & Sukses Live 100%
+- **Hasil Deployment**:
+  - URL Preview / Default Worker: `https://scalebiz.sulhan77777.workers.dev`
+  - Seluruh 54 file aset statis (`index.html`, `404.html`, gambar visual, font, script chunks) berhasil diunggah ke CDN global Cloudflare.
 - **Pekerjaan yang Dilakukan**:
   1. **Investigasi Error Deployment Cloudflare**:
      - Pengguna mengalami kegagalan build saat deploy ke Cloudflare dengan pesan error: `Error: ENOENT: no such file or directory, open '/opt/buildhome/repo/.next/standalone/.next/server/pages-manifest.json'` pada eksekusi `npx wrangler deploy`.
      - Penyebab: Cloudflare mencoba menjalankan auto-migration `@opennextjs/cloudflare` karena mengasumsikan Next.js membutuhkan dynamic SSR worker, padahal proyek dikonfigurasi sebagai static export murni (`output: "export"` pada `next.config.ts`).
   2. **Pembuatan Konfigurasi `wrangler.jsonc`**:
      - Membuat `wrangler.jsonc` di root proyek yang secara spesifik mendeklarasikan `assets: { directory: "./out", not_found_handling: "single-page-application", html_handling: "auto-trailing-slash" }` serta `build: { command: "pnpm run build" }`.
-     - Dengan deklarasi ini, Wrangler tidak akan menginjeksi OpenNext atau mencari direktori `.next/standalone`, melainkan langsung mem-build dan menyajikan folder `./out` ke edge network Cloudflare.
+     - Dengan deklarasi ini, Wrangler tidak menginjeksi OpenNext atau mencari direktori `.next/standalone`, melainkan langsung mem-build dan menyajikan folder `./out` ke edge network Cloudflare.
   3. **Verifikasi**:
-     - Build lokal `pnpm.cmd run build` teruji sukses 100% dan menghasilkan direktori `./out` dengan seluruh berkas HTML, CSS, JS chunks, dan aset visual siap saji.
+     - Build Cloudflare Workers berhasil 100% (`✨ Success! Build completed.`). Aset live di `https://scalebiz.sulhan77777.workers.dev`.
+
 
 
 ## [2026-09-26] Inisialisasi Repositori Git & Push Sukses ke GitHub zlhanzz/scalebiz

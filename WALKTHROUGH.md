@@ -3,7 +3,46 @@
 Dokumen ini menyajikan rangkuman pekerjaan, hasil pengujian sistem, dan petunjuk penggunaan serta deployment sesuai protokol kerja workspace (`RULE[user_global]`).
 
 
+
 ---
+
+## Pembaruan Terkini: Pembaruan Judul Web & Metadata (Scalebiz | Scaleup dan Optimalisasi Bisnis Kamu)
+
+### 1. Masalah & Permintaan Pengguna
+- **Permintaan Pengguna**:
+  > *"oh iyyaa ganti judul web nya dari zhull developer menjadi scalebiz, scaleup dan optimalisasi bisnis kamu"*
+- **Akar Masalah**:
+  - Konfigurasi metadata di [src/app/layout.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/app/layout.tsx) sebelumnya masih menggunakan judul awal portofolio pribadi (`Zhull | Web Developer Spesialis Bisnis Lokal & UMKM`).
+  - Hal ini menyebabkan judul pada tab browser, link preview di WhatsApp/media sosial, dan indeks mesin pencari masih menampilkan nama lama.
+
+### 2. Solusi yang Diterapkan
+1. **Pembaruan [src/app/layout.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/app/layout.tsx)**:
+   - `metadata.title`: `"Scalebiz | Scaleup dan Optimalisasi Bisnis Kamu"`
+   - `metadata.description`: Deskripsi rekayasa sistem, web interaktif, POS kasir & finansial, otomasi, dan ERP tanpa biaya langganan bulanan.
+   - `metadata.openGraph.title`: `"Scalebiz | Scaleup dan Optimalisasi Bisnis Kamu"`
+   - `metadata.authors`: `[{ name: "Scalebiz" }]`
+2. **Pembaruan [src/components/HeroEditorial.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/components/HeroEditorial.tsx)**:
+   - Menyelaraskan teks alternatif gambar portrait developer menjadi `Scalebiz - Scaleup & Optimalisasi Bisnis (${currentProject.name})`.
+
+### 3. Hasil Pengujian & Bukti
+- **Kompilasi & Build Lokal**: `pnpm.cmd run build` selesai dengan `Exit Code: 0`.
+- **Hasil Verifikasi Ekspor HTML**:
+  Berkas [out/index.html](file:///c:/Users/ZHULL/Documents/Freelance/out/index.html) terbukti menghasilkan:
+  ```html
+  <title>Scalebiz | Scaleup dan Optimalisasi Bisnis Kamu</title>
+  <meta property="og:title" content="Scalebiz | Scaleup dan Optimalisasi Bisnis Kamu" />
+  <meta name="twitter:title" content="Scalebiz | Scaleup dan Optimalisasi Bisnis Kamu" />
+  ```
+
+### 4. Petunjuk Deploy ke Production (Manual Push)
+Jalankan perintah berikut di terminal:
+```bash
+git add src/app/layout.tsx src/components/HeroEditorial.tsx functions/PROGRESS.md WALKTHROUGH.md IMPLEMENTATION_PLAN.md
+git commit -m "chore(branding): update website title and metadata to Scalebiz"
+git push origin main
+```
+Cloudflare Workers CI/CD akan mendeteksi commit ini dan otomatis mengunggah pembaruan ke situs live Anda!
+
 
 ## Pembaruan Terkini: Perbaikan Error Deployment Cloudflare (ENOENT pages-manifest.json) & Konfigurasi Workers Static Assets
 
@@ -46,20 +85,23 @@ Dokumen ini menyajikan rangkuman pekerjaan, hasil pengujian sistem, dan petunjuk
   - Wrangler **tidak** akan lagi mencoba memasang `@opennextjs/cloudflare migrate` atau mencari `.next/standalone`.
   - Cloudflare akan mengeksekusi `pnpm run build`, lalu mengunggah seluruh aset statis dari `./out` ke edge network global Cloudflare dengan kecepatan maksimal dan biaya gratis ($0).
 
-### 3. Petunjuk Langkah yang Harus Dijalankan Pengguna (Manual Push)
-Sesuai aturan kerja workspace, agent tidak melakukan push ke GitHub secara mandiri. Silakan jalankan perintah berikut di terminal:
+### 3. Hasil Pengujian & Status Deployment
+- **Status**: Berhasil 100% (`✨ Success! Build completed.`)
+- **Live Worker URL**: [https://scalebiz.sulhan77777.workers.dev](https://scalebiz.sulhan77777.workers.dev)
+- **Ringkasan Build**:
+  - `✨ Read 54 files from the assets directory /opt/buildhome/repo/out`
+  - `✨ Success! Uploaded 38 files`
+  - `Deployed scalebiz triggers -> https://scalebiz.sulhan77777.workers.dev`
 
-```bash
-git add wrangler.jsonc functions/PROGRESS.md WALKTHROUGH.md IMPLEMENTATION_PLAN.md
-git commit -m "fix(cloudflare): configure workers static assets with wrangler.jsonc"
-git push origin main
-```
+### 4. Langkah Menghubungkan Custom Domain (scalebiz.web.id)
+Website Anda sekarang sudah aktif dan dapat diakses. Untuk menghubungkan domain utama `scalebiz.web.id`:
+1. Di Dashboard Cloudflare, buka worker **scalebiz**.
+2. Masuk ke tab **Settings** &rarr; klik **Domains & Routes** di menu sebelah kiri.
+3. Klik tombol biru **Add** &rarr; pilih **Custom Domain**.
+4. Masukkan `scalebiz.web.id` &rarr; klik **Add Custom Domain**.
+5. (Opsional) Ulangi langkah di atas dan masukkan `www.scalebiz.web.id` jika ingin subdomain `www` juga aktif.
+6. Cloudflare akan secara otomatis mengatur DNS CNAME dan SSL HTTPS gratis. Dalam 1-5 menit, website akan aktif sepenuhnya di `https://scalebiz.web.id`!
 
-Setelah push selesai:
-1. Buka dashboard Cloudflare: **Workers & Pages** -> pilih worker **scalebiz**.
-2. Masuk ke tab **Deployments**.
-3. Cloudflare akan otomatis mendeteksi commit baru dan menjalankan build ulang, ATAU klik **Retry deployment** pada deployment yang gagal sebelumnya.
-4. Build akan berhasil 100%!
 
 
 ## Pembaruan Terkini: Inisialisasi Repositori Git & Push Sukses ke GitHub (zlhanzz/scalebiz)

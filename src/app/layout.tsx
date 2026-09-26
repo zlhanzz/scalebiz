@@ -9,22 +9,24 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Zhull | Web Developer Spesialis Bisnis Lokal & UMKM",
+  title: "Scalebiz | Scaleup dan Optimalisasi Bisnis Kamu",
   description:
-    "Jasa pembuatan website cepat, rapi, dan langsung terhubung ke WhatsApp pelanggan. Portfolio proyek real: Proptech ruangsinggah.id, sistem finansial agribisnis, dan konsultasi cerdas.",
+    "Scalebiz - Solusi rekayasa sistem dan optimalisasi digital: Website Interaktif, Point of Sale & Finansial, Otomasi Alur Kerja, serta ERP Operasional tanpa biaya langganan bulanan.",
   keywords: [
-    "Jasa Website Bisnis Lokal",
-    "Web Developer Indonesia",
-    "Website UMKM",
-    "Jasa Bikin Website Kafe",
-    "Website WhatsApp Order",
-    "Zhull Web Developer"
+    "Scalebiz",
+    "Scaleup Bisnis",
+    "Optimalisasi Bisnis",
+    "Jasa Website Bisnis",
+    "Sistem POS & Kasir",
+    "Otomasi Bisnis",
+    "Custom ERP Indonesia",
+    "Software House UMKM"
   ],
-  authors: [{ name: "Zhull" }],
+  authors: [{ name: "Scalebiz" }],
   openGraph: {
-    title: "Zhull | Web Developer Spesialis Bisnis Lokal & UMKM",
+    title: "Scalebiz | Scaleup dan Optimalisasi Bisnis Kamu",
     description:
-      "Website bisnis yang cepat, elegan, dan langsung menghasilkan pesanan via WhatsApp. Selesai dalam 2–3 hari kerja.",
+      "Scaleup dan optimalisasi bisnis kamu dengan arsitektur digital kustom: Website, POS Finansial, Otomasi Workflow, dan ERP Operasional.",
     type: "website",
     locale: "id_ID",
   },
