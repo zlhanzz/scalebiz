@@ -2,79 +2,119 @@
 
 import React, { useState, useEffect } from "react";
 import ScalebizTypography from "./ScalebizTypography";
+import { useLanguage } from "@/context/LanguageContext";
+import { TRANSLATIONS } from "@/data/translations";
 
 interface HeroProject {
   id: string;
   name: string;
-  badge: string;
-  category: string;
-  description: string;
+  badge: { id: string; en: string };
+  category: { id: string; en: string };
+  description: { id: string; en: string };
   urlBar: string;
   phoneImg: string;
   tabletImg: string;
   previewImg: string;
   portraitImg: string;
   accentColor: string;
-  tagline: string;
-  metric: string;
+  tagline: { id: string; en: string };
+  metric: { id: string; en: string };
 }
 
 const HERO_PROJECTS: HeroProject[] = [
   {
     id: "ruangsinggah",
     name: "RuangSinggah.id",
-    badge: "Live Platform",
-    category: "Marketplace Proptech Hunian & Kost",
-    description: "Cari kost, filter kampus terdekat, & booking online terhubung ke WhatsApp.",
+    badge: { id: "Live Platform", en: "Live Platform" },
+    category: {
+      id: "Marketplace Proptech Hunian & Kost",
+      en: "Proptech Marketplace & Student Housing",
+    },
+    description: {
+      id: "Cari kost, filter kampus terdekat, & booking online terhubung ke WhatsApp.",
+      en: "Student housing search, campus proximity filter, & direct WhatsApp bookings.",
+    },
     urlBar: "ruangsinggah.id/cari-kost",
     phoneImg: "/images/ruangsinggah-mobile.png",
     tabletImg: "/images/ruangsinggah-desktop.png",
     previewImg: "/images/ruangsinggah-preview.jpg",
     portraitImg: "/images/developer-portrait.png",
     accentColor: "#e11d48",
-    tagline: "Proptech Real-time Search & Filter",
-    metric: "10+ Unit Terverifikasi",
+    tagline: {
+      id: "Proptech Real-time Search & Filter",
+      en: "Proptech Real-time Search & Filter",
+    },
+    metric: {
+      id: "10+ Unit Terverifikasi",
+      en: "10+ Verified Units",
+    },
   },
   {
     id: "ruangtani",
     name: "rUang Tani",
-    badge: "Aplikasi Riil",
-    category: "Pencatatan Keuangan & Lahan Tani",
-    description: "Monitoring laba keuntungan, arus kas panen, pengeluaran berjalan, & progress panen.",
+    badge: { id: "Aplikasi Riil", en: "Live Enterprise App" },
+    category: {
+      id: "Pencatatan Keuangan & Lahan Tani",
+      en: "Agri-Finance & Land Yield Management",
+    },
+    description: {
+      id: "Monitoring laba keuntungan, arus kas panen, pengeluaran berjalan, & progress panen.",
+      en: "Harvest profit monitoring, seasonal cash flows, running OPEX, & yield progress.",
+    },
     urlBar: "ruangtani.app/keuangan",
     phoneImg: "/images/ruang-tani-mobile.png",
     tabletImg: "/images/ruang-tani-desktop.png",
     previewImg: "/images/ruang-tani-mobile.png",
     portraitImg: "/images/developer-portrait-ruangtani.png",
     accentColor: "#10b981",
-    tagline: "Manajemen Keuangan Lahan & Panen Terintegrasi",
-    metric: "Laba Rp 646,2 Jt Terdata",
+    tagline: {
+      id: "Manajemen Keuangan Lahan & Panen Terintegrasi",
+      en: "Integrated Harvest Yield & Farm Financials",
+    },
+    metric: {
+      id: "Laba Rp 646,2 Jt Terdata",
+      en: "IDR 646.2M Profit Tracked",
+    },
   },
   {
     id: "mentlife",
     name: "Mentlife",
-    badge: "AI Mentor",
-    category: "AI Finance & Career Mentor",
-    description: "Pencatatan arus kas, diagnosis kesehatan finansial (Runway & Cashflow), roadmap bebas hutang, & saran AI personal.",
+    badge: { id: "AI Mentor", en: "AI Intelligence" },
+    category: {
+      id: "AI Finance & Career Mentor",
+      en: "AI Finance & Career Advisory",
+    },
+    description: {
+      id: "Pencatatan arus kas, diagnosis kesehatan finansial (Runway & Cashflow), roadmap bebas hutang, & saran AI personal.",
+      en: "Cash flow tracking, financial health runway diagnosis, debt-freedom roadmap, & personal AI insights.",
+    },
     urlBar: "mentlife.ai/beranda",
     phoneImg: "/images/mentlife-mobile.png",
     tabletImg: "/images/mentlife-desktop.png",
-    previewImg: "/images/mentlife-mobile.png",
+    previewImg: "/images/mentlife-desktop.png",
     portraitImg: "/images/developer-portrait-mentlife.png",
     accentColor: "#38bdf8",
-    tagline: "AI Personal Finance & Career Mentor",
-    metric: "Runway 7.9 Bln • AI Diagnosis",
+    tagline: {
+      id: "Personal Financial Runway & AI Coaching",
+      en: "Personal Financial Runway & AI Coaching",
+    },
+    metric: {
+      id: "Runway 7.9 Bln • AI Diagnosis",
+      en: "7.9 Mo Runway • AI Diagnosis",
+    },
   },
 ];
 
 export default function HeroEditorial() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const { lang } = useLanguage();
+  const t = TRANSLATIONS[lang].hero;
 
-  // Auto-rotate continuously every 3s
+  // Auto-rotate continuously every 3.5s
   useEffect(() => {
     const timer = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % HERO_PROJECTS.length);
-    }, 3000);
+    }, 3500);
     return () => clearInterval(timer);
   }, [activeIndex]);
 
@@ -100,13 +140,13 @@ export default function HeroEditorial() {
         {/* Top Manifesto Box */}
         <div className="hero-manifesto">
           <h1>
-            <span className="hero-title-highlight">Stop Membatasi Potensi Bisnismu!</span>
-            <span className="hero-title-sub">dengan masih menggunakan sistem jadul</span>
+            <span className="hero-title-highlight">{t.highlight}</span>
+            <span className="hero-title-sub">{t.sub}</span>
           </h1>
 
           {/* Interactive Portfolio Navigation with Guiding Eyebrow */}
           <div className="hero-portfolio-nav-group">
-            <span className="hero-portfolio-label">Hasil Kerja Kami:</span>
+            <span className="hero-portfolio-label">{t.workLabel}</span>
             <div className="hero-project-pills" role="tablist" aria-label="Pilih Proyek Showcase">
               {HERO_PROJECTS.map((proj, idx) => {
                 const isActive = idx === activeIndex;
@@ -146,7 +186,7 @@ export default function HeroEditorial() {
               className="hero-primary-cta-btn"
               id="cta-hero-main"
             >
-              <span>Tingkatkan Website dan Sistem Bisnis Saya Sekarang!</span>
+              <span>{t.ctaMain}</span>
               <svg
                 width="16"
                 height="16"
@@ -229,7 +269,7 @@ export default function HeroEditorial() {
                         className="browser-status-tag"
                         style={{ color: proj.accentColor }}
                       >
-                        ● {proj.badge}
+                        ● {proj.badge[lang]}
                       </div>
                     </div>
                     <div className="browser-screen-viewport">

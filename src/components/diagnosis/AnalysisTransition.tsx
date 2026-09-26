@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface AnalysisTransitionProps {
   onComplete: () => void;
@@ -8,7 +9,7 @@ interface AnalysisTransitionProps {
   isReady?: boolean;
 }
 
-const CHECKLIST_STEPS = [
+const CHECKLIST_STEPS_ID = [
   "Mempelajari model bisnis & alur operasional tim",
   "Memeriksa alur transaksi & kanal pemesanan pelanggan",
   "Mengisolasi titik kebocoran waktu & biaya operasional",
@@ -17,15 +18,27 @@ const CHECKLIST_STEPS = [
   "Selesai! Menyiapkan laporan rekomendasi khusus untuk Anda",
 ];
 
+const CHECKLIST_STEPS_EN = [
+  "Analyzing business model & operational workflows",
+  "Evaluating transaction pipelines & customer ordering channels",
+  "Isolating operational bottlenecks and financial leakages",
+  "Scalebiz AI Consultant evaluating system requirements...",
+  "Identifying optimal digital architecture tailored to your stage",
+  "Complete! Compiling your custom architecture report",
+];
+
 export default function AnalysisTransition({
   onComplete,
   brandName,
   isReady = false,
 }: AnalysisTransitionProps) {
+  const { lang } = useLanguage();
+  const isEn = lang === "en";
+  const checklistSteps = isEn ? CHECKLIST_STEPS_EN : CHECKLIST_STEPS_ID;
   const [completedSteps, setCompletedSteps] = useState<number>(0);
 
   useEffect(() => {
-    const totalSteps = CHECKLIST_STEPS.length;
+    const totalSteps = checklistSteps.length;
     // Langkah 0..3 berjalan bertahap (~1.6 detik)
     // Langkah 4 menunggu respon AI (isReady)
     // Langkah 5 selesai seketika
@@ -48,12 +61,12 @@ export default function AnalysisTransition({
     }, 450);
 
     return () => clearInterval(timer);
-  }, [isReady, onComplete]);
+  }, [isReady, onComplete, checklistSteps.length]);
 
-  const targetLabel = brandName?.trim() || "Bisnis Anda";
+  const targetLabel = brandName?.trim() || (isEn ? "Your Business" : "Bisnis Anda");
   const progressPercent = Math.min(
     100,
-    Math.round((completedSteps / CHECKLIST_STEPS.length) * 100)
+    Math.round((completedSteps / checklistSteps.length) * 100)
   );
 
   return (
@@ -63,9 +76,15 @@ export default function AnalysisTransition({
           <div className="analysis-spinner" />
           <span className="analysis-pulse-dot" />
         </div>
-        <h3 className="analysis-title">Menyiapkan Rekomendasi untuk {targetLabel}...</h3>
+        <h3 className="analysis-title">
+          {isEn
+            ? `Preparing System Blueprint for ${targetLabel}...`
+            : `Menyiapkan Rekomendasi untuk ${targetLabel}...`}
+        </h3>
         <p className="analysis-subtitle">
-          Scalebiz sedang mencocokkan alur operasional Anda dengan sistem digital yang paling masuk akal dan efisien.
+          {isEn
+            ? "Scalebiz is matching your workflows with the most efficient and scalable digital architecture."
+            : "Scalebiz sedang mencocokkan alur operasional Anda dengan sistem digital yang paling masuk akal dan efisien."}
         </p>
       </div>
 
@@ -77,7 +96,7 @@ export default function AnalysisTransition({
       </div>
 
       <div className="analysis-checklist">
-        {CHECKLIST_STEPS.map((text, idx) => {
+        {checklistSteps.map((text, idx) => {
           const isDone = idx < completedSteps;
           const isCurrent = idx === completedSteps;
           return (

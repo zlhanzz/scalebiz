@@ -6,6 +6,36 @@ Dokumen ini mencatat seluruh riwayat fitur dan konfigurasi yang sudah diselesaik
 
 ---
 
+## [2026-09-26] Implementasi Versi Bilingual (Bahasa Indonesia & English) dengan Real-Time IP Geolocation
+- **Status**: Selesai & Terverifikasi (Build Exit Code: 0)
+- **Pekerjaan yang Dilakukan**:
+  1. **Akar Masalah Deteksi VPN & Solusi Real-Time IP Geolocation**:
+     - *Masalah*: Saat pengguna menguji menggunakan VPN di browser (misal Incognito), `navigator.languages` tetap bernilai `id-ID` dan `timeZone` tetap `Asia/Jakarta`/`Asia/Makassar` karena VPN hanya mengubah rute IP jaringan eksternal dan tidak mengubah konfigurasi bahasa internal browser/Windows.
+     - *Solusi*: Mengupgrade [src/context/LanguageContext.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/context/LanguageContext.tsx) dengan deteksi IP Geolocation real-time berbasis balapan paralel (`Promise.any`) ke 3 edge network global independen:
+       - `https://api.country.is` (Cloudflare CDN Edge)
+       - `https://get.geojs.io/v1/ip/country.json` (GeoJS Edge)
+       - `https://ipwho.is/` (IPWhois Edge)
+     - Hirarki Penentuan Bahasa:
+       - **Prioritas 1 (Manual Switcher)**: Membaca `localStorage.getItem("scalebiz_lang")`. Jika pengguna secara manual mengeklik `ID` atau `EN`, preferensi ini dihormati permanen.
+       - **Prioritas 2 (Session Geo Cache)**: Membaca `sessionStorage.getItem("scalebiz_geo_country")` (0 ms) agar pergantian halaman/tab yang sama tidak membebani network request.
+       - **Prioritas 3 (Real-Time Network IP)**: Balapan 3 endpoint edge IP. Jika negara yang terdeteksi adalah `"ID"` -> Bahasa Indonesia (`id`). Jika dari luar Indonesia (termasuk via VPN luar negeri seperti US, SG, JP, AU) -> Bahasa Inggris (`en`).
+       - **Prioritas 4 (Offline Fallback)**: Jika perangkat sedang offline/koneksi IP gagal, fallback ke `navigator.languages` dan zona waktu Windows.
+  2. **Language Switcher Interaktif**:
+     - Ditambahkan pada [src/components/Navbar.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/components/Navbar.tsx) tepat di samping tombol WhatsApp dengan tombol pill `ID | EN` yang elegan, dilengkapi styling transisi di [src/app/globals.css](file:///c:/Users/ZHULL/Documents/Freelance/src/app/globals.css).
+  3. **Penyusunan Kamus & Terjemahan Standar Anti-Slop**:
+     - [src/data/translations/index.ts](file:///c:/Users/ZHULL/Documents/Freelance/src/data/translations/index.ts): Kamus bilingual untuk Navbar, Hero Editorial, 4 Pilar Layanan, Business Solutions, FAQ, dan Footer.
+     - [src/data/faqData.ts](file:///c:/Users/ZHULL/Documents/Freelance/src/data/faqData.ts): Seluruh 16 tanya-jawab dan kategori FAQ kini tersedia dalam Bahasa Indonesia dan English.
+     - [src/components/BusinessSolutions.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/components/BusinessSolutions.tsx): Menambahkan `COMPLETE_DIRECTORY_EN` untuk seluruh 10 kartu direktori sistem digital beserta filter kategori dan label kartu.
+     - [src/components/diagnosis/DiagnosisWizard.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/components/diagnosis/DiagnosisWizard.tsx): Menerjemahkan timeline stepper, pesan validasi interaktif, tombol navigasi, dan counter langkah.
+     - [src/components/diagnosis/DiagnosisStepView.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/components/diagnosis/DiagnosisStepView.tsx): Menerjemahkan 13 kategori model bisnis, pertanyaan langkah 1-4, placeholder kustom, dan sub-sektor.
+     - [src/components/diagnosis/AnalysisTransition.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/components/diagnosis/AnalysisTransition.tsx): Menerjemahkan animasi checklist langkah audit AI Scalebiz.
+     - [src/components/diagnosis/DiagnosisResultView.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/components/diagnosis/DiagnosisResultView.tsx): Menerjemahkan laporan rekomendasi arsitektur, pilar utama, kartu modul, transparansi pilar dormant, roadmap pengerjaan, tombol aksi, serta draf pesan otomatis WhatsApp.
+- **Hasil Verifikasi**:
+  - `pnpm.cmd exec tsc --noEmit` lolos 100% tanpa error.
+  - `pnpm.cmd run build` tuntas 100% (Exit Code: 0) dan menghasilkan bundel static export di folder `./out`.
+
+---
+
 ## [2026-09-26] Pembaruan Judul Web & Metadata Branding Scalebiz
 - **Status**: Selesai & Terverifikasi
 - **Pekerjaan yang Dilakukan**:

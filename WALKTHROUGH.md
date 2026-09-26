@@ -6,6 +6,96 @@ Dokumen ini menyajikan rangkuman pekerjaan, hasil pengujian sistem, dan petunjuk
 
 ---
 
+## Pembaruan Terkini: Implementasi Versi Bilingual (Indonesia & English) dengan Real-Time IP Geolocation
+
+### 1. Masalah & Permintaan Pengguna
+- **Permintaan Pengguna**:
+  > *"sepertinya web kita masih belum bisa mengenali darimana user berasal, saya mencoba simulasi pakai vpn pada versi localhost yang dibuka dengan incognito tapi tetap saja tampil dalam bahasa indonesia"*
+- **Akar Masalah**:
+  - Mengapa simulasi VPN di browser incognito sebelumnya tetap tampil dalam bahasa Indonesia?
+  - Saat VPN diaktifkan, VPN hanya mengubah rute **alamat IP publik (jaringan eksternal)** menjadi server luar negeri. VPN **tidak mengubah**:
+    1. Preferensi bahasa browser pengguna (`navigator.languages` tetap bernilai `id-ID` atau bahasa Indonesia bawaan OS).
+    2. Zona waktu jam Windows (`Intl.DateTimeFormat().resolvedOptions().timeZone` tetap `Asia/Jakarta` atau `Asia/Makassar`).
+  - Akibatnya, sistem deteksi awal yang hanya mengandalkan heuristik locale browser mendeteksi pengunjung sebagai orang Indonesia.
+- **Solusi Definitif**:
+  1. **Real-Time Edge IP Geolocation (Triple-Redundant Race)**:
+     - Menggunakan `Promise.any` yang membalapkan 3 penyedia edge network CDN global secara paralel:
+       - `https://api.country.is` (Cloudflare CDN Edge)
+       - `https://get.geojs.io/v1/ip/country.json` (GeoJS Global Anycast Edge)
+       - `https://ipwho.is/` (IPWhois Edge)
+     - Respon tercepat (~50-200ms) langsung menentukan negara asal IP.
+     - Jika kode negara adalah `"ID"` -> Bahasa Indonesia (`id`).
+     - Jika kode negara adalah selain `"ID"` (seperti `US`, `SG`, `JP`, dsb. dari VPN atau klien mancanegara) -> Bahasa Inggris (`en`).
+  2. **Session Caching (`sessionStorage`)**:
+     - Hasil deteksi IP disimpan di `sessionStorage` (`scalebiz_geo_country`), sehingga navigasi antar section atau reload dalam tab yang sama berjalan instan (0 ms).
+  3. **Manual Switcher Interaktif `[ ID | EN ]`**: Ditempatkan di header navigasi (Navbar) berdampingan dengan tombol WhatsApp, dengan active state elegan dan penyimpanan preferensi di `localStorage` (`scalebiz_lang`).
+  4. **Cakupan Terjemahan Penuh (Full-Coverage & Anti-Slop)**:
+     - Header Navbar & Menu Navigasi
+     - Hero Section & Showcase Portofolio
+     - 4 Pilar Layanan (Website, POS & Finance, ERP Operations, Workflow Automation)
+     - Direktori 10 Jenis Sistem Digital (Complete Directory Drawer)
+     - Multi-Step Diagnostic Wizard (Langkah 1 s/d 4, opsi kartu industri, validasi error, dsb.)
+     - Animasi Checklist AI Consultant Transition
+     - Laporan Hasil Analisis Arsitektur & Efisiensi Anggaran (Pilar Dormant)
+     - FAQ Section (Seluruh 16 Pertanyaan, Kategori Filter, Search Placeholder)
+     - Footer Studio
+     - Integrasi WhatsApp (Draf pesan konsultasi disesuaikan ke Bahasa Inggris saat mode EN aktif).
+
+---
+
+### 2. Daftar Perubahan Berkas (Files Changed)
+1. [src/types/i18n.ts](file:///c:/Users/ZHULL/Documents/Freelance/src/types/i18n.ts) *(Baru)*: Mendefinisikan tipe bahasa `Language = "id" | "en"` dan `LanguageContextType`.
+2. [src/context/LanguageContext.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/context/LanguageContext.tsx) *(Baru)*: State management bahasa dengan deteksi otomatis bertingkat (storage &rarr; navigator &rarr; timezone &rarr; fallback `en`) serta sinkronisasi `document.documentElement.lang`.
+3. [src/data/translations/index.ts](file:///c:/Users/ZHULL/Documents/Freelance/src/data/translations/index.ts) *(Baru)*: Kamus translasi terstruktur dan type-safe untuk Navbar, Hero, Pillars, Solutions, FAQ, dan Footer.
+4. [src/data/faqData.ts](file:///c:/Users/ZHULL/Documents/Freelance/src/data/faqData.ts): Mengintegrasikan seluruh 16 tanya-jawab dalam dua versi bahasa (`FAQ_ITEMS_ID` & `FAQ_ITEMS_EN`).
+5. [src/app/layout.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/app/layout.tsx): Membungkus seluruh aplikasi dengan `<LanguageProvider>`.
+6. [src/app/globals.css](file:///c:/Users/ZHULL/Documents/Freelance/src/app/globals.css): Menambahkan styling responsif untuk `.lang-switcher`, `.lang-btn`, dan `.lang-divider`.
+7. [src/components/Navbar.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/components/Navbar.tsx): Menambahkan tombol switcher bahasa `ID | EN` dan teks navigasi dinamis.
+8. [src/components/HeroEditorial.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/components/HeroEditorial.tsx): Teks manifesto, subtitle, tombol CTA, dan rincian proyek bilingual.
+9. [src/components/ServicePillars.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/components/ServicePillars.tsx): 4 pilar layanan, modul software, dan badge keunggulan bilingual.
+10. [src/components/BusinessSolutions.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/components/BusinessSolutions.tsx): Header diagnosa, drawer 10 direktori sistem (`COMPLETE_DIRECTORY_EN`), dan filter kategori.
+11. [src/components/diagnosis/DiagnosisWizard.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/components/diagnosis/DiagnosisWizard.tsx): Stepper timeline, mobile counter, validasi form, dan tombol navigasi langkah.
+12. [src/components/diagnosis/DiagnosisStepView.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/components/diagnosis/DiagnosisStepView.tsx): 13 kartu industri, sub-sektor, dan pertanyaan langkah 1-4 bilingual.
+13. [src/components/diagnosis/AnalysisTransition.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/components/diagnosis/AnalysisTransition.tsx): Animasi checklist audit arsitektur AI Scalebiz bilingual.
+14. [src/components/diagnosis/DiagnosisResultView.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/components/diagnosis/DiagnosisResultView.tsx): Laporan blueprint, pilar utama, kartu modul, pilar dormant efisiensi biaya, roadmap 3 tahap, CTA WhatsApp bilingual.
+15. [src/components/FAQSection.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/components/FAQSection.tsx): FAQ card, search input, filter tab, dan banner konsultasi bilingual.
+16. [src/components/Footer.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/components/Footer.tsx): Ringkasan studio dan copyright bilingual.
+
+---
+
+### 3. Hasil Pengujian & Bukti Eksekusi
+- **Pemeriksaan Tipe TypeScript (`tsc --noEmit`)**:
+  ```bash
+  pnpm.cmd exec tsc --noEmit
+  # Hasil: Exit Code 0 (Tanpa error / komplain tipe)
+  ```
+- **Kompilasi & Static Export Next.js (`pnpm.cmd run build`)**:
+  ```text
+  ✓ Compiled successfully in 34.2s
+  ✓ Generating static pages (5/5)
+  ✓ Exporting (2/2)
+  Route (app)                              Size  First Load JS
+  ┌ ○ /                                  118 kB         220 kB
+  ├ ○ /_not-found                         127 B         103 kB
+  └ ƒ /api/ai/diagnose                    127 B         103 kB
+  Exit Code: 0
+  ```
+- **File Output Static Export**:
+  Berkas `out/index.html` berhasil dibuat ulang dan memuat logic bilingual yang siap disajikan oleh edge CDN Cloudflare.
+
+---
+
+### 4. Petunjuk Deploy ke Production (Manual Push oleh User)
+Sesuai aturan kerja, jalankan perintah Git berikut di terminal untuk memperbarui situs Anda:
+```bash
+git add .
+git commit -m "feat(i18n): implement automated bilingual detection (ID/EN) with manual switcher"
+git push origin main
+```
+Cloudflare Workers CI/CD akan secara otomatis mendeteksi push ke branch `main`, menjalankan build statis, dan mempublikasikan versi bilingual ini ke [scalebiz.web.id](https://scalebiz.web.id)!
+
+---
+
 ## Pembaruan Terkini: Pembaruan Judul Web & Metadata (Scalebiz | Scaleup dan Optimalisasi Bisnis Kamu)
 
 ### 1. Masalah & Permintaan Pengguna

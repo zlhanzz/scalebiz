@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { DiagnosticResult, PriorityLevel, SolutionCategory } from "@/types/diagnosis";
+import { useLanguage } from "@/context/LanguageContext";
 import ModuleIcon from "./ModuleIcon";
 
 interface DiagnosisResultViewProps {
@@ -15,6 +16,8 @@ export default function DiagnosisResultView({
   brandName,
   onRestart,
 }: DiagnosisResultViewProps) {
+  const { lang } = useLanguage();
+  const isEn = lang === "en";
   const [activePillarTab, setActivePillarTab] = useState<string>("all");
 
   // Build the Scalebiz pillars if result.pillars not directly supplied
@@ -27,7 +30,9 @@ export default function DiagnosisResultView({
             title: "Website & Digital Presence",
             shortTitle: "Website",
             icon: "🌐",
-            tagline: "Katalog mandiri, landing page konversi tinggi & reservasi online",
+            tagline: isEn
+              ? "Custom catalogs, high-converting landing pages & online booking"
+              : "Katalog mandiri, landing page konversi tinggi & reservasi online",
             isPrimary: result.primaryPillar === "website",
           },
           modules: result.modules.filter((m) => m.pillar === "website" || m.category === "WEBSITE"),
@@ -39,7 +44,9 @@ export default function DiagnosisResultView({
             title: "POS, Finance & Accounting",
             shortTitle: "POS & Finance",
             icon: "💳",
-            tagline: "Kasir POS terintegrasi, mutasi QRIS/VA, dan kontrol kas shift harian",
+            tagline: isEn
+              ? "Integrated cloud POS, automated QRIS/VA settlement & shift controls"
+              : "Kasir POS terintegrasi, mutasi QRIS/VA, dan kontrol kas shift harian",
             isPrimary: result.primaryPillar === "pos_finance",
           },
           modules: result.modules.filter((m) => m.pillar === "pos_finance" || m.category === "POS_FINANCE"),
@@ -49,9 +56,11 @@ export default function DiagnosisResultView({
           pillar: {
             id: "erp" as const,
             title: "ERP & Operational Core",
-            shortTitle: "ERP & Operasional",
+            shortTitle: isEn ? "ERP & Operations" : "ERP & Operasional",
             icon: "🏢",
-            tagline: "Manajemen stok bahan baku, resep takaran, opname gudang & HPP riil",
+            tagline: isEn
+              ? "Raw material inventory, recipe cost breakdown, warehouse audit & real COGS"
+              : "Manajemen stok bahan baku, resep takaran, opname gudang & HPP riil",
             isPrimary: result.primaryPillar === "erp" || !result.primaryPillar,
           },
           modules: result.modules.filter((m) => m.pillar === "erp" || m.category === "ERP_OPERATIONAL" || m.category === "BUSINESS_SYSTEM"),
@@ -63,7 +72,9 @@ export default function DiagnosisResultView({
             title: "Automation & WhatsApp System",
             shortTitle: "Automation",
             icon: "⚡",
-            tagline: "Notifikasi tiket pesanan, auto-followup prospek, dan rekap otomatis",
+            tagline: isEn
+              ? "Order ticketing, automated lead follow-ups & daily executive summaries"
+              : "Notifikasi tiket pesanan, auto-followup prospek, dan rekap otomatis",
             isPrimary: result.primaryPillar === "automation",
           },
           modules: result.modules.filter((m) => m.pillar === "automation" || m.category === "AUTOMATION"),
@@ -81,7 +92,7 @@ export default function DiagnosisResultView({
           pillarId: p.pillar.id,
           title: p.pillar.shortTitle,
           icon: p.pillar.icon,
-          reason: p.reason || "Belum menjadi prioritas mendesak untuk tahapan bisnis Anda saat ini.",
+          reason: p.reason || (isEn ? "Not yet an urgent priority for your business stage." : "Belum menjadi prioritas mendesak untuk tahapan bisnis Anda saat ini."),
         }));
 
   // Default: HANYA pilih modul CORE yang berada di dalam pilar aktif yang menjawab kendala riil
@@ -95,9 +106,9 @@ export default function DiagnosisResultView({
       : result.modules.filter((m) => activeModuleIds.has(m.id)).slice(0, 3).map((m) => m.id);
   });
 
-  const displayBrand = brandName?.trim() || "Bisnis Anda";
+  const displayBrand = brandName?.trim() || (isEn ? "Your Business" : "Bisnis Anda");
   const selectedModules = result.modules.filter((m) => selectedModuleIds.includes(m.id));
-  const painSummary = result.identifiedProblems.slice(0, 2).join(", ") || "Efisiensi operasional";
+  const painSummary = result.identifiedProblems.slice(0, 2).join(", ") || (isEn ? "Operational efficiency" : "Efisiensi operasional");
 
   // Group selected modules by active pillar for WhatsApp draft
   const groupedPillarWhatsapp = activePillars
@@ -112,12 +123,14 @@ export default function DiagnosisResultView({
 
   const moduleListText = groupedPillarWhatsapp || (selectedModules.length > 0
     ? selectedModules.map((m, idx) => `${idx + 1}. ${m.title}`).join("\n")
-    : "Belum memilih modul spesifik (konsultasi umum)");
+    : (isEn ? "No specific modules selected (general consultation)" : "Belum memilih modul spesifik (konsultasi umum)"));
 
   const primaryPillarObj = allPillars.find((p) => p.pillar.id === (result.primaryPillar || "erp"));
-  const primaryPillarName = primaryPillarObj?.pillar.title || "Sistem Operasional Terintegrasi";
+  const primaryPillarName = primaryPillarObj?.pillar.title || (isEn ? "Integrated Business Architecture" : "Sistem Operasional Terintegrasi");
 
-  const dynamicWhatsappDraft = `Halo Tim Scalebiz, saya ingin konsultasi sistem untuk ${displayBrand}.\n\nRekomendasi Sistem: ${result.primarySolution}\nPilar Utama Prioritas: ${primaryPillarName}\nKendala Utama: ${painSummary}\n\nFitur Solusi yang Saya Butuhkan (${selectedModules.length} modul prioritas):\n${moduleListText}\n\nBoleh minta saran teknis dan estimasi langkah awalnya? Terima kasih.`;
+  const dynamicWhatsappDraft = isEn
+    ? `Hello Scalebiz Team, I'd like to consult on digital systems for ${displayBrand}.\n\nRecommended Architecture: ${result.primarySolution}\nPrimary Focus Pillar: ${primaryPillarName}\nIdentified Bottlenecks: ${painSummary}\n\nSelected Priority Modules (${selectedModules.length} features):\n${moduleListText}\n\nCould you share initial technical advice and timeline/cost estimates? Thank you.`
+    : `Halo Tim Scalebiz, saya ingin konsultasi sistem untuk ${displayBrand}.\n\nRekomendasi Sistem: ${result.primarySolution}\nPilar Utama Prioritas: ${primaryPillarName}\nKendala Utama: ${painSummary}\n\nFitur Solusi yang Saya Butuhkan (${selectedModules.length} modul prioritas):\n${moduleListText}\n\nBoleh minta saran teknis dan estimasi langkah awalnya? Terima kasih.`;
 
   const waUrl = `https://wa.me/6281527080656?text=${encodeURIComponent(dynamicWhatsappDraft)}`;
 
@@ -136,7 +149,6 @@ export default function DiagnosisResultView({
     setSelectedModuleIds(coreIds.length > 0 ? coreIds : result.modules.slice(0, 2).map((m) => m.id));
   };
 
-
   const getPriorityBadgeClass = (priority: PriorityLevel) => {
     switch (priority) {
       case "CORE":
@@ -151,11 +163,11 @@ export default function DiagnosisResultView({
   const getPriorityLabel = (priority: PriorityLevel) => {
     switch (priority) {
       case "CORE":
-        return "Fondasi Utama (Wajib)";
+        return isEn ? "Core Foundation (Required)" : "Fondasi Utama (Wajib)";
       case "RECOMMENDED":
-        return "Pengembangan Dianjurkan";
+        return isEn ? "Recommended Expansion" : "Pengembangan Dianjurkan";
       case "OPTIONAL":
-        return "Tahap Lanjutan";
+        return isEn ? "Advanced Milestone" : "Tahap Lanjutan";
     }
   };
 
@@ -179,32 +191,34 @@ export default function DiagnosisResultView({
   const getCategoryLabel = (category: SolutionCategory) => {
     switch (category) {
       case "AUTOMATION":
-        return "⚡ Otomasi Sistem";
+        return isEn ? "⚡ System Automation" : "⚡ Otomasi Sistem";
       case "BUSINESS_SYSTEM":
-        return "🖥️ Sistem Bisnis";
+        return isEn ? "🖥️ Business System" : "🖥️ Sistem Bisnis";
       case "WEBSITE":
-        return "🌐 Website & Kredibilitas";
+        return isEn ? "🌐 Web & Credibility" : "🌐 Website & Kredibilitas";
       case "DIGITALIZATION":
-        return "📊 Digitalisasi Data";
+        return isEn ? "📊 Data Digitalization" : "📊 Digitalisasi Data";
       case "POS_FINANCE":
-        return "💳 POS Kasir & Finansial";
+        return isEn ? "💳 POS & Finance" : "💳 POS Kasir & Finansial";
       case "ERP_OPERATIONAL":
-        return "⚙️ ERP & Operasional Lapangan";
+        return isEn ? "⚙️ ERP & Operations" : "⚙️ ERP & Operasional Lapangan";
     }
   };
 
   const automationModules = result.modules.filter((m) => m.category === "AUTOMATION");
 
   return (
-    <div className="diag-result-report" id="diagnosis-result-box" role="region" aria-label="Hasil Analisis Bisnis Scalebiz">
+    <div className="diag-result-report" id="diagnosis-result-box" role="region" aria-label={isEn ? "Scalebiz System Architecture Blueprint" : "Hasil Analisis Bisnis Scalebiz"}>
       {/* Report Header */}
       <div className="report-header-banner">
         <div className="report-eyebrow">
           <span className="eyebrow-ping" />
-          <span>REKOMENDASI SISTEM DIGITAL SCALEBIZ</span>
+          <span>{isEn ? "SCALEBIZ DIGITAL SYSTEM BLUEPRINT" : "REKOMENDASI SISTEM DIGITAL SCALEBIZ"}</span>
         </div>
         <h2 className="report-main-title">
-          {displayBrand} Membutuhkan Solusi yang Tepat Sasaran, Bukan Sekadar Website Brosur.
+          {isEn
+            ? `${displayBrand} Needs Targeted Architecture, Not Just a Brochure Website.`
+            : `${displayBrand} Membutuhkan Solusi yang Tepat Sasaran, Bukan Sekadar Website Brosur.`}
         </h2>
         <p className="report-intro-desc">{result.summary}</p>
       </div>
@@ -224,10 +238,14 @@ export default function DiagnosisResultView({
               {result.badge}
             </span>
             <span className="time-badge">
-              ⏱️ Estimasi Pengerjaan: <strong>{result.timeEstimate}</strong>
+              {isEn ? (
+                <>⏱️ Est. Timeline: <strong>{result.timeEstimate}</strong></>
+              ) : (
+                <>⏱️ Estimasi Pengerjaan: <strong>{result.timeEstimate}</strong></>
+              )}
             </span>
             <span className="solution-tag-badge">
-              Rekomendasi Utama
+              {isEn ? "Primary Recommendation" : "Rekomendasi Utama"}
             </span>
           </div>
 
@@ -235,9 +253,9 @@ export default function DiagnosisResultView({
             type="button"
             className="btn-restart-analysis"
             onClick={onRestart}
-            title="Mulai Ulang dari Awal"
+            title={isEn ? "Start Over" : "Mulai Ulang dari Awal"}
           >
-            🔄 Ulangi dari Awal
+            {isEn ? "🔄 Start Over" : "🔄 Ulangi dari Awal"}
           </button>
         </div>
 
@@ -246,7 +264,9 @@ export default function DiagnosisResultView({
         {/* Identified Problems Chips */}
         {result.identifiedProblems.length > 0 && (
           <div className="identified-problems-strip">
-            <span className="problems-strip-label">Masalah yang ingin kita bereskan:</span>
+            <span className="problems-strip-label">
+              {isEn ? "Key Bottlenecks to Resolve:" : "Masalah yang ingin kita bereskan:"}
+            </span>
             <div className="problems-chips-wrap">
               {result.identifiedProblems.map((prob, idx) => (
                 <span key={idx} className="problem-chip">
@@ -270,7 +290,9 @@ export default function DiagnosisResultView({
                 <div className="ai-badge-header">
                   <span className="ai-badge-pulse" />
                   <span className="ai-badge-title">
-                    {result.isAiEnhanced ? "KAJIAN OBJEKTIF SCALEBIZ AI" : "KAJIAN ARSITEKTUR SISTEM SCALEBIZ"}
+                    {result.isAiEnhanced
+                      ? (isEn ? "SCALEBIZ AI OBJECTIVE AUDIT" : "KAJIAN OBJEKTIF SCALEBIZ AI")
+                      : (isEn ? "SCALEBIZ SYSTEM BLUEPRINT" : "KAJIAN ARSITEKTUR SISTEM SCALEBIZ")}
                   </span>
                 </div>
                 <span className="ai-model-tag">
@@ -295,11 +317,17 @@ export default function DiagnosisResultView({
         <div className="section-subheading-group">
           <div className="four-pillars-eyebrow">
             <span className="eyebrow-ping" />
-            <span>4 PILAR UTAMA LAYANAN SCALEBIZ</span>
+            <span>{isEn ? "4 CORE PILLARS OF SCALEBIZ ARCHITECTURE" : "4 PILAR UTAMA LAYANAN SCALEBIZ"}</span>
           </div>
-          <h4 className="modules-section-title">Solusi Menyeluruh untuk {displayBrand}</h4>
+          <h4 className="modules-section-title">
+            {isEn ? `Comprehensive Solution for ${displayBrand}` : `Solusi Menyeluruh untuk ${displayBrand}`}
+          </h4>
           <p className="modules-section-desc">
-            Scalebiz menghadirkan 4 pilar sistem yang saling mengunci: <strong>Website</strong>, <strong>POS Finance & Accounting</strong>, <strong>ERP & Operasional</strong>, serta <strong>Automation</strong>. Seluruh modul di bawah ini dirancang presisi sesuai kendala bisnis Anda.
+            {isEn ? (
+              <>Scalebiz provides 4 interconnected architectural pillars: <strong>Website</strong>, <strong>POS Finance & Accounting</strong>, <strong>ERP & Operations</strong>, and <strong>Automation</strong>. All modules below are calibrated precisely to your business bottlenecks.</>
+            ) : (
+              <>Scalebiz menghadirkan 4 pilar sistem yang saling mengunci: <strong>Website</strong>, <strong>POS Finance & Accounting</strong>, <strong>ERP & Operasional</strong>, serta <strong>Automation</strong>. Seluruh modul di bawah ini dirancang presisi sesuai kendala bisnis Anda.</>
+            )}
           </p>
         </div>
 
@@ -307,10 +335,16 @@ export default function DiagnosisResultView({
         <div className="module-selection-bar">
           <div className="selection-bar-info">
             <span className="selection-counter-badge">
-              <span className="selection-count">{selectedModuleIds.length}</span> dari {result.modules.length} Fitur Terpilih
+              {isEn ? (
+                <><span className="selection-count">{selectedModuleIds.length}</span> of {result.modules.length} Features Selected</>
+              ) : (
+                <><span className="selection-count">{selectedModuleIds.length}</span> dari {result.modules.length} Fitur Terpilih</>
+              )}
             </span>
             <span className="selection-help-text">
-              Klik kartu modul untuk memilih fitur yang ingin diprioritaskan sesuai kebutuhan dan budget Anda.
+              {isEn
+                ? "Click module cards to customize your scope based on your priorities and budget."
+                : "Klik kartu modul untuk memilih fitur yang ingin diprioritaskan sesuai kebutuhan dan budget Anda."}
             </span>
           </div>
           <div className="selection-bar-actions">
@@ -319,20 +353,20 @@ export default function DiagnosisResultView({
               className="btn-scope-filter"
               onClick={selectAllModules}
             >
-              Pilih Semua
+              {isEn ? "Select All" : "Pilih Semua"}
             </button>
             <button
               type="button"
               className="btn-scope-filter"
               onClick={selectCoreModulesOnly}
             >
-              Fondasi Utama Saja
+              {isEn ? "Core Foundation Only" : "Fondasi Utama Saja"}
             </button>
           </div>
         </div>
 
         {/* Active Pillars Interactive Filter Tabs */}
-        <div className="pillar-tabs-nav" role="tablist" aria-label="Navigasi Pilar Solusi">
+        <div className="pillar-tabs-nav" role="tablist" aria-label={isEn ? "Solution Pillars Navigation" : "Navigasi Pilar Solusi"}>
           <button
             type="button"
             role="tab"
@@ -340,7 +374,7 @@ export default function DiagnosisResultView({
             className={`pillar-tab-btn ${activePillarTab === "all" ? "active" : ""}`}
             onClick={() => setActivePillarTab("all")}
           >
-            <span>Semua Pilar Solusi ({activePillars.length})</span>
+            <span>{isEn ? `All Solution Pillars (${activePillars.length})` : `Semua Pilar Solusi (${activePillars.length})`}</span>
             <span className="pillar-tab-count">{selectedModuleIds.length}</span>
           </button>
           {activePillars.map((pGroup) => {
@@ -359,7 +393,7 @@ export default function DiagnosisResultView({
               >
                 <span className="pillar-tab-icon">{pGroup.pillar.icon}</span>
                 <span className="pillar-tab-name">{pGroup.pillar.shortTitle}</span>
-                {isPillarPrimary && <span className="tab-primary-badge">Utama</span>}
+                {isPillarPrimary && <span className="tab-primary-badge">{isEn ? "Primary" : "Utama"}</span>}
                 <span className="pillar-tab-count">{selectedCountInPillar}</span>
               </button>
             );
@@ -389,7 +423,7 @@ export default function DiagnosisResultView({
                           <h5 className="pillar-group-title">{pGroup.pillar.title}</h5>
                           {isPillarPrimary && (
                             <span className="pillar-primary-flag">
-                              ⭐ PILAR UTAMA (REKOMENDASI TERATAS)
+                              {isEn ? "⭐ PRIMARY PILLAR (TOP RECOMMENDATION)" : "⭐ PILAR UTAMA (REKOMENDASI TERATAS)"}
                             </span>
                           )}
                         </div>
@@ -398,7 +432,11 @@ export default function DiagnosisResultView({
                     </div>
                     <div className="pillar-header-right">
                       <span className="pillar-modules-tally">
-                        <strong>{selectedCountInPillar}</strong> dari {pGroup.modules.length} Fitur Terpilih
+                        {isEn ? (
+                          <><strong>{selectedCountInPillar}</strong> of {pGroup.modules.length} Features Selected</>
+                        ) : (
+                          <><strong>{selectedCountInPillar}</strong> dari {pGroup.modules.length} Fitur Terpilih</>
+                        )}
                       </span>
                     </div>
                   </div>
@@ -408,7 +446,7 @@ export default function DiagnosisResultView({
                     <div className="pillar-ai-insight-box">
                       <span className="insight-bulb">💡</span>
                       <p className="insight-text">
-                        <strong>Kajian Scalebiz untuk {displayBrand}:</strong> {aiPillarEvaluation}
+                        <strong>{isEn ? `Scalebiz Analysis for ${displayBrand}:` : `Kajian Scalebiz untuk ${displayBrand}:`}</strong> {aiPillarEvaluation}
                       </p>
                     </div>
                   )}
@@ -448,7 +486,7 @@ export default function DiagnosisResultView({
                                     e.stopPropagation();
                                     toggleModule(mod.id);
                                   }}
-                                  aria-label={isSelected ? `Hapus ${mod.title}` : `Pilih ${mod.title}`}
+                                  aria-label={isSelected ? (isEn ? `Remove ${mod.title}` : `Hapus ${mod.title}`) : (isEn ? `Select ${mod.title}` : `Pilih ${mod.title}`)}
                                 >
                                   <span className="toggle-box">
                                     {isSelected && (
@@ -457,7 +495,7 @@ export default function DiagnosisResultView({
                                       </svg>
                                     )}
                                   </span>
-                                  <span className="toggle-label">{isSelected ? "Dipilih" : "Tambah"}</span>
+                                  <span className="toggle-label">{isSelected ? (isEn ? "Selected" : "Dipilih") : (isEn ? "Add" : "Tambah")}</span>
                                 </button>
                                 <div className="module-badges-wrapper">
                                   <span className={`module-category-pill ${getCategoryBadgeClass(mod.category)}`}>
@@ -487,7 +525,7 @@ export default function DiagnosisResultView({
                                 </svg>
                               </span>
                               <span className="benefit-text">
-                                <strong className="benefit-tag-label">Manfaat langsung:</strong> {mod.purpose}
+                                <strong className="benefit-tag-label">{isEn ? "Direct benefit:" : "Manfaat langsung:"}</strong> {mod.purpose}
                               </span>
                             </div>
                           </div>
@@ -496,7 +534,7 @@ export default function DiagnosisResultView({
                     </div>
                   ) : (
                     <div className="pillar-empty-state">
-                      <span>Belum ada modul tambahan pada pilar ini untuk profil saat ini. Konsultasikan fitur kustom bersama tim kami.</span>
+                      <span>{isEn ? "No additional modules for this pillar under current profile. Consult our team for custom scopes." : "Belum ada modul tambahan pada pilar ini untuk profil saat ini. Konsultasikan fitur kustom bersama tim kami."}</span>
                     </div>
                   )}
                 </div>
@@ -509,11 +547,15 @@ export default function DiagnosisResultView({
           <div className="sync-summary-content">
             <span className="sync-icon">💬</span>
             <div className="sync-text">
-              <strong>{selectedModuleIds.length} Modul Terpilih Siap Dikonsultasikan:</strong>
+              <strong>{isEn ? `${selectedModuleIds.length} Selected Modules Ready for Consultation:` : `${selectedModuleIds.length} Modul Terpilih Siap Dikonsultasikan:`}</strong>
               <p>
                 {selectedModuleIds.length > 0
-                  ? "Daftar fitur prioritas yang Anda centang di atas akan otomatis dikelompokkan ke dalam draf pesan WhatsApp agar tim Scalebiz bisa langsung memberikan estimasi biaya yang presisi."
-                  : "Silakan pilih minimal 1 modul untuk mendapatkan rincian estimasi pengerjaan spesifik."}
+                  ? (isEn
+                      ? "The priority features you selected above will be automatically compiled into your WhatsApp consultation draft so our engineers can provide an accurate quote."
+                      : "Daftar fitur prioritas yang Anda centang di atas akan otomatis dikelompokkan ke dalam draf pesan WhatsApp agar tim Scalebiz bisa langsung memberikan estimasi biaya yang presisi.")
+                  : (isEn
+                      ? "Please select at least 1 module to receive specific delivery estimates."
+                      : "Silakan pilih minimal 1 modul untuk mendapatkan rincian estimasi pengerjaan spesifik.")}
               </p>
             </div>
           </div>
@@ -525,13 +567,15 @@ export default function DiagnosisResultView({
             <div className="transparency-header">
               <div className="transparency-badge">
                 <span className="shield-icon">🛡️</span>
-                <span>REKOMENDASI EFISIENSI ANGGARAN SCALEBIZ</span>
+                <span>{isEn ? "SCALEBIZ BUDGET EFFICIENCY RECOMMENDATION" : "REKOMENDASI EFISIENSI ANGGARAN SCALEBIZ"}</span>
               </div>
               <h4 className="transparency-title">
-                Sistem yang BELUM Mendesak untuk {displayBrand} Saat Ini
+                {isEn ? `Systems NOT Yet Urgent for ${displayBrand}` : `Sistem yang BELUM Mendesak untuk ${displayBrand} Saat Ini`}
               </h4>
               <p className="transparency-subtitle">
-                Scalebiz menganut prinsip konsultasi yang jujur: Anda tidak perlu membuang modal untuk membeli semua sistem sekaligus. Kami menyarankan Anda menunda pilar berikut agar anggaran operasional Anda tetap efisien:
+                {isEn
+                  ? "Scalebiz adheres to honest engineering: You don't need to buy every system upfront. We recommend deferring the following pillars to keep your operational burn low:"
+                  : "Scalebiz menganut prinsip konsultasi yang jujur: Anda tidak perlu membuang modal untuk membeli semua sistem sekaligus. Kami menyarankan Anda menunda pilar berikut agar anggaran operasional Anda tetap efisien:"}
               </p>
             </div>
 
@@ -541,7 +585,7 @@ export default function DiagnosisResultView({
                   <div className="dormant-item-top">
                     <span className="dormant-item-icon">{dp.icon}</span>
                     <strong className="dormant-item-title">{dp.title}</strong>
-                    <span className="dormant-status-tag">Tunda / Belum Perlu</span>
+                    <span className="dormant-status-tag">{isEn ? "Defer / Not Urgent Yet" : "Tunda / Belum Perlu"}</span>
                   </div>
                   <p className="dormant-item-reason">{dp.reason}</p>
                 </div>
@@ -554,9 +598,11 @@ export default function DiagnosisResultView({
       {/* 3-Phase Implementation Roadmap */}
       <div className="implementation-roadmap-section">
         <div className="section-subheading-group">
-          <h4 className="roadmap-section-title">Tahapan Pengerjaan Proyek:</h4>
+          <h4 className="roadmap-section-title">{isEn ? "Project Execution Roadmap:" : "Tahapan Pengerjaan Proyek:"}</h4>
           <p className="roadmap-section-desc">
-            Dikerjakan secara bertahap agar operasional harian bisnis Anda tetap berjalan normal tanpa terganggu.
+            {isEn
+              ? "Delivered in phased milestones so your daily business operations continue smoothly."
+              : "Dikerjakan secara bertahap agar operasional harian bisnis Anda tetap berjalan normal tanpa terganggu."}
           </p>
         </div>
 
@@ -564,7 +610,7 @@ export default function DiagnosisResultView({
           {result.roadmap.map((phase) => (
             <div key={phase.phaseNumber} className="roadmap-phase-card">
               <div className="phase-card-top">
-                <span className="phase-num-pill">Tahap 0{phase.phaseNumber}</span>
+                <span className="phase-num-pill">{isEn ? `Phase 0${phase.phaseNumber}` : `Tahap 0${phase.phaseNumber}`}</span>
                 <span className="phase-duration-tag">⏱️ {phase.duration}</span>
               </div>
               <h5 className="phase-card-title">{phase.phaseTitle}</h5>
@@ -581,16 +627,19 @@ export default function DiagnosisResultView({
         </div>
 
         <div className="roadmap-disclaimer-note">
-          <span>*Estimasi waktu dan ruang lingkup teknis dapat disesuaikan dengan kebutuhan riil Anda saat sesi konsultasi bersama tim Scalebiz.</span>
+          <span>{isEn ? "*Timeline and technical scope can be adjusted to your exact needs during consultation with the Scalebiz team." : "*Estimasi waktu dan ruang lingkup teknis dapat disesuaikan dengan kebutuhan riil Anda saat sesi konsultasi bersama tim Scalebiz."}</span>
         </div>
       </div>
 
-
       {/* Primary Action CTA Card */}
       <div className="result-action-cta-card">
-        <h4 className="action-cta-heading">Ingin Diskusi Lebih Detail Soal Kebutuhan {displayBrand}?</h4>
+        <h4 className="action-cta-heading">
+          {isEn ? `Ready to Discuss Architecture for ${displayBrand}?` : `Ingin Diskusi Lebih Detail Soal Kebutuhan ${displayBrand}?`}
+        </h4>
         <p className="action-cta-subheading">
-          Hasil diagnosa ini bisa langsung kita bahas santai lewat WhatsApp. Tidak perlu komitmen apa-apa dulu—kita diskusikan dulu alur sistem yang paling pas dengan budget dan skala bisnis Anda.
+          {isEn
+            ? "Let's review this system blueprint over WhatsApp. Zero obligation—we'll evaluate the most cost-effective architecture for your current scale."
+            : "Hasil diagnosa ini bisa langsung kita bahas santai lewat WhatsApp. Tidak perlu komitmen apa-apa dulu—kita diskusikan dulu alur sistem yang paling pas dengan budget dan skala bisnis Anda."}
         </p>
 
         <div className="action-cta-buttons">
@@ -604,16 +653,18 @@ export default function DiagnosisResultView({
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
             </svg>
-            <span>Konsultasi Santai via WhatsApp (Gratis)</span>
+            <span>{isEn ? "Consult via WhatsApp (Free)" : "Konsultasi Santai via WhatsApp (Gratis)"}</span>
           </a>
 
           <button type="button" className="btn-secondary-restart" onClick={onRestart}>
-            Ulangi dari Awal
+            {isEn ? "Start Over" : "Ulangi dari Awal"}
           </button>
         </div>
 
         <span className="action-cta-note">
-          *Draf pesan WhatsApp sudah terisi ringkasan bisnis Anda secara otomatis agar kita bisa langsung diskusi to-the-point tanpa tanya ulang dari awal.
+          {isEn
+            ? "*Your business blueprint is pre-filled into the WhatsApp draft so we can skip the repetitive questions and discuss directly."
+            : "*Draf pesan WhatsApp sudah terisi ringkasan bisnis Anda secara otomatis agar kita bisa langsung diskusi to-the-point tanpa tanya ulang dari awal."}
         </span>
       </div>
 

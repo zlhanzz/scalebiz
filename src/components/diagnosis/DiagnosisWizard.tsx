@@ -3,17 +3,25 @@
 import React, { useState, useEffect } from "react";
 import { DiagnosisState, DiagnosticResult } from "@/types/diagnosis";
 import { runBusinessDiagnosis } from "@/lib/recommendationEngine";
+import { useLanguage } from "@/context/LanguageContext";
 import DiagnosisStepView from "./DiagnosisStepView";
 import AnalysisTransition from "./AnalysisTransition";
 import DiagnosisResultView from "./DiagnosisResultView";
 
 const TOTAL_STEPS = 4;
 
-const STEP_LABELS = [
+const STEP_LABELS_ID = [
   { num: 1, label: "Bisnis", short: "01 Bisnis" },
   { num: 2, label: "Kendala", short: "02 Kendala" },
   { num: 3, label: "Alur Transaksi", short: "03 Alur" },
   { num: 4, label: "Skala & Profil", short: "04 Skala" },
+];
+
+const STEP_LABELS_EN = [
+  { num: 1, label: "Business", short: "01 Business" },
+  { num: 2, label: "Bottlenecks", short: "02 Bottlenecks" },
+  { num: 3, label: "Transaction Flow", short: "03 Flow" },
+  { num: 4, label: "Scale & Profile", short: "04 Scale" },
 ];
 
 const INITIAL_STATE: DiagnosisState = {
@@ -36,6 +44,8 @@ const INITIAL_STATE: DiagnosisState = {
 const STORAGE_KEY = "scalebiz_diagnosis_state_v1";
 
 export default function DiagnosisWizard() {
+  const { lang } = useLanguage();
+  const stepLabels = lang === "en" ? STEP_LABELS_EN : STEP_LABELS_ID;
   const [state, setState] = useState<DiagnosisState>(INITIAL_STATE);
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [isAnalyzing, setIsAnalyzing] = useState<boolean>(false);
@@ -88,43 +98,72 @@ export default function DiagnosisWizard() {
 
   // Validasi Langkah Sebelum Pindah ke Langkah Berikutnya
   const validateStep = (step: number): boolean => {
+    const isEn = lang === "en";
     switch (step) {
       case 1:
         if (!state.businessType) {
-          setValidationError("Silakan pilih model atau bidang usaha Anda untuk melanjutkan.");
+          setValidationError(
+            isEn
+              ? "Please select your business model or industry to proceed."
+              : "Silakan pilih model atau bidang usaha Anda untuk melanjutkan."
+          );
           return false;
         }
         if (state.businessType === "lainnya" && !state.customBusinessType.trim()) {
-          setValidationError("Silakan tuliskan bidang usaha Anda pada kolom yang tersedia.");
+          setValidationError(
+            isEn
+              ? "Please specify your business field in the input box."
+              : "Silakan tuliskan bidang usaha Anda pada kolom yang tersedia."
+          );
           return false;
         }
         return true;
 
       case 2:
         if (state.painPoints.length === 0) {
-          setValidationError("Silakan pilih minimal satu kendala atau kebocoran terbesar saat ini.");
+          setValidationError(
+            isEn
+              ? "Please select at least one operational bottleneck to resolve."
+              : "Silakan pilih minimal satu kendala atau kebocoran terbesar saat ini."
+          );
           return false;
         }
         if (state.painPoints.includes("lainnya") && !state.customPainPoint.trim()) {
-          setValidationError("Silakan tuliskan kendala operasional Anda pada kolom yang tersedia.");
+          setValidationError(
+            isEn
+              ? "Please describe your operational bottleneck in the input box."
+              : "Silakan tuliskan kendala operasional Anda pada kolom yang tersedia."
+          );
           return false;
         }
         return true;
 
       case 3:
         if (state.customerFlow.length === 0) {
-          setValidationError("Silakan pilih minimal satu kanal transaksi pelanggan yang sering terjadi.");
+          setValidationError(
+            isEn
+              ? "Please select at least one primary customer transaction channel."
+              : "Silakan pilih minimal satu kanal transaksi pelanggan yang sering terjadi."
+          );
           return false;
         }
         if (!state.orderProcessing || state.orderProcessing.length === 0) {
-          setValidationError("Silakan pilih minimal satu cara tim Anda memproses transaksi.");
+          setValidationError(
+            isEn
+              ? "Please select at least one method your team uses to process orders."
+              : "Silakan pilih minimal satu cara tim Anda memproses transaksi."
+          );
           return false;
         }
         return true;
 
       case 4:
         if (!state.businessScale) {
-          setValidationError("Silakan pilih skala tim atau armada operasional bisnis Anda.");
+          setValidationError(
+            isEn
+              ? "Please select your business scale or team size."
+              : "Silakan pilih skala tim atau armada operasional bisnis Anda."
+          );
           return false;
         }
         return true;
@@ -306,8 +345,8 @@ export default function DiagnosisWizard() {
           {/* Progress Indicator Header */}
           <div className="wizard-progress-header">
             {/* Desktop Steps Timeline */}
-            <div className="desktop-steps-timeline" role="tablist" aria-label="Progress Diagnosa">
-              {STEP_LABELS.map((item) => {
+            <div className="desktop-steps-timeline" role="tablist" aria-label={lang === "en" ? "Diagnostic Progress" : "Progress Diagnosa"}>
+              {stepLabels.map((item) => {
                 const isPast = currentStep > item.num;
                 const isCurrent = currentStep === item.num;
                 return (
@@ -329,10 +368,14 @@ export default function DiagnosisWizard() {
             {/* Mobile Progress Bar & Counter */}
             <div className="mobile-progress-badge-wrap">
               <span className="mobile-step-counter">
-                Langkah <strong>{currentStep}</strong> dari <strong>{TOTAL_STEPS}</strong>
+                {lang === "en" ? (
+                  <>Step <strong>{currentStep}</strong> of <strong>{TOTAL_STEPS}</strong></>
+                ) : (
+                  <>Langkah <strong>{currentStep}</strong> dari <strong>{TOTAL_STEPS}</strong></>
+                )}
               </span>
               <span className="mobile-step-name">
-                {STEP_LABELS[currentStep - 1]?.short}
+                {stepLabels[currentStep - 1]?.short}
               </span>
             </div>
 
@@ -370,11 +413,11 @@ export default function DiagnosisWizard() {
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="15 18 9 12 15 6" />
                   </svg>
-                  <span>Kembali</span>
+                  <span>{lang === "en" ? "Back" : "Kembali"}</span>
                 </button>
               ) : (
                 <span className="step-estimated-time">
-                  ⏱️ Estimasi pengerjaan: 1–2 menit
+                  {lang === "en" ? "⏱️ Estimated time: 1–2 minutes" : "⏱️ Estimasi pengerjaan: 1–2 menit"}
                 </span>
               )}
             </div>
@@ -387,8 +430,8 @@ export default function DiagnosisWizard() {
               >
                 <span>
                   {currentStep === TOTAL_STEPS
-                    ? "Mulai Analisis Bisnis Saya"
-                    : `Lanjut ke Langkah 0${currentStep + 1}`}
+                    ? (lang === "en" ? "Analyze My Business Architecture" : "Mulai Analisis Bisnis Saya")
+                    : (lang === "en" ? `Proceed to Step 0${currentStep + 1}` : `Lanjut ke Langkah 0${currentStep + 1}`)}
                 </span>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="9 18 15 12 9 6" />

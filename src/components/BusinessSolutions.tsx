@@ -169,11 +169,170 @@ const COMPLETE_DIRECTORY: DirectoryItem[] = [
   },
 ];
 
+const COMPLETE_DIRECTORY_EN: DirectoryItem[] = [
+  {
+    id: "landing-page",
+    category: "marketing",
+    categoryBadge: "Marketing & Ads",
+    categoryColor: "#e11d48",
+    title: "1. Landing Page (Direct Response & Ads)",
+    tagline: "Distraction-free single page designed to maximize conversions on paid ad traffic.",
+    suitableFor: "New product/service launches, seasonal promos, pre-orders, lead acquisition, Meta/Google ads.",
+    painSolved: "High ad spend wasted because traffic lands on generic homepages without a clear call-to-action.",
+    keyBenefits: [
+      "Persuasive, action-oriented direct response structure (CTA).",
+      "Sub-1.5 second loading speed to retain inbound prospective clients.",
+      "One-tap WhatsApp checkout with formatted order details.",
+    ],
+  },
+  {
+    id: "company-profile",
+    category: "marketing",
+    categoryBadge: "B2B Credibility",
+    categoryColor: "#38bdf8",
+    title: "2. Company Profile (Corporate & B2B Tenders)",
+    tagline: "Authoritative digital headquarters to win B2B tenders, joint ventures, and enterprise trust.",
+    suitableFor: "B2B vendors, civil/MEP contractors, consulting firms, manufacturing facilities, authorized distributors.",
+    painSolved: "Corporate prospects suspect illegitimate operations and drop candidates during tender due diligence.",
+    keyBenefits: [
+      "Comprehensive legality showcase (certifications, ISO, licensing).",
+      "Verified track-record portfolio and leadership structure.",
+      "Official PDF company profile download & structured tender inquiry form.",
+    ],
+  },
+  {
+    id: "product-catalog",
+    category: "marketing",
+    categoryBadge: "Wholesale Showcase",
+    categoryColor: "#f59e0b",
+    title: "3. Digital Product Catalog (Wholesale & B2B)",
+    tagline: "Showcase thousands of SKUs complete with technical spec sheets without complicated cart overhead.",
+    suitableFor: "Heavy machinery distributors, construction suppliers, furniture manufacturers, Horeca suppliers.",
+    painSolved: "High cost of printing physical catalogs that go out of date; sales reps manually forwarding dozens of photos on WhatsApp.",
+    keyBenefits: [
+      "Instant search by SKU, brand, and granular technical specifications.",
+      "Always up-to-date technical data sheets (TDS) downloadable in 1 click.",
+      "Automated 'Request for Quote (RFQ)' direct to assigned sales rep.",
+    ],
+  },
+  {
+    id: "ecommerce-store",
+    category: "commerce",
+    categoryBadge: "D2C & Retail",
+    categoryColor: "#10b981",
+    title: "4. Independent E-Commerce Store",
+    tagline: "Self-owned online store with 100% margin retention and 24/7 automated checkout.",
+    suitableFor: "Fashion/apparel brands, skincare/cosmetics, packaged goods, consumer electronics.",
+    painSolved: "Profit margins cut by 6%–10% marketplace fees; constant price wars and lack of customer database ownership.",
+    keyBenefits: [
+      "Automated payments via QRIS, Virtual Account & Credit Cards.",
+      "Real-time automated shipping rate calculator (local & international couriers).",
+      "Direct ownership of customer database (name, mobile, email) as company asset.",
+    ],
+  },
+  {
+    id: "booking-system",
+    category: "commerce",
+    categoryBadge: "Booking Automation",
+    categoryColor: "#8b5cf6",
+    title: "5. Scheduled Booking & Appointment Engine",
+    tagline: "Self-service calendar reservation system to eliminate booking conflicts and administrative chaos.",
+    suitableFor: "Boutique hotels & villas, car/equipment rental, aesthetic clinics, studios, specialized consultants.",
+    painSolved: "Double-booking errors, customer no-shows, and staff hours consumed maintaining manual paper diaries.",
+    keyBenefits: [
+      "Real-time availability calendar for timeslots and room/vehicle units.",
+      "Lock reservations with automated upfront deposits or full payments.",
+      "Automated WhatsApp schedule reminders sent prior to appointments.",
+    ],
+  },
+  {
+    id: "niche-directory",
+    category: "commerce",
+    categoryBadge: "Listing Platform",
+    categoryColor: "#06b6d4",
+    title: "6. Niche Directory & Verified Listing Portal",
+    tagline: "Verified property or niche directory platform to dominate localized search ecosystems.",
+    suitableFor: "Serviced apartment networks, regional real estate agencies, local job boards, city guides.",
+    painSolved: "Tenants struggle to filter listings by budget; owners depend on informal brokers charging high commissions.",
+    keyBenefits: [
+      "Multi-parameter filters (location radius, price, available amenities).",
+      "High-resolution photo galleries, video walkthroughs, and verified badge status.",
+      "Direct contact pipeline between seekers and property managers via structured WhatsApp.",
+    ],
+  },
+  {
+    id: "lms-membership",
+    category: "commerce",
+    categoryBadge: "Education & Paywall",
+    categoryColor: "#ec4899",
+    title: "7. LMS & Educational Membership Platform",
+    tagline: "Monetize video courses and intellectual property with leak-proof paywalled access.",
+    suitableFor: "Tutoring institutes, online course creators (coding, finance, design), professional associations.",
+    painSolved: "Video lessons and modules easily pirated or shared freely via unauthorized Google Drive links.",
+    keyBenefits: [
+      "Protected video streaming with recurring membership paywall.",
+      "Interactive quizzes and barcoded digital certificate generation.",
+      "Support for recurring subscriptions or one-time lifetime access passes.",
+    ],
+  },
+  {
+    id: "custom-erp",
+    category: "operations",
+    categoryBadge: "Core Business Engine",
+    categoryColor: "#10b981",
+    title: "8. Custom Enterprise ERP System",
+    tagline: "Plug financial and inventory leakages with mobile-first operational logging directly from the field.",
+    suitableFor: "Multi-site agribusiness, manufacturing workshops, wholesale distributors with multiple warehouses, contractors.",
+    painSolved: "Operational leakage: misplaced paper receipts, warehouse discrepancies, and zero visibility into net profit margins.",
+    keyBenefits: [
+      "Field expense logging directly from staff smartphones with receipt photo uploads.",
+      "Automated real-time COGS and P&L statements without waiting for month-end.",
+      "Granular role-based access controls (field staff, warehouse, cashier, manager, owner).",
+    ],
+  },
+  {
+    id: "client-portal",
+    category: "operations",
+    categoryBadge: "Client Retention & AI",
+    categoryColor: "#38bdf8",
+    title: "9. Client Portal & Analytics / AI Dashboard",
+    tagline: "Transparent collaborative workspace for retained clients and executive decision-making.",
+    suitableFor: "Retainer marketing agencies, financial & tax advisors, law firms, wealth management, asset operators.",
+    painSolved: "Clients constantly asking for updates on WhatsApp; unstructured manual reporting causes friction and churn.",
+    keyBenefits: [
+      "Self-service 24/7 client dashboard for milestones, asset files & invoices.",
+      "Interactive metric graphs (cash flow, team output, customer retention).",
+      "Drastically increases perceived agency value, supporting premium retainers.",
+    ],
+  },
+  {
+    id: "web-pos",
+    category: "operations",
+    categoryBadge: "Multi-Branch Cashier",
+    categoryColor: "#f97316",
+    title: "10. Web POS & Multi-Branch Cashier",
+    tagline: "Full real-time sales and ingredient inventory oversight across all branches from anywhere.",
+    suitableFor: "Restaurant & cafe chains, apparel boutiques, pharmacies, franchise concepts, multi-branch laundry.",
+    painSolved: "Cash register tampering when owner is offsite, inventory discrepancies at shift change, and tedious daily reconciliations.",
+    keyBenefits: [
+      "Fast cash/QRIS cashier checkout, thermal printing, and automatic drawer kick.",
+      "Recipe-based automatic raw ingredient deduction per order.",
+      "Daily turnover report automatically dispatched to owner's WhatsApp at shift close.",
+    ],
+  },
+];
+
+import { useLanguage } from "@/context/LanguageContext";
+import { TRANSLATIONS } from "@/data/translations";
+
 export default function BusinessSolutions() {
   const [showAllDirectory, setShowAllDirectory] = useState<boolean>(false);
   const [directoryFilter, setDirectoryFilter] = useState<"all" | "marketing" | "commerce" | "operations">("all");
+  const { lang } = useLanguage();
+  const t = TRANSLATIONS[lang].solutions;
 
-  const filteredDirectory = COMPLETE_DIRECTORY.filter((item) => {
+  const directoryList = lang === "en" ? COMPLETE_DIRECTORY_EN : COMPLETE_DIRECTORY;
+  const filteredDirectory = directoryList.filter((item) => {
     if (directoryFilter === "all") return true;
     return item.category === directoryFilter;
   });
@@ -185,20 +344,20 @@ export default function BusinessSolutions() {
         <div className="section-header text-center">
           <div className="solutions-eyebrow-badge">
             <span className="eyebrow-dot" />
-            <span>KONSULTASI KEBUTUHAN SISTEM & WEB</span>
+            <span>{t.badge}</span>
           </div>
 
           <h2 className="section-title solutions-main-title">
-            Website & Sistem Apa yang Cocok untuk Bisnis Saya?
+            {t.mainTitle}
           </h2>
 
           <p className="section-desc solutions-subtitle">
-            Setiap bisnis memiliki alur kerja yang unik. Alih-alih mengeluarkan investasi untuk modul yang tidak terpakai atau terhambat oleh proses manual yang tidak efisien, luangkan 2 menit untuk menganalisis sistem yang paling relevan dengan skala usaha Anda.
+            {t.subtitle}
           </p>
 
           <div className="solutions-time-hint-pill">
             <span className="hint-clock-icon">⏱️</span>
-            <span>Hanya butuh 1–2 menit • Langsung dapat rekomendasi konkret & draf solusi</span>
+            <span>{t.timeHint}</span>
           </div>
         </div>
 
@@ -215,8 +374,8 @@ export default function BusinessSolutions() {
           >
             <span>
               {showAllDirectory
-                ? "Sembunyikan Direktori 10 Jenis Website & Sistem"
-                : "Atau Ingin Mempelajari Seluruh 10 Jenis Website & Sistem Digital Bisnis? (Klik di Sini)"}
+                ? (lang === "en" ? "Hide 10 Digital Systems Directory" : "Sembunyikan Direktori 10 Jenis Website & Sistem")
+                : t.directoryToggle}
             </span>
             <svg
               width="18"
@@ -240,35 +399,37 @@ export default function BusinessSolutions() {
         {showAllDirectory && (
           <div className="full-directory-drawer">
             <div className="directory-filter-row">
-              <span className="directory-filter-label">Filter Kategori:</span>
+              <span className="directory-filter-label">
+                {lang === "en" ? "Filter Category:" : "Filter Kategori:"}
+              </span>
               <div className="directory-filter-buttons">
                 <button
                   type="button"
                   className={`dir-filter-btn ${directoryFilter === "all" ? "active" : ""}`}
                   onClick={() => setDirectoryFilter("all")}
                 >
-                  Semua (10)
+                  {lang === "en" ? "All (10)" : "Semua (10)"}
                 </button>
                 <button
                   type="button"
                   className={`dir-filter-btn ${directoryFilter === "marketing" ? "active" : ""}`}
                   onClick={() => setDirectoryFilter("marketing")}
                 >
-                  Pemasaran & Kredibilitas (3)
+                  {lang === "en" ? "Marketing & Credibility (3)" : "Pemasaran & Kredibilitas (3)"}
                 </button>
                 <button
                   type="button"
                   className={`dir-filter-btn ${directoryFilter === "commerce" ? "active" : ""}`}
                   onClick={() => setDirectoryFilter("commerce")}
                 >
-                  Penjualan & Transaksi (4)
+                  {lang === "en" ? "Sales & Commerce (4)" : "Penjualan & Transaksi (4)"}
                 </button>
                 <button
                   type="button"
                   className={`dir-filter-btn ${directoryFilter === "operations" ? "active" : ""}`}
                   onClick={() => setDirectoryFilter("operations")}
                 >
-                  Sistem ERP & Operasional (3)
+                  {lang === "en" ? "ERP & Operations (3)" : "Sistem ERP & Operasional (3)"}
                 </button>
               </div>
             </div>
@@ -293,15 +454,21 @@ export default function BusinessSolutions() {
 
                   <div className="dir-item-body">
                     <div className="dir-block">
-                      <span className="dir-block-label">Target Pengguna:</span>
+                      <span className="dir-block-label">
+                        {lang === "en" ? "Target Audience:" : "Target Pengguna:"}
+                      </span>
                       <p className="dir-block-text">{item.suitableFor}</p>
                     </div>
                     <div className="dir-block">
-                      <span className="dir-block-label text-red">Masalah yang Diselesaikan:</span>
+                      <span className="dir-block-label text-red">
+                        {lang === "en" ? "Pain Points Solved:" : "Masalah yang Diselesaikan:"}
+                      </span>
                       <p className="dir-block-text text-muted">{item.painSolved}</p>
                     </div>
                     <div className="dir-block">
-                      <span className="dir-block-label text-green">Manfaat Utama:</span>
+                      <span className="dir-block-label text-green">
+                        {lang === "en" ? "Core Capabilities:" : "Manfaat Utama:"}
+                      </span>
                       <ul className="dir-benefit-list">
                         {item.keyBenefits.map((b, bIdx) => (
                           <li key={bIdx}>✓ {b}</li>
