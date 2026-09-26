@@ -38,7 +38,7 @@ const HERO_PROJECTS: HeroProject[] = [
     phoneImg: "/images/ruangsinggah-mobile.png",
     tabletImg: "/images/ruangsinggah-desktop.png",
     previewImg: "/images/ruangsinggah-preview.jpg",
-    portraitImg: "/images/developer-portrait.png",
+    portraitImg: "/images/developer-portrait.webp",
     accentColor: "#e11d48",
     tagline: {
       id: "Proptech Real-time Search & Filter",
@@ -65,7 +65,7 @@ const HERO_PROJECTS: HeroProject[] = [
     phoneImg: "/images/ruang-tani-mobile.png",
     tabletImg: "/images/ruang-tani-desktop.png",
     previewImg: "/images/ruang-tani-mobile.png",
-    portraitImg: "/images/developer-portrait-ruangtani.png",
+    portraitImg: "/images/developer-portrait-ruangtani.webp",
     accentColor: "#10b981",
     tagline: {
       id: "Manajemen Keuangan Lahan & Panen Terintegrasi",
@@ -92,7 +92,7 @@ const HERO_PROJECTS: HeroProject[] = [
     phoneImg: "/images/mentlife-mobile.png",
     tabletImg: "/images/mentlife-desktop.png",
     previewImg: "/images/mentlife-desktop.png",
-    portraitImg: "/images/developer-portrait-mentlife.png",
+    portraitImg: "/images/developer-portrait-mentlife.webp",
     accentColor: "#38bdf8",
     tagline: {
       id: "Personal Financial Runway & AI Coaching",

@@ -4,6 +4,24 @@ Dokumen ini mencatat seluruh riwayat fitur dan konfigurasi yang sudah diselesaik
 
 
 
+## [2026-09-26] Optimasi Performa Hero: Konversi Foto Portrait Developer ke WebP
+- **Status**: Selesai & Terverifikasi (Hemat 93% / 3,75 MB, Build Exit Code: 0)
+- **Pekerjaan yang Dilakukan**:
+  1. **Konversi Format Modern WebP**:
+     - Mengonversi 3 foto developer portrait berukuran besar (~1,35–1,38 MB per file PNG) menjadi `.webp` berkualitas tinggi (Quality: 88, lossless alpha channel):
+       - `public/images/developer-portrait.png` (1.379 KB) -> `developer-portrait.webp` (**101 KB**, hemat 93%)
+       - `public/images/developer-portrait-ruangtani.png` (1.311 KB) -> `developer-portrait-ruangtani.webp` (**95 KB**, hemat 93%)
+       - `public/images/developer-portrait-mentlife.png` (1.354 KB) -> `developer-portrait-mentlife.webp` (**99 KB**, hemat 93%)
+     - Total beban gambar Hero berkurang dari **~4,04 MB** menjadi hanya **~295 KB** (penghematan bandwidth total mencapai **~3,75 MB**).
+  2. **Integritas Visual & Transparansi**:
+     - Dimensi asli 1152 × 2048 px tetap dipertahankan utuh untuk ketajaman layar Retina dan smartphone modern.
+     - Kanal transparansi (`hasAlpha: true`) dipertahankan 100% tanpa artefak bergerigi atau garis putih.
+  3. **Pembaruan Komponen**:
+     - Mengarahkan `portraitImg` pada array `HERO_PROJECTS` di [src/components/HeroEditorial.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/components/HeroEditorial.tsx) ke berkas `.webp`.
+- **Hasil Verifikasi**:
+  - `pnpm.cmd exec tsc --noEmit` lolos 100% tanpa error.
+  - `pnpm.cmd run build` tuntas 100% (Exit Code: 0) dan mengekspor seluruh aset ke `./out`.
+
 ---
 
 ## [2026-09-26] Implementasi Versi Bilingual (Bahasa Indonesia & English) dengan Real-Time IP Geolocation

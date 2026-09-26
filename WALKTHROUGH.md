@@ -4,9 +4,46 @@ Dokumen ini menyajikan rangkuman pekerjaan, hasil pengujian sistem, dan petunjuk
 
 
 
+## Pembaruan Terkini: Optimasi Gambar Hero Developer Portrait (Konversi ke WebP)
+
+### 1. Masalah & Permintaan Pengguna
+- **Permintaan Pengguna**:
+  > *"foto orang kita terlalu berat yaa untuk di load? berapa mb nih. btw kalau misalnya berbah dari png ke webp masih berfungsi sama nggak? apakah tidak rusak? dari segi layar yang ditampilkan ataupun remove backgroud dll"*
+  > *"okee convert ke webp"*
+- **Akar Masalah**:
+  - File foto developer portrait di Hero section awalnya berformat PNG tanpa kompresi tinggi:
+    - `developer-portrait.png` (RuangSinggah): **1.379 KB (~1,38 MB)**
+    - `developer-portrait-ruangtani.png`: **1.311 KB (~1,31 MB)**
+    - `developer-portrait-mentlife.png`: **1.354 KB (~1,35 MB)**
+    - Total beban: **~4,04 MB**.
+  - Ukuran file sebesar ini memperlambat Largest Contentful Paint (LCP) dan membuat foto terlambat muncul pada koneksi seluler.
+
+### 2. Solusi yang Diterapkan
+1. **Konversi ke WebP Kualitas Tinggi (Quality: 88, Effort: 6, Alpha Lossless)**:
+   - `developer-portrait.webp`: **101 KB** (turun 93%)
+   - `developer-portrait-ruangtani.webp`: **95 KB** (turun 93%)
+   - `developer-portrait-mentlife.webp`: **99 KB** (turun 93%)
+   - **Total Beban Baru**: **~295 KB** (hemat **~3,75 MB** / 93% bandwidth).
+2. **Kualitas Visual & Transparansi 100% Terjaga**:
+   - Dimensi resolusi tetap asli: **1152 × 2048 px** (ultra-tajam di layar Retina Mac & smartphone AMOLED).
+   - Kanal transparansi (`hasAlpha: true`) dipertahankan sempurna tanpa pinggiran putih atau distorsi.
+3. **Pembaruan Komponen**:
+   - Properti `portraitImg` pada array `HERO_PROJECTS` di [src/components/HeroEditorial.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/components/HeroEditorial.tsx) kini mengarah ke `.webp`.
+
+### 3. Hasil Pengujian & Bukti Eksekusi
+- **TypeScript Check (`tsc --noEmit`)**: Lolos 0 error (Exit Code: 0).
+- **Next.js Production Build (`pnpm run build`)**: Lolos 100% (Exit Code: 0), seluruh 5 halaman statis berhasil diekspor ke `./out`.
+
+### 4. Petunjuk Deploy ke Production (Manual Push oleh User)
+```bash
+git add .
+git commit -m "perf(hero): convert developer portrait images to webp for 93% size reduction"
+git push origin main
+```
+
 ---
 
-## Pembaruan Terkini: Implementasi Versi Bilingual (Indonesia & English) dengan Real-Time IP Geolocation
+## Pembaruan Sebelumnya: Implementasi Versi Bilingual (Indonesia & English) dengan Real-Time IP Geolocation
 
 ### 1. Masalah & Permintaan Pengguna
 - **Permintaan Pengguna**:
