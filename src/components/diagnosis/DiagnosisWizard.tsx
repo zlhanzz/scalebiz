@@ -342,46 +342,52 @@ export default function DiagnosisWizard() {
       {/* 3. Layar Formulir Multi-Step Wizard */}
       {!isAnalyzing && !result && (
         <div className="wizard-stepper-container">
-          {/* Progress Indicator Header */}
-          <div className="wizard-progress-header">
-            {/* Desktop Steps Timeline */}
-            <div className="desktop-steps-timeline" role="tablist" aria-label={lang === "en" ? "Diagnostic Progress" : "Progress Diagnosa"}>
-              {stepLabels.map((item) => {
-                const isPast = currentStep > item.num;
-                const isCurrent = currentStep === item.num;
+          {/* Kinetik Stepper Header */}
+          <div className="kinetik-stepper-header">
+            {/* Desktop Steps Track */}
+            <div className="kinetik-stepper-track" role="tablist" aria-label={lang === "en" ? "Diagnostic Progress" : "Progress Diagnosa"}>
+              {stepLabels.map((item, index) => {
+                const isCompleted = currentStep > item.num;
+                const isActive = currentStep === item.num;
                 return (
-                  <div
-                    key={item.num}
-                    className={`timeline-step-node ${
-                      isPast ? "completed" : isCurrent ? "active" : "upcoming"
-                    }`}
-                  >
-                    <span className="node-number">
-                      {isPast ? "✓" : `0${item.num}`}
-                    </span>
-                    <span className="node-label">{item.label}</span>
-                  </div>
+                  <React.Fragment key={item.num}>
+                    <div className={`kinetik-step-node ${isCompleted ? "completed" : isActive ? "active" : "upcoming"}`}>
+                      <div className="kinetik-node-icon">
+                        {isCompleted ? "✓" : isActive ? "●" : "○"}
+                      </div>
+                      <span className="kinetik-node-text">{item.short}</span>
+                      {isActive && (
+                        <span className="kinetik-node-active-pill">
+                          {lang === "en" ? "Active" : "Aktif"}
+                        </span>
+                      )}
+                    </div>
+                    {index < stepLabels.length - 1 && (
+                      <div className={`kinetik-stepper-line ${currentStep > item.num ? "completed" : ""}`} />
+                    )}
+                  </React.Fragment>
                 );
               })}
             </div>
 
-            {/* Mobile Progress Bar & Counter */}
-            <div className="mobile-progress-badge-wrap">
-              <span className="mobile-step-counter">
+            {/* Mobile Progress Counter & Badge */}
+            <div className="kinetik-mobile-stepper-header">
+              <span className="kinetik-mobile-step-counter">
                 {lang === "en" ? (
                   <>Step <strong>{currentStep}</strong> of <strong>{TOTAL_STEPS}</strong></>
                 ) : (
                   <>Langkah <strong>{currentStep}</strong> dari <strong>{TOTAL_STEPS}</strong></>
                 )}
               </span>
-              <span className="mobile-step-name">
+              <span className="kinetik-mobile-step-pill">
                 {stepLabels[currentStep - 1]?.short}
               </span>
             </div>
 
-            <div className="wizard-progress-track">
+            {/* Progress Track Bar */}
+            <div className="kinetik-progress-track">
               <div
-                className="wizard-progress-bar"
+                className="kinetik-progress-fill"
                 style={{ width: `${progressPercent}%` }}
                 role="progressbar"
                 aria-valuenow={progressPercent}
@@ -401,31 +407,66 @@ export default function DiagnosisWizard() {
             />
           </div>
 
-          {/* Stepper Navigation Footer */}
-          <div className="wizard-footer-actions">
-            <div className="actions-left">
+          {/* Stepper Navigation Footer (Kinetik Style) */}
+          {/* 1. Desktop Footer Navigation */}
+          <div className="kinetik-footer-nav">
+            <div className="kinetik-footer-left">
               {currentStep > 1 ? (
                 <button
                   type="button"
-                  className="btn-wizard-back"
+                  className="kinetik-footer-back-btn"
                   onClick={handleBack}
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="15 18 9 12 15 6" />
+                    <line x1="19" y1="12" x2="5" y2="12" />
+                    <polyline points="12 19 5 12 12 5" />
                   </svg>
-                  <span>{lang === "en" ? "Back" : "Kembali"}</span>
+                  <span>
+                    {lang === "en"
+                      ? `Back to ${stepLabels[currentStep - 2]?.short}`
+                      : `Kembali ke ${stepLabels[currentStep - 2]?.short}`}
+                  </span>
                 </button>
               ) : (
-                <span className="step-estimated-time">
+                <span style={{ fontSize: "12.5px", color: "#64748b" }}>
                   {lang === "en" ? "⏱️ Estimated time: 1–2 minutes" : "⏱️ Estimasi pengerjaan: 1–2 menit"}
                 </span>
               )}
             </div>
 
-            <div className="actions-right">
+            <div className="kinetik-footer-center">
+              <span className="kinetik-footer-status valid">
+                {(() => {
+                  const isEn = lang === "en";
+                  switch (currentStep) {
+                    case 1:
+                      return state.businessType
+                        ? (isEn ? "1 sector selected • Requirements met" : "1 sektor dipilih • Kebutuhan validasi terpenuhi")
+                        : (isEn ? "Select 1 sector to continue" : "Pilih 1 sektor untuk melanjutkan");
+                    case 2:
+                      return state.painPoints.length > 0
+                        ? (isEn ? `${state.painPoints.length} bottlenecks selected • Requirements met` : `${state.painPoints.length} kendala dipilih • Kebutuhan validasi terpenuhi`)
+                        : (isEn ? "Select at least 1 bottleneck" : "Pilih minimal 1 kendala untuk melanjutkan");
+                    case 3:
+                      const totalFlows = state.customerFlow.length + state.orderProcessing.length;
+                      return state.customerFlow.length > 0 && state.orderProcessing.length > 0
+                        ? (isEn ? `${totalFlows} workflow options selected • Requirements met` : `${totalFlows} opsi alur dipilih • Kebutuhan validasi terpenuhi`)
+                        : (isEn ? "Select customer channel & order processing method" : "Pilih kanal transaksi & cara pemrosesan");
+                    case 4:
+                      return state.businessScale
+                        ? (isEn ? "Scale chosen • Ready for AI analysis" : "Skala tim terpilih • Siap analisis arsitektur")
+                        : (isEn ? "Select your operational scale" : "Pilih skala tim bisnis Anda");
+                    default:
+                      return "";
+                  }
+                })()}
+              </span>
+            </div>
+
+            <div className="kinetik-footer-right">
               <button
                 type="button"
-                className="btn-wizard-next"
+                className="kinetik-footer-next-btn"
                 onClick={handleNext}
               >
                 <span>
@@ -434,10 +475,39 @@ export default function DiagnosisWizard() {
                     : (lang === "en" ? `Proceed to Step 0${currentStep + 1}` : `Lanjut ke Langkah 0${currentStep + 1}`)}
                 </span>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="9 18 15 12 9 6" />
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
                 </svg>
               </button>
             </div>
+          </div>
+
+          {/* 2. Mobile Footer Navigation */}
+          <div className="kinetik-footer-mobile-wrap">
+            <button
+              type="button"
+              className="kinetik-footer-mobile-btn"
+              onClick={handleNext}
+            >
+              <span>
+                {currentStep === TOTAL_STEPS
+                  ? (lang === "en" ? "Analyze My Business Architecture" : "Mulai Analisis Bisnis Saya")
+                  : (lang === "en" ? `Lanjut ke Langkah 0${currentStep + 1}` : `Lanjut ke Langkah 0${currentStep + 1}`)}
+              </span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
+            </button>
+            {currentStep > 1 && (
+              <button
+                type="button"
+                className="kinetik-footer-mobile-back"
+                onClick={handleBack}
+              >
+                ‹ {lang === "en" ? "Back" : "Kembali"}
+              </button>
+            )}
           </div>
         </div>
       )}

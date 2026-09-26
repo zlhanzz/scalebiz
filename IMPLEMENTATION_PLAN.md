@@ -1,64 +1,54 @@
-# Implementation Plan: Optimasi Aset Gambar Hero Portrait (Konversi PNG ke WebP)
+# Rencana Implementasi: Sinergi Sistem Menu Input Formulir & Kinetik Enterprise B2B UI (Step 1 s/d Step 4)
 
-Dokumen ini disusun sebelum modifikasi kode sesuai protokol kerja workspace (`RULE[user_global]`).
+Dokumen ini disusun sebelum melakukan modifikasi kode sesuai protokol kerja workspace (`RULE[user_global]`).
 
----
-
-## 1. Analisis Kebutuhan & Target Fitur
-
-### 1.1 Permintaan Pengguna:
-> *"foto orang kita terlalu berat yaa untuk di load? berapa mb nih. btw kalau misalnya berbah dari png ke webp masih berfungsi sama nggak? apakah tidak rusak? dari segi layar yang ditampilkan ataupun remove backgroud dll"*
-> *"okee convert ke webp"*
-
-### 1.2 Analisis Teknis:
-- **Kondisi Saat Ini**:
-  - File foto portrait developer yang dipakai pada section Hero (`HeroEditorial.tsx`) menggunakan format PNG tanpa kompresi tinggi:
-    - `developer-portrait.png` (RuangSinggah): **1.379 KB (~1,38 MB)**
-    - `developer-portrait-ruangtani.png`: **1.311 KB (~1,31 MB)**
-    - `developer-portrait-mentlife.png`: **1.354 KB (~1,35 MB)**
-    - Total beban muat ketiga gambar: **~4,04 MB**.
-  - Ukuran ini berdampak signifikan pada metrik Largest Contentful Paint (LCP) dan kecepatan muat pertama di jaringan seluler.
-- **Solusi yang Diterapkan**:
-  - Mengonversi ketiga file PNG tersebut menjadi format modern **WebP** (`.webp`) dengan library `sharp` pada kualitas tinggi (Quality: 88, lossless alpha channel, effort: 6).
-  - Mempertahankan resolusi asli **1152 × 2048 px** agar tetap ultra-tajam di layar Retina Mac & smartphone AMOLED.
-  - Mempertahankan kanal transparansi (*alpha channel*) 100% sehingga latar belakang transparan/cutout tetap rapi dan tidak berkerut.
-  - Memperbarui referensi gambar di `src/components/HeroEditorial.tsx` untuk memuat berkas `.webp`.
-  - Menghemat ukuran hingga **~93%** (dari total ~4,04 MB menjadi hanya ~295 KB).
-
----
+## 1. Analisis Masalah & Kebutuhan Pengguna
+- **Feedback & Kebutuhan Pengguna**:
+  > *"tetap guanakan sistem form yang dimana ada menu inpput dan ketika akan melakukan input muncul pilihan input yang ada. sehingga tidak ada scroll fatique atau orang yang tidak ngeh bahwa ada input terkait section itu"*
+- **Akar Masalah**:
+  1. Pada iterasi sebelumnya, seluruh kartu opsi Kinetik dirender secara terbuka (*inline grid*) sekaligus di dalam halaman.
+  2. Akibatnya, pada satu langkah (misalnya Step 3 dengan 2 grup pertanyaan), grup pertanyaan pertama memakan seluruh tinggi layar ponsel/desktop. Hal ini memicu dua masalah besar:
+     - **Scroll Fatigue**: Pengguna harus melakukan scroll panjang untuk melihat seluruh opsi.
+     - **Unnoticed Input Section**: Pengguna berisiko tidak menyadari (*tidak ngeh*) bahwa di bawahnya masih ada Section 2 (Cara Tim Memproses Transaksi) yang wajib diisi, sehingga terjebak dalam error validasi atau bingung mengapa tombol "Lanjut" belum aktif.
+  3. Pengguna menginstruksikan untuk **tetap mempertahankan sistem form dengan menu input** (trigger bar) di mana pilihan baru muncul saat input diklik.
+  4. Pilihan yang muncul saat menu input diklik harus memiliki **estetika Enterprise B2B (Kinetik Style)** sesuai referensi screenshot pengguna, bukan generic AI-slop.
 
 ## 2. Dampak Perubahan & File yang Tersentuh
-
-1. **`public/images/developer-portrait.webp`** *(Aset Baru)*:
-   - Hasil konversi WebP dari `developer-portrait.png` (~101 KB).
-2. **`public/images/developer-portrait-ruangtani.webp`** *(Aset Baru)*:
-   - Hasil konversi WebP dari `developer-portrait-ruangtani.png` (~95 KB).
-3. **`public/images/developer-portrait-mentlife.webp`** *(Aset Baru)*:
-   - Hasil konversi WebP dari `developer-portrait-mentlife.png` (~99 KB).
-4. **`src/components/HeroEditorial.tsx`**:
-   - Memperbarui properti `portraitImg` pada array `HERO_PROJECTS` (baris 41, 68, 95) ke berkas `.webp`.
-5. **`functions/PROGRESS.md` & `WALKTHROUGH.md`**:
-   - Dokumentasi hasil konversi dan panduan verifikasi.
-
----
+- [src/app/globals.css](file:///c:/Users/ZHULL/Documents/Freelance/src/app/globals.css):
+  - Menambahkan styling `.kinetik-form-trigger`: field menu input enterprise yang elegan, menampilkan status pilihan aktif atau placeholder, ikon penanda, badge counter, dan chevron selector `▾`.
+  - Menambahkan styling `.kinetik-picker-modal` & `.kinetik-picker-drawer`: dialog/drawer modal bernuansa Kinetik enterprise (background navy gelap `#0a0f1d`, border halus `#1a2333`, header terstruktur).
+  - Merender kartu opsi `.kinetik-option-card` di dalam modal picker lengkap dengan kotak ikon, judul, tag mikro, deskripsi, dan custom checkbox/radio.
+  - Memastikan modal/drawer responsif sempurna di desktop maupun mobile (bottom sheet yang nyaman dijangkau jari).
+- [src/components/diagnosis/DiagnosisStepView.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/components/diagnosis/DiagnosisStepView.tsx):
+  - Mempertahankan kartu grup bernomor `(1)`, `(2)` dengan badge status (`Wajib Dipilih`, `Bisa Pilih > 1`, `✓ X Dipilih`).
+  - Mengganti deretan opsi terbuka dengan **Menu Input Trigger Bar** yang ringkas pada setiap section.
+  - Saat Menu Input diklik, membuka Picker Modal bergaya Kinetik yang memuat kartu opsi lengkap.
+  - Setelah memilih, Menu Input menampilkan ringkasan pilihan (badge chip terstruktur) dan tombol "Ubah / Tambah ▾".
+- [src/components/diagnosis/DiagnosisWizard.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/components/diagnosis/DiagnosisWizard.tsx):
+  - Mempertahankan stepper header dan footer navigasi validasi yang sudah selaras.
 
 ## 3. Langkah-Langkah Eksekusi
-
-- **Langkah 1**: Buat skrip Node.js dengan `sharp` untuk mengonversi ketiga foto PNG ke format WebP berkualitas tinggi dengan mempertahankan dimensi 1152x2048 dan transparansi.
-- **Langkah 2**: Jalankan skrip konversi dan verifikasi ukuran serta integritas metadata ketiga berkas WebP.
-- **Langkah 3**: Perbarui path `portraitImg` di `src/components/HeroEditorial.tsx` menjadi format `.webp`.
-- **Langkah 4**: Jalankan TypeScript check (`pnpm.cmd exec tsc --noEmit`) dan build produksi Next.js (`pnpm.cmd run build`).
-- **Langkah 5**: Perbarui `functions/PROGRESS.md` dan `WALKTHROUGH.md`.
-
----
+1. **Langkah 1: Penyempurnaan CSS System (`src/app/globals.css`)**:
+   - Definisikan `.kinetik-form-trigger`, `.kinetik-trigger-left`, `.kinetik-trigger-icon`, `.kinetik-trigger-content`, `.kinetik-trigger-placeholder`, `.kinetik-trigger-selected-pills`, `.kinetik-trigger-chevron`.
+   - Definisikan `.kinetik-modal-overlay`, `.kinetik-modal-container`, `.kinetik-modal-header`, `.kinetik-modal-body`, `.kinetik-modal-footer`, `.kinetik-modal-btn-confirm`.
+2. **Langkah 2: Integrasi Komponen di `DiagnosisStepView.tsx`**:
+   - State kontrol modal picker untuk setiap input di Step 1, 2, 3, dan 4:
+     - Step 1: `sectorModalOpen`, `subSectorModalOpen`.
+     - Step 2: `painPointsModalOpen`.
+     - Step 3: `customerFlowModalOpen`, `orderProcessingModalOpen`.
+     - Step 4: `businessScaleModalOpen`.
+   - Merender Menu Input Trigger Bar di dalam setiap Kinetik Group Card.
+   - Merender Kinetik Picker Modal dengan kartu opsi berestetika Kinetik, counter pilihan, dan tombol "Selesai Memilih".
+3. **Langkah 3: Pengujian & Validasi**:
+   - Uji `tsc --noEmit` untuk memastikan kepatuhan type system TypeScript.
+   - Uji `pnpm run build` untuk memvalidasi Next.js static page generation.
+   - Verifikasi bahwa di layar ponsel dan desktop, seluruh section terlihat kompak dan di atas batas scroll (*above the fold*).
+4. **Langkah 4: Dokumentasi & Laporan**:
+   - Update `functions/PROGRESS.md` dan `WALKTHROUGH.md`.
 
 ## 4. Rencana Verifikasi
-
-1. **Integritas Aset WebP**:
-   - Metadata gambar terverifikasi: `format: 'webp'`, `hasAlpha: true`, `width: 1152`, `height: 2048`.
-   - Ukuran masing-masing berkas berkurang >90% (di bawah 110 KB).
-2. **Kompilasi & Build**:
-   - `tsc --noEmit` lolos 0 error.
-   - `pnpm run build` sukses 100% dan menghasilkan aset di `./out`.
-3. **Tampilan Hero**:
-   - Foto tampil instan tanpa lag, background transparan sempurna, dan transisi antar proyek (RuangSinggah, rUang Tani, Mentlife) tetap mulus.
+- [ ] TypeScript check (`pnpm exec tsc --noEmit`) menghasilkan Exit Code 0.
+- [ ] Production build (`pnpm run build`) menghasilkan Exit Code 0.
+- [ ] Di Step 3, Section 1 dan Section 2 keduanya langsung terlihat bersamaan di layar tanpa perlu scroll.
+- [ ] Mengklik Menu Input memunculkan modal picker dengan kartu opsi berdesain Kinetik.
+- [ ] Pilihan yang dicentang langsung memperbarui state dan menampilkan chip ringkasan pada Menu Input.

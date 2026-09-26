@@ -9,7 +9,11 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Scalebiz | Scaleup dan Optimalisasi Bisnis Kamu",
+  metadataBase: new URL("https://scalebiz.web.id"),
+  title: {
+    default: "Scalebiz | Scaleup dan Optimalisasi Bisnis Kamu",
+    template: "%s | Scalebiz",
+  },
   description:
     "Scalebiz - Solusi rekayasa sistem dan optimalisasi digital: Website Interaktif, Point of Sale & Finansial, Otomasi Alur Kerja, serta ERP Operasional tanpa biaya langganan bulanan.",
   keywords: [
@@ -20,15 +24,38 @@ export const metadata: Metadata = {
     "Sistem POS & Kasir",
     "Otomasi Bisnis",
     "Custom ERP Indonesia",
-    "Software House UMKM"
+    "Software House UMKM",
   ],
   authors: [{ name: "Scalebiz" }],
+  creator: "Scalebiz",
+  publisher: "Scalebiz",
+  robots: {
+    index: true,
+    follow: true,
+  },
   openGraph: {
     title: "Scalebiz | Scaleup dan Optimalisasi Bisnis Kamu",
     description:
       "Scaleup dan optimalisasi bisnis kamu dengan arsitektur digital kustom: Website, POS Finansial, Otomasi Workflow, dan ERP Operasional.",
+    url: "https://scalebiz.web.id",
+    siteName: "Scalebiz",
+    images: [
+      {
+        url: "/images/scalebiz-symbol.webp",
+        width: 800,
+        height: 800,
+        alt: "Scalebiz - Scaleup & Optimalisasi Bisnis",
+      },
+    ],
     type: "website",
     locale: "id_ID",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Scalebiz | Scaleup dan Optimalisasi Bisnis Kamu",
+    description:
+      "Scaleup dan optimalisasi bisnis kamu dengan arsitektur digital kustom: Website, POS Finansial, Otomasi Workflow, dan ERP Operasional.",
+    images: ["/images/scalebiz-symbol.webp"],
   },
 };
 

@@ -2,9 +2,328 @@
 
 Dokumen ini menyajikan rangkuman pekerjaan, hasil pengujian sistem, dan petunjuk penggunaan serta deployment sesuai protokol kerja workspace (`RULE[user_global]`).
 
+## Pembaruan Terkini: Konfigurasi Metadata OpenGraph, Arsitektur Tag Preview & Panduan Purge Cache Cloudflare / WhatsApp
 
+### 1. Masalah & Temuan Pengguna
+- **Pertanyaan Pengguna**:
+  > *"kenapa judul website kita saat diakses ataupun saat di share link preview dan judul nya masih tetap 'zhull | web developer spesialis bisnis lokal '"*
+- **Akar Masalah Teknis**:
+  1. **Perubahan Kode Lokal Belum Di-Push ke GitHub / Production**:
+     - Cloudflare Pages / Workers CI/CD melakukan build otomatis hanya saat ada commit baru yang di-push ke remote repository `main`.
+     - File `src/app/layout.tsx` dan komponen form terbaru masih berada di *working tree* lokal pengembang dan belum di-push.
+  2. **Cloudflare Edge CDN Caching (`CF-Cache-Status: HIT`)**:
+     - Cloudflare Edge memegang cache file HTML statis di PoP lokal (misal: `-SIN` Singapore).
+     - Header `CF-Cache-Status: HIT` membuktikan browser menerima salinan HTML lama dari server tepi Cloudflare.
+  3. **Agresivitas Cache Crawler Media Sosial (WhatsApp / Meta / Telegram)**:
+     - Ketika suatu URL pertama kali dibagikan di WhatsApp, bot scraper Meta (`facebookexternalhit`) mengunduh meta tags dan menyimpannya di server cache mereka selama berminggu-minggu.
+     - WhatsApp tidak akan mengambil ulang judul baru secara otomatis sebelum di-scrape ulang paksa (*force re-scrape*) via Facebook Sharing Debugger.
 
-## Pembaruan Terkini: Optimasi Gambar Hero Developer Portrait (Konversi ke WebP)
+---
+
+### 2. Solusi & Perubahan yang Telah Diterapkan
+
+#### A. Penyempurnaan Metadata di `src/app/layout.tsx`
+- **`metadataBase: new URL("https://scalebiz.web.id")`**: Memastikan semua path gambar dan URL kanonikal diresolusi menjadi URL absolut yang sah oleh crawler.
+- **Konfigurasi Title Dinamis**:
+  ```ts
+  title: {
+    default: "Scalebiz | Scaleup dan Optimalisasi Bisnis Kamu",
+    template: "%s | Scalebiz",
+  }
+  ```
+- **OpenGraph Lengkap (`og:title`, `og:description`, `og:image`, `og:url`, `og:site_name`)**:
+  - `siteName`: `"Scalebiz"`
+  - `images`: Logo resmi Scalebiz resolusi 800x800 di `/images/scalebiz-symbol.webp`
+- **Twitter Card**:
+  - `card: "summary_large_image"`
+  - Gambar banner preview optimal.
+
+---
+
+### 3. Petunjuk Pengguna: Push & Purge Cache
+
+1. **Commit & Push ke GitHub**:
+   ```bash
+   git add .
+   git commit -m "feat(seo): update scalebiz branding, opengraph tags and kinetik form picker"
+   git push origin main
+   ```
+2. **Purge Cache di Cloudflare**:
+   - Buka Cloudflare Dashboard -> Pilih domain **scalebiz.web.id** -> Masuk ke menu **Caching** -> **Configuration** -> Klik tombol **Purge Everything**.
+3. **Segarkan Cache Link Preview WhatsApp / Meta**:
+   - Kunjungi [Facebook Sharing Debugger](https://developers.facebook.com/tools/debug/)
+   - Masukkan URL: `https://scalebiz.web.id`
+   - Klik tombol **Debug**, lalu klik **Scrape Again** untuk memaksa Meta memperbarui judul & gambar preview.
+   - *Alternatif instan*: Tambahkan query parameter saat membagikan link ke WhatsApp, misalnya: `https://scalebiz.web.id/?v=2`.
+
+---
+
+## Pembaruan Terkini: Sinergi Sistem Menu Input Formulir & Kinetik Enterprise B2B UI (Step 1 s/d Step 4)
+
+### 1. Masalah & Instruksi Pengguna
+- **Instruksi Pengguna**:
+  > *"tetap guanakan sistem form yang dimana ada menu inpput dan ketika akan melakukan input muncul pilihan input yang ada. sehingga tidak ada scroll fatique atau orang yang tidak ngeh bahwa ada input terkait section itu"*
+- **Akar Masalah yang Diselesaikan**:
+  1. Menampilkan seluruh opsi dalam format *open cards* sekaligus menyebabkan halaman menjadi terlalu panjang, memicu *scroll fatigue* pada mobile/desktop.
+  2. Pada langkah dengan 2 bagian (misalnya Step 3: Kanal Transaksi dan Cara Memproses Transaksi), pengguna berisiko tidak menyadari (*tidak ngeh*) bahwa masih ada Section 2 di bawahnya karena Section 1 memakan seluruh ruang layar.
+  3. Dengan mengembalikan **Menu Input Trigger Bar** di setiap section yang memunculkan **Kinetik Picker Modal/Drawer** saat diklik:
+     - Seluruh section (Section 1 dan Section 2) berada langsung dalam pandangan layar secara bersamaan (*above the fold*).
+     - Pengguna 100% sadar ada 2 input yang harus diselesaikan.
+     - Scroll fatigue tereliminasi total.
+     - Seluruh opsi di dalam modal tetap berestetika **Kinetik Enterprise B2B** (anti-slop) sesuai referensi screenshot pengguna.
+
+---
+
+### 2. Daftar Perubahan Rinci
+
+#### A. Komponen Menu Input Trigger Bar (`.kinetik-form-trigger`)
+- Setiap grup pertanyaan (`.kinetik-group-card`) memuat Trigger Bar yang sangat ringkas:
+  - **Ikon Kategori**: Kotak ikon dengan warna tematik (blue, rose, cyan, amber, violet, emerald).
+  - **Status Pilihan Dinamis**:
+    - Saat belum memilih: menampilkan teks placeholder informatif (misal: *"Pilih kanal datangnya pesanan (WhatsApp, IG DM, Web, Kasir)..."*).
+    - Saat sudah memilih: menampilkan badge chip ringkasan berikon centang `✓` (misal: `[✓ WhatsApp Direct]` `[✓ Website / Katalog]`) dan badge counter `+X lainnya` jika lebih dari 2.
+  - **Tombol Aksi Kanan**: Badge pill interaktif `Ubah ▾` atau `Pilih ▾`.
+
+#### B. Enterprise Kinetik Picker Modal Dialog (`.kinetik-modal-container`)
+- Muncul secara mulus saat Menu Input diklik:
+  - **Header Modal**: Dilengkapi nomor bulat `(1)`, judul section, badge status (`Wajib Dipilih`, `Bisa Pilih > 1` / `Pilih 1`), dan tombol silang `✕`.
+  - **Body Modal**: Merender kartu opsi `.kinetik-option-card` 2 kolom di desktop dan 1 kolom di mobile, lengkap dengan micro-tag (`Tersering`, `Manual`), deskripsi jelas, dan custom checkbox/radio.
+  - **Footer Modal**: Menampilkan status pilihan aktif (`X kanal dipilih` / `X metode dipilih`) dan tombol konfirmasi royal blue: *"Selesai Memilih ✓"*.
+  - **Responsivitas Mobile**: Bertransformasi menjadi **Bottom Sheet Drawer** (`border-radius: 20px 20px 0 0`) yang nyaman diakses jempol tangan di ponsel.
+
+#### C. Preservasi 100% Seluruh Langkah Diagnosa (`DiagnosisStepView.tsx`)
+- **Step 1**: Menu Input untuk *Sektor Usaha Utama*, Menu Input untuk *Sub-sektor Spesifik* (dinamis), dan field input teks untuk *Model Bisnis Kustom*.
+- **Step 2**: Menu Input untuk *Kendala Operasional Bisnis* (multi-select dengan counter) dan textarea bersyarat jika memilih kendala lainnya.
+- **Step 3 (Sesuai Screenshot Referensi Pengguna)**:
+  - Menu Input 1: *Kanal Transaksi Pelanggan* (WhatsApp Direct [Tersering], Instagram DM & TikTok Shop, Website / Web Katalog, Kasir / Walk-in Fisik).
+  - Menu Input 2: *Cara Tim Memproses Transaksi* (Chat Satu-satu Secara Manual [Manual], Spreadsheet, Catat Manual di Nota / Buku, Aplikasi Kasir / POS Mandiri).
+  - Kotak Panggilan Info: *"Data Anda Menentukan Konfigurasi Routing Scalebiz Core..."*.
+  - **Hasil**: Keduanya terlihat bersamaan di layar tanpa perlu scroll.
+- **Step 4**: Menu Input untuk *Skala & Kapasitas Tim* (5 tingkatan skala), field input teks untuk *Nama Brand*, dan field input teks untuk *Website/Linktree*.
+
+---
+
+### 3. Hasil Pengujian Sistem
+- **TypeScript Typecheck (`pnpm exec tsc --noEmit`)**:
+  - Hasil: `Exit Code 0` (Tanpa error tipe).
+- **Next.js Production Build (`pnpm run build`)**:
+  - Hasil: `Exit Code 0` (Kompilasi selesai dalam 12.8s, semua halaman statis dan API route valid).
+
+---
+
+### 4. Petunjuk Penggunaan & Deployment Manual
+Sesuai protokol baku workspace (**RULE[user_global]** & **AGENTS.md** aturan 6: *"jangan pernah melakukan deploy ke production atau push ke github secara mandiri. biarkan user yang melakukannya sendiri secara manual"*), eksekusi push dilakukan oleh user secara mandiri dengan perintah berikut:
+
+1. **Stage Berkas Perubahan**:
+   ```bash
+   git add src/app/globals.css src/components/diagnosis/DiagnosisStepView.tsx src/components/diagnosis/DiagnosisWizard.tsx IMPLEMENTATION_PLAN.md WALKTHROUGH.md functions/PROGRESS.md package.json pnpm-lock.yaml
+   ```
+
+2. **Commit dengan Pesan Terstruktur**:
+   ```bash
+   git commit -m "feat(diagnosis): synergize kinetik enterprise b2b styling with form input trigger architecture"
+   ```
+
+3. **Push ke Repository Utama**:
+   ```bash
+   git push origin main
+   ```
+
+---
+
+## Pembaruan Sebelumnya: Redesain Antarmuka Wizard Diagnosa Bisnis Gaya Enterprise B2B (Kinetik Style) & Anti-Slop (Step 1 s/d Step 4)
+
+### 1. Masalah & Permintaan Pengguna
+- **Permintaan Pengguna**:
+  > *"ganti ganti stylenya seperti berikut, dan tetap memmpertahankan fungsi dan model formulir yang ada sekarang, tujuannya adalah agar tidak kelihatan terlalu ai slope p"*
+- **Tujuan Desain**:
+  - Menghapus komponen berkesan *generic AI slop* (seperti modal picker yang melayang di atas layar, overlay pencarian berlebih, chip tags `✕` yang berantakan, serta palet warna ungu neon artifisial).
+  - Mengadopsi bahasa desain **Enterprise B2B Onboarding (Kinetik Style)** mengacu langsung pada dua tangkapan layar referensi pengguna (Desktop & Mobile):
+    - Opsi langsung tampak dalam kartu grup terstruktur rapi (`.kinetik-group-card`).
+    - Penomoran bulat `(1)`, `(2)` dengan badge status kontekstual: `Wajib Dipilih` / `Wajib` (dark red pill), `Bisa Pilih > 1` / `Pilih 1` (slate pill), dan counter seleksi aktif `✓ X Dipilih` (blue outlined pill).
+    - Grid opsi 2 kolom pada desktop dan 1 kolom kompak pada mobile.
+    - Setiap kartu memiliki icon box tematik, judul tebal, deskripsi operasional singkat, micro-badge (seperti `Tersering`, `Manual`), dan indikator checkbox (multi-select) atau radio (single-select) kustom.
+    - Kotak info keamanan/routing data berikon perisai (`.kinetik-callout`).
+    - Header stepper dengan checkmark selesai (`✓ 01 Bisnis`), badge pill `[Aktif]`, dan progress bar gradien tipis.
+    - Footer navigasi dengan validasi status real-time ("X opsi dipilih • Kebutuhan validasi terpenuhi") dan tombol solid royal blue.
+  - Mempertahankan 100% fungsi form, validasi bertahap, dan integrasi engine diagnosa AI yang sudah stabil.
+
+---
+
+### 2. Daftar Perubahan Rinci
+
+#### A. Fondasi Desain Baru (`src/app/globals.css`)
+- **Struktur Kinetik Enterprise**:
+  - Menambahkan kelas CSS `.kinetik-pretitle`, `.kinetik-title`, `.kinetik-desc` untuk tipografi header langkah yang profesional.
+  - Menambahkan styling kartu kontainer utama `.kinetik-group-card`, `.kinetik-group-header`, `.kinetik-group-num`, `.kinetik-badge-req`, `.kinetik-badge-type`, `.kinetik-badge-count`.
+  - Menambahkan grid opsi `.kinetik-options-grid` (2 kolom di desktop, 1 kolom di mobile).
+  - Menambahkan styling kartu opsi interaktif `.kinetik-option-card`:
+    - Efek hover dan active border `#3b82f6` dengan background `#0e1424`.
+    - Kotak ikon `.kinetik-card-icon-box` dengan aksen warna tematik (blue, indigo, amber, emerald, violet, cyan, rose).
+    - Micro-badge penjelas `.kinetik-card-tag`.
+    - Checkbox kustom `.kinetik-checkbox` dan radio kustom `.kinetik-radio` dengan centang SVG presisi.
+  - Menambahkan styling kotak info `.kinetik-callout` dan `.kinetik-callout-icon`.
+  - Menambahkan sistem stepper baru `.kinetik-stepper-track`, `.kinetik-step-node`, `.kinetik-step-badge-active`, `.kinetik-progress-bar`.
+  - Menambahkan footer navigasi baru `.kinetik-footer`, `.kinetik-footer-desktop`, `.kinetik-footer-mobile`, `.kinetik-btn-primary`.
+  - Menambahkan optimasi mobile (`@media (max-width: 640px)`):
+    - Format kartu opsi berubah menjadi baris horizontal ramping (ikon di kiri, teks di tengah, checkbox di kanan).
+    - Teks deskripsi di-clamp maksimal 2 baris agar ketinggian kartu tetap proporsional (~52px–60px).
+    - Tombol footer mobile memenuhi lebar layar (*full width*) dengan tombol *Kembali* minimalis di bawahnya.
+
+#### B. Komponen Stepper & Footer (`src/components/diagnosis/DiagnosisWizard.tsx`)
+- Mengganti header stepper lama dengan arsitektur Kinetik:
+  - Lingkaran checkmark biru untuk langkah yang sudah selesai (`✓ 01 Bisnis`).
+  - Garis penghubung kontras antar node langkah.
+  - Label langkah aktif dengan badge pill `[Aktif]`.
+  - Progress bar gradien biru tipis di bawah nomor langkah.
+- Mengganti footer navigasi dengan layout Kinetik:
+  - Tombol *Kembali* di kiri bawah.
+  - Indikator status validasi real-time di kanan bawah (*"X opsi alur dipilih • Kebutuhan validasi terpenuhi"*).
+  - Tombol utama solid royal blue (*"Lanjut ke Langkah XX →"* / *"Mulai Analisis Bisnis Saya →"*).
+  - Footer terpisah yang ramah sentuhan pada layar ponsel.
+
+#### C. Transformasi Seluruh 4 Langkah Diagnosa (`src/components/diagnosis/DiagnosisStepView.tsx`)
+- **Langkah 1 (Sektor Bisnis & Sub-sektor Operasional)**:
+  - Grup 1: Sektor Usaha Utama — Disajikan dalam kartu opsi 2 kolom berikon sektor (Retail, FnB, Jasa, Manufaktur, dll.) dengan indikator radio single-select.
+  - Grup 2: Spesifikasi Sub-sektor — Muncul dinamis sesuai sektor yang dipilih dengan badge counter dan radio card.
+  - Grup 3: Model Bisnis Kustom — Field input teks bersih untuk spesifikasi unik.
+- **Langkah 2 (Kendala & Bottleneck Operasional)**:
+  - Menampilkan daftar kendala dalam kartu grup terstruktur dengan multi-select checkbox dan micro-badge.
+  - Menampilkan counter status aktif (*"X Kendala Dipilih"*).
+- **Langkah 3 (Alur Transaksi & Pemrosesan Pesanan)**:
+  - Identik 1:1 dengan tangkapan layar referensi pengguna:
+    - Grup 1: Kanal Transaksi Pelanggan (WhatsApp Direct [Tersering], Instagram DM & TikTok Shop, Website / Web Katalog, Kasir / Walk-in Fisik).
+    - Grup 2: Cara Tim Memproses Transaksi (Chat Satu-satu Secara Manual [Manual], Spreadsheet (Google Sheets / Excel), Catat Manual di Nota / Buku, Aplikasi Kasir / POS Mandiri).
+    - Kotak Info: *"Data Anda Menentukan Konfigurasi Routing Scalebiz Core..."*.
+- **Langkah 4 (Skala Operasional & Profil Brand)**:
+  - Grup 1: Skala & Kapasitas Tim (Solo Founder, Tim Kecil 2-5, Berkembang 6-15, Mapan 16-50, Enterprise >50).
+  - Grup 2: Profil & Identitas Bisnis (Input nama brand dan link website/sosial media dengan visual B2B profesional).
+
+---
+
+### 3. Hasil Pengujian Sistem
+- **Verifikasi TypeScript (`pnpm exec tsc --noEmit`)**:
+  - Hasil: `Exit Code 0` (Tanpa error tipe).
+- **Verifikasi Next.js Production Build (`pnpm run build`)**:
+  - Hasil: `Exit Code 0` (Kompilasi sukses dalam 16.8s, semua halaman statis dan API route terekspor sempurna).
+
+---
+
+### 4. Petunjuk Penggunaan & Deployment
+- Jalankan server development lokal:
+  ```bash
+  pnpm run dev
+  ```
+- Buka antarmuka diagnosa di peramban: `http://localhost:3000#audit` atau `http://localhost:3000/diagnose`.
+- Sesuai aturan **RULE[user_global]**, proses deploy ke production atau push ke GitHub dilakukan secara mandiri oleh user.
+
+---
+
+## Pembaruan Sebelumnya: Unifikasi Sistem Formulir Interaktif & Modal Picker di Seluruh Langkah Diagnosa (Step 1 s/d Step 4)
+
+### 1. Masalah & Permintaan Pengguna
+- **Permintaan Pengguna**:
+  > *"kenapa hanya page 1 yang menerapkan sistem formulir, seharusnya dari page 1 sampai 4"*
+- **Akar Masalah & Kebutuhan Solusi**:
+  1. Pada iterasi awal, hanya Step 1 yang dirombak ke model input formulir (`.diag-form-trigger-box`), sedangkan Step 2, 3, dan 4 masih menggunakan susunan kartu berjejer panjang (*card grid*).
+  2. Akibatnya timbul inkonsistensi UX yang mencolok: saat pengguna pindah ke Step 2 (Kendala) atau Step 3 (Saluran Pesanan), mereka kembali dihadapkan pada tumpukan kartu memanjang vertikal (~1.500px–2.000px) yang memicu *scroll fatigue* parah di perangkat mobile dan menyembunyikan tombol navigasi jauh di bawah.
+  3. Pengguna menginginkan konsistensi penuh dari **Langkah 1 hingga Langkah 4**: setiap pertanyaan disajikan sebagai kolom formulir yang bersih, dapat diklik untuk memunculkan pilihan modal/bottom sheet yang interaktif, dan langsung menampilkan pilihan aktif secara terstruktur.
+
+---
+
+### 2. Arsitektur Form Model di Seluruh 4 Langkah (`DiagnosisStepView.tsx`)
+
+#### A. Langkah 1: Sektor Bisnis & Spesifikasi Operasional
+- **Kolom Input 1 (Sektor Usaha Utama)**: Trigger box dengan chevron dropdown `▼`, membuka modal pencarian 14 industri dengan live filter.
+- **Kolom Input 2 (Spesifikasi Sub-sektor)**: Muncul dinamis jika industri memiliki cabang variasi (misal: Bakery, Kafe, Restoran pada sektor Kuliner), lengkap dengan opsi ubah/reset.
+- **Kolom Input 3 (Detail Kustom)**: Input teks bersih untuk mengisi model bisnis unik jika diperlukan.
+
+#### B. Langkah 2: Kendala Operasional Terbesar (Multi-Select Form Model)
+- **Trigger Box Interaktif**: Menampilkan status *"Pilih kendala yang sering dialami..."* atau jumlah kendala terpilih.
+- **Multi-Select Picker Modal**:
+  - Dilengkapi kotak pencarian instan (*live search filter*) untuk menyaring kendala secara cepat.
+  - Kartu kendala dengan *animated checkbox pill* yang dapat dicentang lebih dari satu.
+  - Tombol konfirmasi *"Selesai Memilih"* di bagian bawah modal.
+- **Dismissable Chip Tags (`.diag-selected-chip`)**:
+  - Semua kendala yang dipilih langsung tampil di kartu formulir utama sebagai tag chip yang rapi.
+  - Setiap chip memiliki tombol silang `✕` yang memungkinkan pengguna menghapus item secara instan tanpa perlu repot membuka modal picker kembali.
+  - Tombol aksi `+ Tambah Kendala Lain` untuk membuka picker sewaktu-waktu.
+
+#### C. Langkah 3: Saluran Pesanan & Pemrosesan Transaksi (Dual Multi-Select Form Model)
+- **Kolom Input 1 (Saluran Datangnya Konsumen / Pesanan)**:
+  - Form trigger box + modal multi-select dengan pencarian (WhatsApp, Instagram DM, GoFood/GrabFood/ShopeeFood, Marketplace, Walk-in, Website, dll.).
+  - Ditampilkan sebagai deretan chip saluran dengan tombol `✕` hapus dan `+ Tambah Saluran Lain`.
+- **Kolom Input 2 (Metode Pencatatan & Pemrosesan Transaksi)**:
+  - Form trigger box + modal multi-select dengan pencarian (Catat Manual di Nota Kertas, Excel/Google Sheets, Chat WA, Aplikasi Kasir Terpisah, Sistem Internal, dll.).
+  - Ditampilkan sebagai deretan chip metode dengan tombol `✕` hapus dan `+ Tambah Metode Lain`.
+
+#### D. Langkah 4: Skala Tim Operasional & Identitas Bisnis (Single-Select + Text Input Model)
+- **Kolom Input 1 (Skala & Jumlah Karyawan / Tim)**:
+  - Form trigger box membuka single-select picker modal dengan 5 tingkatan skala:
+    - *Solo Founder / 1 Orang*
+    - *Tim Kecil (2 - 5 Orang)*
+    - *Tim Berkembang (6 - 15 Orang)*
+    - *Bisnis Mapan (16 - 50 Orang)*
+    - *Enterprise / Korporasi (> 50 Orang)*
+- **Kolom Input 2 (Nama Bisnis / Brand Anda)**:
+  - Field teks bersih dengan ikon brand dan placeholder adaptif terhadap industri yang dipilih di Step 1.
+- **Kolom Input 3 (Website / Linktree / Instagram Saat Ini - Opsional)**:
+  - Field teks bersih dengan ikon tautan untuk melengkapi audit AI.
+
+---
+
+### 3. Dampak UX & Efisiensi Layar Mobile (Zero Scroll Fatigue)
+- **Tinggi Konten Layar Mobile**: Seluruh langkah kini memiliki tinggi form kompak antara **~200px hingga ~320px** (turun 85% dari sebelumnya yang mencapai ~2.000px).
+- **Above-The-Fold Action**: Tombol aksi navigasi (*"Lanjut ke Langkah 02/03/04"* dan *"Mulai Analisis Bisnis Saya"*) kini selalu berada di area pandang utama layar HP tanpa mengharuskan pengguna menggulir layar.
+- **Persepsi Formulir Jelas**: Pengguna langsung memahami bahwa setiap elemen adalah kolom input interaktif yang dapat diisi dan disesuaikan.
+- **Aksesibilitas Terpadu**: Dukungan tombol keyboard `Escape` untuk menutup modal, backdrop-click handler, dan autofocus cerdas.
+- **Dwibahasa Penuh**: Mendukung switch bahasa `ID` dan `EN` secara dinamis.
+
+---
+
+### 4. Hasil Pengujian & Verifikasi Mutu
+- **TypeScript Typecheck (`pnpm exec tsc --noEmit`)**:
+  - `Exit Code: 0` (100% bebas error tipe data).
+- **Next.js Production Build (`pnpm run build`)**:
+  - `Exit Code: 0` (Kompilasi sukses dalam 15.6s, static export 100% valid ke folder `./out`).
+
+---
+
+## Pembaruan Sebelumnya: Mesin Scraping Massal Google Maps Kota Makassar (Massive Lead Gen)
+
+### 1. Masalah & Target Pengguna
+- **Permintaan Pengguna**:
+  > *"kita harus mmelakukan scrapping secara total, semakin banyak leads semakin bagus convertion rate nya semakin tinggu, lakukan secara total. target kita setiap hari follow up 100 bisnis, jadi kalau bisa lebih dari itu, jadi maksimalkan yang bisa di scrape sebanyak banyaknya"*
+- **Tujuan**:
+  - Menyediakan ratusan hingga ribuan data prospek bisnis riil di Kota Makassar secara terotomatisasi.
+  - Setiap kontak wajib memiliki nomor telepon/WhatsApp asli terverifikasi dari Google Maps, alamat jalan, rating, dan status kepemilikan website.
+  - Memungkinkan tim penjualan Scalebiz mencapai target follow-up 100 prospek per hari.
+
+### 2. Solusi yang Diterapkan
+1. **Mesin Bot Google Maps Scraper (`scripts/scrape_gmaps_massive.js`)**:
+   - Menggunakan `puppeteer-core` terhubung langsung ke Google Chrome lokal (`C:\Program Files\Google\Chrome\Application\chrome.exe`).
+   - Mampu mengeksekusi pencarian di seluruh sektor (Klinik Kecantikan/Gigi, Wedding Organizer, Studio Foto, Desain Interior/Kontraktor, Bimbel, dsb.).
+   - Auto-scroll container Google Maps untuk menghimpun puluhan hingga ratusan listing per kata kunci.
+   - Mengunjungi profil tempat untuk mengekstrak nomor telepon asli, alamat, rating, dan tautan website resmi.
+   - Otomatis mengidentifikasi **"GOLDEN LEAD 🔥"** (bisnis yang belum punya website atau hanya punya linktree/medsos).
+   - Format otomatis nomor menjadi nomor internasional WhatsApp (`wa.me/62...`) yang bisa langsung diklik untuk mengirim pesan.
+   - Deduplikasi otomatis agar kontak tidak ganda.
+2. **Penyimpanan Real-Time (Live Streaming)**:
+   - Data langsung dialirkan baris demi baris ke [leads/leads_makassar_massive.csv](file:///c:/Users/ZHULL/Documents/Freelance/leads/leads_makassar_massive.csv) dan [leads/leads_makassar_massive.json](file:///c:/Users/ZHULL/Documents/Freelance/leads/leads_makassar_massive.json).
+
+### 3. Cara Menjalankan Scraper Tambahan
+Untuk menyedot ratusan data baru kapan saja, cukup jalankan perintah berikut di terminal:
+```bash
+# Menjalankan scraping dengan target 200 leads
+node scripts/scrape_gmaps_massive.js --max 200
+
+# Menjalankan scraping dengan target 500 leads
+node scripts/scrape_gmaps_massive.js --max 500
+```
+
+---
+
+## Pembaruan Sebelumnya: Optimasi Gambar Hero Developer Portrait (Konversi ke WebP)
 
 ### 1. Masalah & Permintaan Pengguna
 - **Permintaan Pengguna**:
