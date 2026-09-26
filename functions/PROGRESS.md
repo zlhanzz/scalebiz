@@ -2,6 +2,25 @@
 
 Dokumen ini mencatat seluruh riwayat fitur dan konfigurasi yang sudah diselesaikan agar agent di masa mendatang dapat melanjutkan tugas tanpa kehilangan konteks.
 
+## [2026-09-27] Optimasi Total Tampilan Mobile (Mobile-First Responsiveness) Truly Organic Hair Studio
+- **Status**: Selesai & Terverifikasi (Build Exit Code: 0, SSG Exported)
+- **Pekerjaan yang Dilakukan**:
+  1. **Eliminasi Masalah Viewport Blowout / Horizontal Overflow di Ponsel**:
+     - Mengidentifikasi akar masalah: Navigasi desktop di elemen `<header>` berada pada baris horizontal kaku (~950px) tanpa Tailwind helper, memaksa browser mobile mengecilkan halaman secara drastis (*zoomed out 40%*) dan memunculkan ruang kosong hitam di kanan layar.
+     - Menerapkan pembatas `overflowX: "hidden"`, `width: "100%"`, dan `maxWidth: "100vw"` pada root wrapper.
+     - Menyematkan CSS murni terintegrasi via tag `<style>` dengan media queries `@media (max-width: 899px)` dan `@media (min-width: 900px)`.
+  2. **Pemasangan Mobile Hamburger Navigation & Slide-down Drawer**:
+     - Di layar desktop: Menampilkan navigasi horizontal lengkap, username Instagram, dan tombol reservasi.
+     - Di layar mobile: Menyembunyikan menu horizontal panjang dan teks IG, menambahkan tombol hamburger minimalis (`☰` / `✕`), tombol ringkas `Book`, dan slide-down drawer interaktif lengkap dengan navigasi 5 seksi, tombol booking online, dan link profil Instagram.
+  3. **Penyesuaian Skala Grid Responsif**:
+     - Mengubah seluruh grid kolom (`hero`, `services`, `stylists`, `gallery`, `location`) menggunakan `repeat(auto-fit, minmax(min(100%, 280px), 1fr))` sehingga aman di semua resolusi HP (mulai 360px ke atas).
+     - Menyesuaikan badge mengambang studio hero agar tidak melebihi batas kanan layar ponsel (`left: 14px; maxWidth: calc(100% - 28px)`).
+- **Hasil Verifikasi**:
+  - `pnpm.cmd run build` -> Exit Code: 0 (Halaman statis `/preview/truly-organic-hair-studio` berukuran 14.2 kB berhasil diexport).
+  - Tampilan mobile kini memenuhi 100% layar HP tanpa area hitam di samping dan tanpa horizontal scroll.
+
+---
+
 ## [2026-09-27] Penyempurnaan Presisi Layout Menu Layanan & Penghapusan Banner "Claim This Website" (Truly Organic Hair Studio)
 - **Status**: Selesai & Terverifikasi (Build Exit Code: 0, SSG Exported)
 - **Pekerjaan yang Dilakukan**:

@@ -1,4 +1,4 @@
-# Ringkasan Pekerjaan (Walkthrough): Perbaikan Presisi Menu Layanan & Penghapusan Banner "Claim This Website"
+# Ringkasan Pekerjaan (Walkthrough): Optimasi Total Tampilan Mobile (Mobile-First Responsiveness) Truly Organic Hair Studio
 
 Dokumen ini disusun setelah pekerjaan selesai sesuai protokol kerja workspace (`RULE[user_global]`).
 
@@ -6,31 +6,37 @@ Dokumen ini disusun setelah pekerjaan selesai sesuai protokol kerja workspace (`
 
 ## 1. Respons Terhadap Masukan Pengguna (User Feedback Executed)
 
-Sesuai arahan pengguna dan tangkapan layar yang dilampirkan:
+Sesuai tangkapan layar pengguna:
+- **Gejala Masalah**: Halaman website terlihat kerdil (*zoomed-out*) di layar HP dan terdapat area kosong berwarna hitam pekat selebar ~60% di sisi kanan.
+- **Akar Penyebab**: Baris navigasi desktop di dalam `<header>` berjejer kaku secara horizontal (`Services & Pricing`, `Our Artisans`, `Gallery`, `Reviews`, `Location`, `@trulyorganichairstudio`, `Book on Web`) dengan lebar total ~950px. Karena proyek menggunakan Vanilla CSS (tanpa Tailwind), kelas `className="hidden md:flex"` tidak aktif, sehingga browser HP terpaksa memperkecil skala seluruh viewport halaman agar header 950px tersebut muat.
 
-1. **Perbaikan Tumpang Tindih Layout Kartu Layanan (Services & Pricing Menu)**:
-   - **Masalah Sebelumnya**: Badge `FEATURED SERVICE` diposisikan secara `position: absolute; top: 16px; right: 16px;`. Di saat yang sama, teks harga (`item.price`) juga didorong ke pojok kanan atas via flexbox, menyebabkan badge "FEATURED SERVICE" menimpa langsung teks harga (*"Custom Quote"* dan *"$195 - $205"*). Judul panjang seperti *"Partial Blonding & Face-Framing Money Piece"* juga terdesak dan berhimpitan.
-   - **Perbaikan yang Dilakukan**:
-     - Menghapus pemosisian absolute.
-     - Membuat **Dedicated Top Metadata Row**:
-       - Sisi Kiri: Badge kategori (`Featured Service` dengan highlight hijau sage atau `Botanical Treatment` dengan abu-abu sage yang tenang).
-       - Sisi Kanan: Teks harga berformat elegan serif Georgia (`Custom Quote`, `$195 - $205`, dsb.).
-     - **Full-Width Title Row**: Judul layanan (`h3`) kini membentang bebas di bawah baris metadata tanpa pembatas padding buatan, sehingga judul panjang dapat membungkus baris (*wrap*) secara alami dan presisi.
-     - Spasi durasi pengerjaan (dengan ikon jam SVG) dan deskripsi layanan kini proporsional dan tidak saling bertabrakan.
-
-2. **Penghapusan Total Floating Banner "Claim This Website"**:
-   - Menghapus impor dan pemanggilan komponen `<ClaimDemoBar />` dari `PreviewTrulyOrganic.tsx`.
-   - Menghilangkan `paddingBottom: "100px"` dari wrapper utama agar footer terpasang rapi di bagian bawah tanpa celah kosong berlebih.
-   - Website kini tampil **100% sebagai website resmi studio salon yang bersih & elegan (*white-labeled salon website*)**, tanpa adanya watermark, penawaran harga $399, ataupun demo bar melayang.
+### Perbaikan yang Diterapkan:
+1. **Penerapan Media Queries CSS Murni**:
+   - Menambahkan tag `<style>` terintegrasi dengan aturan media query responsif:
+     - `@media (max-width: 899px)`: Menu navigasi desktop dan teks panjang `@trulyorganichairstudio` otomatis disembunyikan. Tombol hamburger menu mobile diaktifkan.
+     - `@media (min-width: 900px)`: Tombol hamburger dan drawer menu mobile otomatis disembunyikan.
+2. **Pemasangan Mobile Hamburger Navigation & Slide-Down Drawer**:
+   - Header kini memiliki tombol hamburger toggle (`☰` / `✕`) yang responsif dan elegan.
+   - Ketika hamburger ditekan, menu *drawer* meluncur ke bawah menampilkan:
+     - 5 menu seksi studio (*Services, 11 Artisans, Gallery, Reviews, Location*)
+     - Tombol primer "Book Appointment Online" yang langsung membuka modal booking on-app
+     - Tombol "Follow @trulyorganichairstudio"
+   - Di baris header mobile, logo studio tampil proporsional (`TRULY ORGANIC`), tombol reservasi ringkas `Book`, dan tombol hamburger.
+3. **Pemberantasan Horizontal Overflow di Seluruh Halaman**:
+   - Wrapper utama kini dilengkapi `overflowX: "hidden"`, `width: "100%"`, dan `maxWidth: "100vw"`.
+   - Grid kolom pada semua seksi (hero, pilar organik, layanan, 11 artis, galeri foto, dan peta lokasi) diubah menjadi `repeat(auto-fit, minmax(min(100%, 280px), 1fr))`, menjamin tampilan 1 kolom yang fleksibel dan lega pada layar HP selebar 360px–414px sekalipun.
+   - Badge mengambang studio hero disesuaikan dengan `maxWidth: "calc(100% - 28px)"` agar tidak menembus tepi kanan layar.
 
 ---
 
 ## 2. File Deliverables yang Dimodifikasi
 
 1. **[src/components/preview/PreviewTrulyOrganic.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/components/preview/PreviewTrulyOrganic.tsx)**:
-   - Menghapus komponen `ClaimDemoBar`.
-   - Menghapus `paddingBottom: "100px"`.
-   - Merombak arsitektur tata letak kartu layanan (`#services`) menjadi baris metadata terpisah (Badge kiri, Harga kanan, Judul di bawah).
+   - State `isMobileMenuOpen`.
+   - CSS embedded media queries `@media (max-width: 899px)`.
+   - Mobile navigation drawer & hamburger button.
+   - Pencegahan horizontal overflow (`overflowX: "hidden"`).
+   - Skala kolom grid yang adaptif terhadap perangkat mobile.
 2. **[functions/PROGRESS.md](file:///c:/Users/ZHULL/Documents/Freelance/functions/PROGRESS.md)**:
    - Pencatatan riwayat progres anti-amnesia.
 3. **[IMPLEMENTATION_PLAN.md](file:///c:/Users/ZHULL/Documents/Freelance/IMPLEMENTATION_PLAN.md)**:
@@ -41,37 +47,34 @@ Sesuai arahan pengguna dan tangkapan layar yang dilampirkan:
 ## 3. Hasil Pengujian & Verifikasi Build
 
 - **Build Test**:
-  - Cache `.next` dibersihkan untuk menghindari konflik modul webpack.
-  - Perintah `pnpm.cmd run build` berhasil dieksekusi dengan kode keluar `0` (**Exit Code: 0**).
+  - `pnpm.cmd run build` dieksekusi dengan hasil **Exit Code: 0**.
 - **Static Export**:
-  - Halaman statis HTML berhasil digenerate:
-    - `○ /preview/truly-organic-hair-studio` (13.4 kB)
+  - Halaman statis HTML digenerate sempurna:
+    - `○ /preview/truly-organic-hair-studio` (14.2 kB)
     - `○ /preview/trendy-nail-spa` (5.76 kB)
-- **Visual Check**:
-  - Badge "Featured Service" dan harga sudah terpisah secara presisi tanpa tumpang tindih.
-  - Bar melayang "Claim This Website" sudah tidak ada lagi di bagian bawah layar.
+- **Tampilan Mobile**:
+  - Tidak ada lagi zoom-out 40% ataupun area hitam di kanan layar.
+  - Halaman memenuhi 100% lebar ponsel dengan tipografi yang jernih, tajam, dan mudah dibaca.
+  - Menu hamburger bekerja responsif saat diklik.
 
 ---
 
 ## 4. Cara Meninjau di Browser Lokal
 
-Jalankan perintah development server di terminal:
+Jalankan server lokal jika belum aktif:
 ```bash
 pnpm run dev
 ```
-Buka tautan ini di browser Anda:
+Buka tautan ini di browser Anda (atau buka Inspect Element / Device Mode ponsel Ctrl+Shift+M):
 👉 **`http://localhost:3000/preview/truly-organic-hair-studio`**
-
-Geser (*scroll*) ke bagian **Services & Pricing Menu** untuk melihat kartu harga yang rapi dan presisi, serta periksa bagian bawah layar untuk memastikan banner claim sudah hilang sepenuhnya.
 
 ---
 
-## 5. Petunjuk Deploy Manual oleh User (Sesuai Protokol Baku)
+## 5. Petunjuk Deploy Manual oleh User ke Production
 
-Sesuai aturan `RULE[user_global] Poin 6`, agent tidak melakukan deploy atau push mandiri. Jalankan perintah berikut saat Anda siap mendeploy ke Cloudflare Pages / Git:
+Untuk mengunggah perbaikan mobile ini ke domain live `scalebiz.web.id`, jalankan perintah deploy berikut di terminal Anda:
 
 ```bash
-git add .
-git commit -m "fix(preview): refine service cards layout precision and remove claim banner"
-git push origin main
+pnpm run deploy
 ```
+*(Perintah ini akan menjalankan build statis dan langsung mengunggah aset ke Cloudflare Workers edge network).*

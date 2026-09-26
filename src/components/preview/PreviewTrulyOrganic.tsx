@@ -23,6 +23,7 @@ export default function PreviewTrulyOrganic() {
   const [activeServiceTab, setActiveServiceTab] = useState<number>(0);
   const [isBookingOpen, setIsBookingOpen] = useState<boolean>(false);
   const [selectedStylistForBooking, setSelectedStylistForBooking] = useState<string>("adriana-bryer");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
 
   const filteredStylists = data.stylists.filter((s) => {
     if (activeFilter === "all") return true;
@@ -49,8 +50,42 @@ export default function PreviewTrulyOrganic() {
         minHeight: "100vh",
         fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
         lineHeight: 1.6,
+        overflowX: "hidden",
+        width: "100%",
+        maxWidth: "100vw",
+        position: "relative",
       }}
     >
+      <style>{`
+        .to-mobile-menu-btn {
+          display: none !important;
+        }
+        .to-mobile-drawer {
+          display: none !important;
+        }
+        @media (max-width: 899px) {
+          .to-desktop-nav {
+            display: none !important;
+          }
+          .to-desktop-ig-text {
+            display: none !important;
+          }
+          .to-mobile-menu-btn {
+            display: inline-flex !important;
+          }
+          .to-mobile-drawer.open {
+            display: flex !important;
+          }
+        }
+        @media (min-width: 900px) {
+          .to-mobile-menu-btn {
+            display: none !important;
+          }
+          .to-mobile-drawer {
+            display: none !important;
+          }
+        }
+      `}</style>
       {/* 1. TOP ANNOUNCEMENT BAR */}
       <div
         style={{
@@ -96,65 +131,77 @@ export default function PreviewTrulyOrganic() {
       {/* 2. SALON NAVIGATION HEADER */}
       <header
         style={{
-          backgroundColor: "rgba(255, 255, 255, 0.95)",
+          backgroundColor: "rgba(255, 255, 255, 0.96)",
           backdropFilter: "blur(12px)",
           WebkitBackdropFilter: "blur(12px)",
           borderBottom: "1px solid #E6E1D8",
           position: "sticky",
           top: 0,
           zIndex: 40,
+          width: "100%",
         }}
       >
         <div
           style={{
             maxWidth: "1180px",
             margin: "0 auto",
-            padding: "16px 20px",
+            padding: "12px 16px",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
+            gap: "10px",
           }}
         >
-          <div>
-            <span
-              style={{
-                fontFamily: "Georgia, 'Times New Roman', serif",
-                fontSize: "23px",
-                fontWeight: 700,
-                letterSpacing: "1.2px",
-                color: "#1F2B24",
-                display: "block",
-                lineHeight: 1.1,
-              }}
+          {/* Logo / Brand */}
+          <div style={{ minWidth: 0, flexShrink: 1 }}>
+            <a
+              href="#"
+              style={{ textDecoration: "none", color: "inherit", display: "block" }}
             >
-              TRULY ORGANIC
-            </span>
-            <span
-              style={{
-                fontSize: "11px",
-                letterSpacing: "1.8px",
-                textTransform: "uppercase",
-                color: "#4A6B56",
-                fontWeight: 600,
-                display: "block",
-                marginTop: "2px",
-              }}
-            >
-              Hair Studio &amp; Suites • Lockport, NY
-            </span>
+              <span
+                style={{
+                  fontFamily: "Georgia, 'Times New Roman', serif",
+                  fontSize: "clamp(17px, 4vw, 23px)",
+                  fontWeight: 700,
+                  letterSpacing: "1px",
+                  color: "#1F2B24",
+                  display: "block",
+                  lineHeight: 1.1,
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                TRULY ORGANIC
+              </span>
+              <span
+                style={{
+                  fontSize: "10px",
+                  letterSpacing: "1.2px",
+                  textTransform: "uppercase",
+                  color: "#4A6B56",
+                  fontWeight: 600,
+                  display: "block",
+                  marginTop: "2px",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                Hair Studio &amp; Suites • Lockport, NY
+              </span>
+            </a>
           </div>
 
-          {/* Center Navigation Links */}
+          {/* Center Navigation Links (Hidden on Mobile) */}
           <nav
+            className="to-desktop-nav"
             style={{
               display: "flex",
               alignItems: "center",
-              gap: "24px",
-              fontSize: "14px",
+              gap: "22px",
+              fontSize: "13.5px",
               fontWeight: 600,
               color: "#4A5D52",
             }}
-            className="hidden md:flex"
           >
             <a href="#services" style={{ textDecoration: "none", color: "inherit" }}>
               Services &amp; Pricing
@@ -173,7 +220,8 @@ export default function PreviewTrulyOrganic() {
             </a>
           </nav>
 
-          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          {/* Right Action Items */}
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
             <a
               href={`https://www.instagram.com/${data.instagram}/`}
               target="_blank"
@@ -181,19 +229,20 @@ export default function PreviewTrulyOrganic() {
               style={{
                 display: "inline-flex",
                 alignItems: "center",
-                gap: "6px",
+                gap: "5px",
                 backgroundColor: "#F2EFE9",
                 color: "#2C3E35",
                 textDecoration: "none",
-                padding: "8px 12px",
+                padding: "7px 10px",
                 borderRadius: "8px",
-                fontSize: "13px",
+                fontSize: "12px",
                 fontWeight: 600,
                 border: "1px solid #DCD6CB",
               }}
+              title={`Instagram @${data.instagram}`}
             >
               <IconInstagram size={15} color="#4A6B56" />
-              <span className="hidden sm:inline">@{data.instagram}</span>
+              <span className="to-desktop-ig-text">@{data.instagram}</span>
             </a>
 
             <button
@@ -201,23 +250,204 @@ export default function PreviewTrulyOrganic() {
               style={{
                 display: "inline-flex",
                 alignItems: "center",
-                gap: "6px",
+                gap: "5px",
                 backgroundColor: "#3A5A40",
                 color: "#FFFFFF",
                 border: "none",
-                padding: "9px 18px",
+                padding: "8px 14px",
                 borderRadius: "8px",
-                fontSize: "13px",
+                fontSize: "12.5px",
                 fontWeight: 700,
                 cursor: "pointer",
                 boxShadow: "0 2px 8px rgba(58, 90, 64, 0.25)",
+                whiteSpace: "nowrap",
               }}
             >
-              <IconCalendar size={15} color="#FFFFFF" />
-              <span>Book on Web</span>
+              <IconCalendar size={14} color="#FFFFFF" />
+              <span>Book</span>
+            </button>
+
+            {/* Mobile Hamburger Button */}
+            <button
+              type="button"
+              className="to-mobile-menu-btn"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Toggle Navigation Menu"
+              style={{
+                backgroundColor: "#FFFFFF",
+                border: "1px solid #DCD6CB",
+                borderRadius: "8px",
+                width: "36px",
+                height: "36px",
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#2C3E35",
+                cursor: "pointer",
+                padding: 0,
+              }}
+            >
+              {isMobileMenuOpen ? (
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              ) : (
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="4" y1="6" x2="20" y2="6"></line>
+                  <line x1="4" y1="12" x2="20" y2="12"></line>
+                  <line x1="4" y1="18" x2="20" y2="18"></line>
+                </svg>
+              )}
             </button>
           </div>
         </div>
+
+        {/* Mobile Navigation Drawer */}
+        {isMobileMenuOpen && (
+          <div
+            className="to-mobile-drawer open"
+            style={{
+              backgroundColor: "#FFFFFF",
+              borderTop: "1px solid #EAE4D9",
+              padding: "16px 20px 22px",
+              display: "flex",
+              flexDirection: "column",
+              gap: "12px",
+              boxShadow: "0 14px 24px -10px rgba(0,0,0,0.1)",
+            }}
+          >
+            <a
+              href="#services"
+              onClick={() => setIsMobileMenuOpen(false)}
+              style={{
+                textDecoration: "none",
+                color: "#242E28",
+                fontSize: "15px",
+                fontWeight: 600,
+                padding: "8px 0",
+                borderBottom: "1px solid #F0ECE4",
+              }}
+            >
+              Services &amp; Pricing Menu
+            </a>
+            <a
+              href="#stylists"
+              onClick={() => setIsMobileMenuOpen(false)}
+              style={{
+                textDecoration: "none",
+                color: "#242E28",
+                fontSize: "15px",
+                fontWeight: 600,
+                padding: "8px 0",
+                borderBottom: "1px solid #F0ECE4",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <span>Our Artisans &amp; Suites</span>
+              <span style={{ fontSize: "11px", backgroundColor: "#EAF2EC", color: "#3A5A40", padding: "2px 8px", borderRadius: "999px", fontWeight: 700 }}>
+                11 Artists
+              </span>
+            </a>
+            <a
+              href="#gallery"
+              onClick={() => setIsMobileMenuOpen(false)}
+              style={{
+                textDecoration: "none",
+                color: "#242E28",
+                fontSize: "15px",
+                fontWeight: 600,
+                padding: "8px 0",
+                borderBottom: "1px solid #F0ECE4",
+              }}
+            >
+              Work Showcase &amp; Transformations
+            </a>
+            <a
+              href="#testimonials"
+              onClick={() => setIsMobileMenuOpen(false)}
+              style={{
+                textDecoration: "none",
+                color: "#242E28",
+                fontSize: "15px",
+                fontWeight: 600,
+                padding: "8px 0",
+                borderBottom: "1px solid #F0ECE4",
+              }}
+            >
+              5-Star Client Reviews
+            </a>
+            <a
+              href="#location"
+              onClick={() => setIsMobileMenuOpen(false)}
+              style={{
+                textDecoration: "none",
+                color: "#242E28",
+                fontSize: "15px",
+                fontWeight: 600,
+                padding: "8px 0",
+                borderBottom: "1px solid #F0ECE4",
+              }}
+            >
+              Studio Location &amp; Directions
+            </a>
+
+            <div style={{ marginTop: "6px", display: "flex", flexDirection: "column", gap: "10px" }}>
+              <button
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  handleOpenBooking();
+                }}
+                style={{
+                  width: "100%",
+                  backgroundColor: "#3A5A40",
+                  color: "#FFFFFF",
+                  border: "none",
+                  padding: "13px 18px",
+                  borderRadius: "10px",
+                  fontWeight: 700,
+                  fontSize: "14px",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "8px",
+                  boxShadow: "0 4px 12px rgba(58, 90, 64, 0.25)",
+                }}
+              >
+                <IconCalendar size={16} color="#FFFFFF" />
+                <span>Book Appointment Online</span>
+              </button>
+
+              <a
+                href={`https://www.instagram.com/${data.instagram}/`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  width: "100%",
+                  backgroundColor: "#F7F5F0",
+                  color: "#3A5A40",
+                  textDecoration: "none",
+                  padding: "11px 16px",
+                  borderRadius: "10px",
+                  fontWeight: 600,
+                  fontSize: "13px",
+                  border: "1px solid #E2DCD1",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "8px",
+                  boxSizing: "border-box",
+                }}
+              >
+                <IconInstagram size={16} color="#3A5A40" />
+                <span>Follow @{data.instagram}</span>
+              </a>
+            </div>
+          </div>
+        )}
       </header>
 
       {/* 3. HERO SECTION */}
@@ -231,8 +461,8 @@ export default function PreviewTrulyOrganic() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-            gap: "40px",
+            gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))",
+            gap: "36px",
             alignItems: "center",
           }}
         >
@@ -388,17 +618,19 @@ export default function PreviewTrulyOrganic() {
             <div
               style={{
                 position: "absolute",
-                bottom: "-16px",
-                left: "24px",
+                bottom: "-14px",
+                left: "14px",
+                maxWidth: "calc(100% - 28px)",
                 backgroundColor: "rgba(255, 255, 255, 0.96)",
                 backdropFilter: "blur(10px)",
-                padding: "12px 18px",
+                padding: "10px 14px",
                 borderRadius: "14px",
                 boxShadow: "0 10px 25px -5px rgba(0,0,0,0.12)",
                 border: "1px solid #E2DCD1",
                 display: "flex",
                 alignItems: "center",
-                gap: "12px",
+                gap: "10px",
+                boxSizing: "border-box",
               }}
             >
               <div
@@ -441,7 +673,7 @@ export default function PreviewTrulyOrganic() {
             maxWidth: "1180px",
             margin: "0 auto",
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 240px), 1fr))",
             gap: "24px",
           }}
         >
@@ -567,7 +799,7 @@ export default function PreviewTrulyOrganic() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 290px), 1fr))",
             gap: "22px",
           }}
         >
@@ -781,7 +1013,7 @@ export default function PreviewTrulyOrganic() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+              gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 290px), 1fr))",
               gap: "24px",
             }}
           >
@@ -1025,7 +1257,7 @@ export default function PreviewTrulyOrganic() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(310px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 280px), 1fr))",
             gap: "24px",
           }}
         >
@@ -1171,9 +1403,9 @@ export default function PreviewTrulyOrganic() {
             backgroundColor: "#2C3E35",
             color: "#F7F5F0",
             borderRadius: "24px",
-            padding: "44px 36px",
+            padding: "clamp(26px, 5vw, 44px) clamp(16px, 4vw, 36px)",
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 280px), 1fr))",
             gap: "36px",
             alignItems: "center",
             boxShadow: "0 20px 45px -10px rgba(31, 43, 36, 0.35)",
