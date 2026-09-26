@@ -26,3 +26,5 @@ Thumbs.db
 # Scratch & Temporary Test Files
 scratch/
 /test-render.png
+~$*.xlsx
+~$*.xls

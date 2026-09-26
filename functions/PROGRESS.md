@@ -2,6 +2,111 @@
 
 Dokumen ini mencatat seluruh riwayat fitur dan konfigurasi yang sudah diselesaikan agar agent di masa mendatang dapat melanjutkan tugas tanpa kehilangan konteks.
 
+## [2026-09-27] Penyempurnaan Presisi Layout Menu Layanan & Penghapusan Banner "Claim This Website" (Truly Organic Hair Studio)
+- **Status**: Selesai & Terverifikasi (Build Exit Code: 0, SSG Exported)
+- **Pekerjaan yang Dilakukan**:
+  1. **Perbaikan Tumpang Tindih Layout Kartu Layanan (`#services`)**:
+     - Memperbaiki masalah overlap visual antara badge `FEATURED SERVICE`, teks harga (`item.price`), dan nama treatment (`item.name`).
+     - Mengubah pemosisian badge dari `position: absolute` menjadi bagian dari alur fleksibel (*dedicated top metadata row*): Badge kategori/featured di sisi kiri dan harga di sisi kanan (`justify-content: space-between`).
+     - Judul layanan (`h3`) kini mengambil lebar penuh kartu sehingga judul yang panjang tidak terpotong atau berhimpitan secara canggung dengan harga.
+     - Spasi antar-elemen (durasi pengerjaan, deskripsi, dan tombol reservasi) dibuat seragam dan proporsional.
+  2. **Penghapusan Total Floating Banner "Claim This Website"**:
+     - Menghapus komponen `ClaimDemoBar` dari `PreviewTrulyOrganic.tsx`.
+     - Menghilangkan `paddingBottom: "100px"` dari wrapper root div agar footer terpasang rapi dan natural tanpa rongga kosong berlebih.
+     - Website kini tampil 100% sebagai website resmi salon yang bersih (*clean white-labeled professional salon look*), tanpa ada watermark penawaran atau demo overlay.
+- **Hasil Verifikasi**:
+  - Cache `.next` dibersihkan dan `pnpm.cmd run build` dieksekusi dengan hasil Exit Code: 0.
+  - Halaman statis `/preview/truly-organic-hair-studio` berukuran 13.4 kB berhasil digenerate sempurna.
+
+---
+
+## [2026-09-27] Pembaruan Lengkap Website Prototype Truly Organic Hair Studio & Suites (On-App Web Booking & Real Team Avatars)
+- **Status**: Selesai & Terverifikasi (Build Exit Code: 0, SSG Exported)
+- **Pekerjaan yang Dilakukan**:
+  1. **Sistem Booking On-App Langsung di Website (`BookingModal.tsx`)**:
+     - Membangun alur reservasi interaktif mandiri (*on-app web booking wizard*) tanpa melempar klien ke media sosial.
+     - 4 langkah interaktif: Pemilihan artist (dengan avatar foto asli), pemilihan layanan & estimasi durasi, pemilihan tanggal & slot waktu (10:00 AM, 11:30 AM, 1:30 PM, 3:00 PM, 4:30 PM, 6:00 PM), serta input nama & nomor HP.
+     - Kartu tanda terima konfirmasi instan lengkap dengan kode booking acak (contoh: `#TO-716-4821`), ringkasan jadwal, dan tombol kirim SMS verifikasi.
+  2. **Foto Profil Asli Seluruh 11 Beauty Professionals**:
+     - Mengekstrak dan memformat foto asli dari kartu resmi "Meet the Team":
+       - **Adriana Bryer** (Owner & Master Stylist)
+       - **Brianna Felder** (Precision Cuts & Color)
+       - **Hayley Baes** (Custom Blonding)
+       - **Renee Hulbert** (Highlights & Festival Braids)
+       - **Samantha Handley** (17+ yrs exp, Reds & Curly Cuts)
+       - **Hillary Baker** (21+ yrs exp, Corrective Color)
+       - **Sarah Blackwell** (10+ yrs exp, Extensions & Blondes)
+       - **Aleza Ann Ring** (12+ yrs exp, Balayage & Makeup)
+       - **Lindsay Bryer** (Lashes & Spray Tan)
+       - **Alexis Belonogov** (Volume Lashes & Bridal Glam)
+       - **Camryn Cuzzacrea** (Structured Gel Nails & Waxing)
+       - **Marilyn Mayle** (Classic Cuts & Scalp Health)
+     - Setiap kartu stylist memiliki tombol primer **"Book with [Name] on Web"** yang otomatis memicu modal booking dengan profil artist tersebut terseleksi.
+  3. **Ikon SVG Minimalis & Elegan (`OrganicIcons.tsx`)**:
+     - Mengeliminasi seluruh emoji kasar dan menggantinya dengan vektor SVG line minimalis berkelas (daun botani, gunting pangkas rambut, kalender booking, jam durasi, bintang rating emas, pin peta, dsb.).
+  4. **Struktur Halaman Lengkap & Komprehensif**:
+     - **Full Services & Treatment Pricing Menu**: Tab filter untuk 4 kategori (Blonding & Extensions, Haircuts & Creative Color, Lashes & Event Makeup, Nails & Esthetics) lengkap dengan harga USD dan deskripsi layanan.
+     - **Expanded Visual Gallery**: 6 hasil pengerjaan nyata studio (blonde balayage, updo pengantin Lockport Weddings, copper curls, lash extensions, French rhinestone gel nails, festival bubble braids).
+     - **Verified Client Testimonials**: Ulasan bintang 5 dari warga lokal Niagara County.
+     - **Studio Concept & Location**: Panduan reservasi suites di Davison Rd, Lockport NY.
+     - **Floating Claim Bar ($399)**: Siap ditawarkan langsung ke Adriana Bryer.
+- **Hasil Verifikasi**:
+  - `pnpm.cmd run build` -> Exit Code: 0 (`/preview/truly-organic-hair-studio` dan `/preview/truly-organic` prerendered as static HTML).
+  - Modal booking berjalan mulus dan responsif di mobile & desktop.
+
+---
+
+## [2026-09-27] Pembuatan Website Prototype Rahasia untuk Outreach Bisnis Lokal (Trendy Nail Spa - Lockport, NY)
+- **Status**: Selesai & Terverifikasi (Build Exit Code: 0, SSG Exported)
+- **Pekerjaan yang Dilakukan**:
+  1. **Konsep & Arsitektur Secret Route (`/preview/[slug]`)**:
+     - Membangun halaman prototype interaktif berstandar Anti-Slop untuk target prospek salon lokal Lockport, New York (dimulai dengan **Trendy Nail Spa** yang dimiliki oleh Bea & Hai).
+     - Halaman bersifat **rahasia & terisolasi**: Tidak ada tautan menu di Navbar atau Footer publik situs utama `scalebiz.web.id`.
+     - Dilengkapi metadata `robots: { index: false, follow: false }` untuk mencegah perayap mesin pencari mengindeks halaman konsep ini.
+  2. **Aset Visual & Standar Desain Anti-Slop**:
+     - Menghasilkan 4 aset visual resolusi tinggi photorealistic:
+       - `public/images/demo/trendy/hero.jpg` (Interior salon butik mewah di upstate NY).
+       - `public/images/demo/trendy/glazed-almond.jpg` (Manikur almond glazed donut pearl sheen).
+       - `public/images/demo/trendy/pedicure-spa.jpg` (Foot spa mewah dengan kelopak mawar & warm water basin).
+       - `public/images/demo/trendy/french-gold.jpg` (French manicure minimalis dengan aksen foil emas).
+     - Palet warna hangat & elegan: Linen (`#FAF7F2`), Warm Terracotta/Rose Gold (`#B86B52`), dan Deep Charcoal (`#2C2523`).
+  3. **Fitur Lokal Siap Konversi (Thumb-Friendly)**:
+     - Top announcement bar dengan tombol *Call (716) 280-3091*.
+     - Quick Action bar: Tombol *Call*, *Message Bea & Hai (Messenger m.me/100083194757081)*, dan *Get Directions (1195 Lincoln Ave)*.
+     - Interactive Service & Pricing Menu: Tab filter untuk *Signature Manicures*, *Luxury Pedicures*, dan *Nail Enhancements & Art* lengkap dengan durasi dan harga riil dalam USD.
+     - Fitur kepercayaan: Sterilisasi medis, produk non-toksik, dan teknisi bersertifikat.
+     - Ulasan asli Google Reviews (Rating 4.7 dari 104 ulasan lokal).
+     - Kartu jam buka dengan status *Open Today* dan integrasi navigasi Google Maps.
+     - Floating Claim Banner elegan di bagian bawah: *"Concept Prototype by Scalebiz • Claim this website for $399"* dengan rincian benefit (domain .com gratis tahun pertama, bebas biaya langganan bulanan Wix, setup kilat, pembayaran 50/50).
+  4. **Kompatibilitas Static Export Next.js 15**:
+     - Mengimplementasikan `generateStaticParams()` sehingga halaman `/preview/trendy-nail-spa` dapat diexport secara statis ke format HTML murni untuk deployment Cloudflare Pages.
+- **Hasil Verifikasi**:
+  - `pnpm.cmd run build` -> Exit Code: 0 (`/preview/[slug]` prerendered as static HTML).
+  - Tampilan terisolasi 100% tanpa gangguan navigasi utama.
+
+---
+
+## [2026-09-27] Lead Enrichment & Profiling Kontak Multi-Kanal (61 Leads Lockport, NY)
+- **Status**: Selesai & Terverifikasi (61 Leads Lengkap dengan Profil Multi-Kanal)
+- **Pekerjaan yang Dilakukan**:
+  1. **Lead Intelligence & OSINT Profiling**:
+     - Melakukan profiling mendalam terhadap 61 bisnis di Lockport, NY tanpa website dari `leads_lockport_ny_no_website.csv`.
+     - Mengekstrak nama pemilik (*Owner/Founder/Key Contact*), seperti **Glen Miller** (Robert Miller Construction), **Jason Benedict** (Benedict's Contracting), **Jim & David Sparks** (Sparks Custom Homes), **Dan & Ryan Hunt** (Hunt Automotive), **Austin Herman** (Herman's Auto Repair), **Amanda Gorko** (Mia Bella's Hair Salon), **Lisa Lewandowski** (Hairs To You), **Hayley Baes** (Truly Organic Hair Studio), **Bea & Hai** (Trendy Nail Spa), **Danny Do** (Evolution Nails Spa), **Jonathan Reid** (Reids Drive-In), dan **Jon** (Lockport Seafood Shack).
+     - Mengidentifikasi kanal komunikasi langsung (*Direct Outreach Channel*): Direct Facebook Messenger link (`https://m.me/...`), profil Instagram DM (seperti `@the.glossary.hair.co`), Yelp listing, email terverifikasi (`glowbeautyheadspanail@gmail.com`), serta nomor HP/telepon kantor.
+     - Memfilter data anomali: Menandai bisnis yang sudah tutup/nonaktif (*Full Circle Salon*, *Sullivan's Hair Design*, *Reber Tire* yang gedungnya dijual di LoopNet, dan *Cole Muffler* yang sudah diakuisisi Mavis corporate) agar pengguna tidak membuang waktu dan energi pada prospek mati.
+  2. **Ekspor Database Prospek Enriched & Native Excel Table**:
+     - Menyimpan file final:
+       - 📊 [leads/leads_lockport_ny_enriched.xlsx](file:///c:/Users/ZHULL/Documents/Freelance/leads/leads_lockport_ny_enriched.xlsx) (Format native Excel Workbook `.xlsx` dengan **Excel Table `ListObject`**, filter dropdown interaktif, tema warna biru profesional, baris selang-seling/zebra striping, header beku/freeze pane, lebar kolom otomatis, dan hyperlink 1-klik aktif untuk Messenger, Instagram, Yelp, dan Google Maps).
+       - 📊 [leads/leads_lockport_ny_no_website.xlsx](file:///c:/Users/ZHULL/Documents/Freelance/leads/leads_lockport_ny_no_website.xlsx) (Format native Excel Table untuk daftar dasar no-website).
+       - 📄 [leads/leads_lockport_ny_enriched.csv](file:///c:/Users/ZHULL/Documents/Freelance/leads/leads_lockport_ny_enriched.csv) (Format CSV ber-BOM UTF-8).
+       - 📄 [leads/leads_lockport_ny_enriched.json](file:///c:/Users/ZHULL/Documents/Freelance/leads/leads_lockport_ny_enriched.json).
+     - Kolom tambahan meliputi: `Owner / Key Contact`, `Primary DM / Outreach Channel`, `Facebook Page`, `Direct Messenger Link (m.me)`, `Instagram Profile`, `Yelp Profile`, `LinkedIn`, `Email Address`, dan `OSINT Intelligence Notes`.
+- **Hasil Verifikasi**:
+  - 61 baris data berhasil diperkaya secara menyeluruh.
+  - Tautan direct chat siap diklik langsung untuk eksekusi outreach.
+
+---
+
 ## [2026-09-26] Diagnosis Kegagalan Deploy Cloudflare, Penambahan Wrangler & Kompatibilitas Multi-Environment CI
 - **Status**: Selesai & Terverifikasi (Build Exit Code: 0, tsc Exit Code: 0)
 - **Pekerjaan yang Dilakukan**:

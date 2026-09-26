@@ -1,49 +1,55 @@
-# Rencana Implementasi: Deteksi Otomatis IP Indonesia vs Luar Indonesia untuk Adaptasi Bahasa (i18n)
+# Rencana Implementasi: Perbaikan Presisi Tata Letak Layanan & Penghapusan Banner "Claim This Website"
 
 Dokumen ini disusun sebelum melakukan modifikasi kode sesuai protokol kerja workspace (`RULE[user_global]`).
 
-## 1. Analisis Masalah & Kebutuhan Pengguna
-- **Permintaan Pengguna**:
-  > *"pastikan agar sistem kita bisa mengetahui ip indonesia dan ip luar indonesia untuk menampilkan website dengan bahasa yang sesuai. indonesia untuk dalam indonesia dan inggris untuk luar indonesia"*
-- **Akar Masalah Teknis & Analisis Investigasi**:
-  1. **Locking di `localStorage` & `sessionStorage`**:
-     Pada implementasi sebelumnya, jika browser pernah menyimpan preferensi bahasa manual atau cache negara sesi lama, sistem langsung keluar (`return`) tanpa pernah mengecek apakah IP pengunjung berubah. Hal ini menyebabkan ketika pengguna mencoba menguji situs dengan menyalakan VPN luar negeri (misal AS, Singapura, Eropa), situs tetap terkunci pada Bahasa Indonesia.
-  2. **Optimalisasi Kecepatan & Keandalan Edge Cloudflare (`/cdn-cgi/trace`)**:
-     Karena situs `scalebiz.web.id` dilayani oleh Cloudflare CDN, Cloudflare menyediakan endpoint internal tanpa latensi (`same-origin`) di `/cdn-cgi/trace` yang mengembalikan kode negara pengunjung (`loc=ID`, `loc=US`, `loc=SG`, dsb.) dalam hitungan < 15 milidetik tanpa batasan CORS ataupun kuota API pihak ketiga.
-  3. **Multi-tier Redundant GeoIP Resolvers**:
-     Untuk memastikan deteksi selalu berhasil dalam kondisi apapun (baik di Cloudflare live, localhost dev server, maupun saat provider tertentu offline), sistem memerlukan strategi balapan paralel (*concurrent race*):
-     - Tier 1: Cloudflare Native `/cdn-cgi/trace` (Same-origin, sub-15ms).
-     - Tier 2: `https://cloudflare.com/cdn-cgi/trace` (Global Cloudflare fallback).
-     - Tier 3: `https://api.country.is` (Edge JSON).
-     - Tier 4: `https://get.geojs.io/v1/ip/country.json` (Edge JSON).
-     - Tier 5: Browser Locale & Timezone Heuristic (Offline fallback).
-  4. **Dynamic Synchronized Document Title**:
-     Saat bahasa terdeteksi sebagai `en`, selain seluruh konten dan `document.documentElement.lang`, judul halaman juga harus otomatis berubah ke versi Bahasa Inggris (`Scalebiz | Scale Up and Optimize Your Business`).
-  5. **Dukungan Testing Parameter URL**:
-     Menyediakan bypass parameter pengujian `?geo=US` / `?geo=ID` atau `?lang=en` / `?lang=id` agar pengguna dan penguji dapat memvalidasi tampilan kedua bahasa secara instan tanpa harus menginstal/menyalakan VPN.
+---
+
+## 1. Analisis Masalah
+1. **Tumpang Tindih Teks pada Kartu Layanan (Services & Pricing Menu)**:
+   - Pada kartu layanan yang memiliki badge `FEATURED SERVICE`, posisi badge menggunakan `position: absolute; top: 16px; right: 16px;`.
+   - Di saat yang sama, kontainer judul dan harga menggunakan `display: flex; justify-content: space-between;` yang menempatkan teks harga (`item.price`, misalnya *"Custom Quote"* atau *"$195 - $205"*) tepat di pojok kanan atas yang sama.
+   - Akibatnya, badge "FEATURED SERVICE" menimpa langsung teks harga dan judul layanan. Selain itu, judul layanan yang panjang ("Partial Blonding & Face-Framing Money Piece") berhimpitan secara horizontal dengan harga.
+2. **Keberadaan Floating Banner "Claim This Website"**:
+   - Di bagian bawah layar terdapat bar melayang penawaran website (`ClaimDemoBar`).
+   - Klien menginginkan agar website prototype ini terlihat 100% seperti website salon profesional murni tanpa ada embel-embel penawaran atau claim bar di bagian bawah.
+
+---
 
 ## 2. Dampak Perubahan & File yang Tersentuh
-- [src/context/LanguageContext.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/context/LanguageContext.tsx):
-  - Memperbarui mekanisme deteksi GeoIP berbasis Cloudflare native `/cdn-cgi/trace` + multi-resolver race.
-  - Menghapus locking kaku yang mencegah deteksi saat IP berganti (misal saat VPN diaktifkan/dinonaktifkan).
-  - Menyinkronkan `document.title` saat bahasa berubah.
-  - Menambahkan dukungan parameter URL (`?geo=...` & `?lang=...`).
-- [src/types/i18n.ts](file:///c:/Users/ZHULL/Documents/Freelance/src/types/i18n.ts):
-  - Menambahkan properti `detectedCountry: string | null` pada `LanguageContextType` untuk observabilitas.
-- [functions/PROGRESS.md](file:///c:/Users/ZHULL/Documents/Freelance/functions/PROGRESS.md):
-  - Mencatat riwayat implementasi deteksi GeoIP anti-amnesia.
-- [WALKTHROUGH.md](file:///c:/Users/ZHULL/Documents/Freelance/WALKTHROUGH.md):
-  - Mendokumentasikan pengujian dan petunjuk bagi pengguna untuk memverifikasi deteksi IP dengan VPN atau URL parameter.
+- `src/components/preview/PreviewTrulyOrganic.tsx`:
+  - Menghapus impor `ClaimDemoBar` dan pemanggilannya di bagian bawah komponen.
+  - Menyesuaikan `paddingBottom` pada wrapper utama dari `100px` menjadi `0` (karena tidak ada lagi floating bar yang perlu dihindari).
+  - Merombak arsitektur layout kartu layanan (`#services`):
+    - Baris atas khusus: Menampilkan badge kategori/featured di sisi kiri dan harga di sisi kanan (`display: flex; justify-content: space-between; align-items: center;`).
+    - Baris judul: Judul layanan (`h3`) mengambil lebar penuh kartu sehingga tidak terpotong atau berdesakan dengan harga.
+    - Baris durasi & deskripsi: Diberikan spasi yang proporsional dan tipografi elegan.
+- `functions/PROGRESS.md`:
+  - Pencatatan riwayat pembaruan (anti-amnesia).
+- `WALKTHROUGH.md`:
+  - Dokumentasi hasil perubahan dan verifikasi visual.
+
+---
 
 ## 3. Langkah-Langkah Eksekusi
-1. **Langkah 1**: Perbarui tipe i18n di `src/types/i18n.ts` agar menyertakan `detectedCountry`.
-2. **Langkah 2**: Refaktor `src/context/LanguageContext.tsx` dengan arsitektur deteksi Cloudflare Native + Multi-Provider Race + Dynamic IP Transition.
-3. **Langkah 3**: Lakukan kompilasi TypeScript (`pnpm exec tsc --noEmit`) untuk memastikan bebas error tipe.
-4. **Langkah 4**: Jalankan Next.js build (`pnpm run build`) untuk memastikan export statis berjalan sempurna.
-5. **Langkah 5**: Perbarui dokumentasi `PROGRESS.md` dan `WALKTHROUGH.md`.
+1. **Langkah 1**: Edit `src/components/preview/PreviewTrulyOrganic.tsx`:
+   - Hapus `import ClaimDemoBar from "./ClaimDemoBar";`.
+   - Hapus `<ClaimDemoBar ... />` di baris akhir render JSX.
+   - Hapus `paddingBottom: "100px"` pada wrapper root div.
+   - Perbaiki kartu layanan pada loop `data.services[activeServiceTab]?.items.map(...)`:
+     - Struktur baru yang terisolasi dengan rapi:
+       1. Top metadata row: Status badge (`Featured Service` / `Botanical Care`) di kiri, Harga di kanan.
+       2. Title row: Judul layanan (`h3`) yang bebas membentang.
+       3. Duration row: Ikon jam + durasi pengerjaan.
+       4. Description: Deskripsi layanan dengan line-height yang nyaman dibaca.
+       5. Card Footer: Tombol "Reserve This Service →".
+2. **Langkah 2**: Jalankan verifikasi build:
+   - Eksekusi `pnpm.cmd run build` untuk memverifikasi TypeScript dan Next.js SSG build.
+3. **Langkah 3**: Catat progres dan dokumentasi:
+   - Perbarui `functions/PROGRESS.md` dan `WALKTHROUGH.md`.
+
+---
 
 ## 4. Rencana Verifikasi
-- Pengujian tipe: `pnpm exec tsc --noEmit` wajib exit code 0.
-- Pengujian build: `pnpm run build` wajib exit code 0.
-- Simulasi IP Indonesia: Memastikan deteksi mengembalikan `ID` dan merender Bahasa Indonesia.
-- Simulasi IP Luar Negeri / Override: Menguji via parameter `?geo=US` dan `?lang=en` untuk memastikan seluruh komponen berpindah ke Bahasa Inggris secara mulus.
+- Pastikan tidak ada lagi badge "FEATURED SERVICE" yang bertumpukan dengan teks harga atau nama treatment pada menu layanan.
+- Pastikan floating banner "Claim This Website" telah bersih 100% dari halaman.
+- `pnpm run build` berhasil tanpa error.
