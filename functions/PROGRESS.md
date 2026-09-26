@@ -2,6 +2,33 @@
 
 Dokumen ini mencatat seluruh riwayat fitur dan konfigurasi yang sudah diselesaikan agar agent di masa mendatang dapat melanjutkan tugas tanpa kehilangan konteks.
 
+
+---
+
+## [2026-09-26] Konfigurasi Cloudflare Workers Static Assets (Fix OpenNext ENOENT Error)
+- **Status**: Selesai
+- **Pekerjaan yang Dilakukan**:
+  1. **Investigasi Error Deployment Cloudflare**:
+     - Pengguna mengalami kegagalan build saat deploy ke Cloudflare dengan pesan error: `Error: ENOENT: no such file or directory, open '/opt/buildhome/repo/.next/standalone/.next/server/pages-manifest.json'` pada eksekusi `npx wrangler deploy`.
+     - Penyebab: Cloudflare mencoba menjalankan auto-migration `@opennextjs/cloudflare` karena mengasumsikan Next.js membutuhkan dynamic SSR worker, padahal proyek dikonfigurasi sebagai static export murni (`output: "export"` pada `next.config.ts`).
+  2. **Pembuatan Konfigurasi `wrangler.jsonc`**:
+     - Membuat `wrangler.jsonc` di root proyek yang secara spesifik mendeklarasikan `assets: { directory: "./out", not_found_handling: "single-page-application", html_handling: "auto-trailing-slash" }` serta `build: { command: "pnpm run build" }`.
+     - Dengan deklarasi ini, Wrangler tidak akan menginjeksi OpenNext atau mencari direktori `.next/standalone`, melainkan langsung mem-build dan menyajikan folder `./out` ke edge network Cloudflare.
+  3. **Verifikasi**:
+     - Build lokal `pnpm.cmd run build` teruji sukses 100% dan menghasilkan direktori `./out` dengan seluruh berkas HTML, CSS, JS chunks, dan aset visual siap saji.
+
+
+## [2026-09-26] Inisialisasi Repositori Git & Push Sukses ke GitHub zlhanzz/scalebiz
+- **Status**: Selesai
+- **Pekerjaan yang Dilakukan**:
+  1. Menginisialisasi repositori Git lokal pada direktori proyek (`git init`).
+  2. Mengarahkan branch utama menjadi `main` (`git branch -M main`).
+  3. Menghubungkan remote repository origin ke `https://github.com/zlhanzz/scalebiz.git`.
+  4. Memastikan `.gitignore` aman dengan mengecualikan file kredensial rahasia (`.env.local`), build artifacts (`.next/`, `out/`), `node_modules/`, dan file scratch pengujian (`scratch/`).
+  5. Men-stage dan meng-commit seluruh 40 file sumber aplikasi dengan identitas pengguna `zlhanzz <carikosindonesia@gmail.com>`.
+  6. Mengeksekusi perintah push atas perintah langsung pengguna (`git push -u origin main`).
+  7. Seluruh kode sumber, aset, komponen, dan dokumentasi kini telah live 100% di [https://github.com/zlhanzz/scalebiz](https://github.com/zlhanzz/scalebiz).
+
 ---
 
 ## [2026-09-26] Pembersihan Tag 'Terhubung Langsung ke WhatsApp' & Perbaikan Smooth Scrolling Navigasi Header

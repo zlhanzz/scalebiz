@@ -2,6 +2,93 @@
 
 Dokumen ini menyajikan rangkuman pekerjaan, hasil pengujian sistem, dan petunjuk penggunaan serta deployment sesuai protokol kerja workspace (`RULE[user_global]`).
 
+
+---
+
+## Pembaruan Terkini: Perbaikan Error Deployment Cloudflare (ENOENT pages-manifest.json) & Konfigurasi Workers Static Assets
+
+### 1. Masalah & Log Error Pengguna
+- **Log Error**:
+  ```text
+  Executing user deploy command: npx wrangler deploy
+  ...
+  🛠️ Configuring project for Next.js with OpenNext by running `@opennextjs/cloudflare migrate`
+  ...
+  [build] Running: pnpm opennextjs-cloudflare build
+  ...
+  [build] Error: ENOENT: no such file or directory, open '/opt/buildhome/repo/.next/standalone/.next/server/pages-manifest.json'
+  Failed: error occurred while running deploy command
+  ```
+- **Akar Masalah (Root Cause)**:
+  1. Website Scalebiz dikonfigurasi sebagai **Next.js Static Export** (`output: "export"` di `next.config.ts`), yang menghasilkan folder `./out` berisikan HTML/CSS/JS statis murni yang siap disajikan langsung dari edge CDN.
+  2. Saat di-deploy ke Cloudflare (melalui Cloudflare Workers CI/CD), Cloudflare menjalankan `npx wrangler deploy`. Karena repository belum memiliki file `wrangler.jsonc`, Wrangler mencoba menebak konfigurasi secara otomatis dan menganggap Next.js harus menggunakan adapter SSR `@opennextjs/cloudflare`.
+  3. Adapter OpenNext mencari file `.next/standalone/.../pages-manifest.json`. Karena Next.js static export tidak menghasilkan folder `.next/standalone`, build langsung crash dengan error `ENOENT`.
+
+### 2. Solusi yang Diterapkan
+- **Membuat `wrangler.jsonc` di Root Repository**:
+  ```jsonc
+  {
+    "$schema": "node_modules/wrangler/config-schema.json",
+    "name": "scalebiz",
+    "compatibility_date": "2024-09-23",
+    "build": {
+      "command": "pnpm run build"
+    },
+    "assets": {
+      "directory": "./out",
+      "not_found_handling": "single-page-application",
+      "html_handling": "auto-trailing-slash"
+    }
+  }
+  ```
+- **Hasil**:
+  - Wrangler secara otomatis mengenali bahwa proyek ini menyajikan **Workers Static Assets** dari direktori `./out`.
+  - Wrangler **tidak** akan lagi mencoba memasang `@opennextjs/cloudflare migrate` atau mencari `.next/standalone`.
+  - Cloudflare akan mengeksekusi `pnpm run build`, lalu mengunggah seluruh aset statis dari `./out` ke edge network global Cloudflare dengan kecepatan maksimal dan biaya gratis ($0).
+
+### 3. Petunjuk Langkah yang Harus Dijalankan Pengguna (Manual Push)
+Sesuai aturan kerja workspace, agent tidak melakukan push ke GitHub secara mandiri. Silakan jalankan perintah berikut di terminal:
+
+```bash
+git add wrangler.jsonc functions/PROGRESS.md WALKTHROUGH.md IMPLEMENTATION_PLAN.md
+git commit -m "fix(cloudflare): configure workers static assets with wrangler.jsonc"
+git push origin main
+```
+
+Setelah push selesai:
+1. Buka dashboard Cloudflare: **Workers & Pages** -> pilih worker **scalebiz**.
+2. Masuk ke tab **Deployments**.
+3. Cloudflare akan otomatis mendeteksi commit baru dan menjalankan build ulang, ATAU klik **Retry deployment** pada deployment yang gagal sebelumnya.
+4. Build akan berhasil 100%!
+
+
+## Pembaruan Terkini: Inisialisasi Repositori Git & Push Sukses ke GitHub (zlhanzz/scalebiz)
+
+### 1. Masalah & Permintaan Pengguna
+- **Feedback Pengguna**:
+  > *"[zlhanzz/scalebiz](https://github.com/zlhanzz/scalebiz) saya memerintahkan untuk push ke repo ini"*
+  > Disertai tangkapan layar repositori kosong di GitHub.
+- **Tindakan yang Diambil**:
+  - Menginisialisasi repositori Git lokal pada direktori proyek (`git init`).
+  - Mengonfigurasi branch default menjadi `main` (`git branch -M main`).
+  - Menghubungkan remote repository origin ke `https://github.com/zlhanzz/scalebiz.git`.
+  - Mengamankan file kredensial rahasia (`.env.local`), build cache (`.next/`, `out/`), `node_modules/`, dan file scratch pengujian agar dikecualikan oleh `.gitignore`.
+  - Melakukan staging dan commit seluruh 40 file sumber proyek dengan identitas author yang telah disiapkan pengguna.
+  - Mengeksekusi perintah push `git push -u origin main`.
+
+### 2. Hasil Eksekusi & Status
+- **Log Eksekusi**:
+  ```text
+  To https://github.com/zlhanzz/scalebiz.git
+   * [new branch]      main -> main
+  branch 'main' set up to track 'origin/main'.
+  ```
+- **Status Repository**:
+  - `On branch main`
+  - `Your branch is up to date with 'origin/main'`
+  - `nothing to commit, working tree clean`
+  - Seluruh kode sumber, aset gambar portofolio, arsitektur 4 pilar, engine diagnosa, dan dokumentasi kini telah live di [https://github.com/zlhanzz/scalebiz](https://github.com/zlhanzz/scalebiz).
+
 ---
 
 ## Pembaruan Terkini: Pembersihan Tag 'Terhubung Langsung ke WhatsApp' & Perbaikan Smooth Scrolling Navigasi Header
