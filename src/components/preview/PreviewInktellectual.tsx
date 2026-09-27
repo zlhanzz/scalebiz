@@ -144,6 +144,9 @@ export const PreviewInktellectual: React.FC = () => {
         }
 
         @media (max-width: 768px) {
+          .hero-section {
+            padding: 36px 18px 60px !important;
+          }
           .hero-grid {
             display: flex !important;
             flex-direction: column !important;
@@ -157,14 +160,54 @@ export const PreviewInktellectual: React.FC = () => {
           }
           .hero-media {
             order: 2 !important;
-            margin-bottom: 8px !important;
+            margin-bottom: 4px !important;
+            width: 100% !important;
           }
           .hero-trust-metrics {
             order: 3 !important;
-            margin-bottom: 20px !important;
+            margin-bottom: 16px !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            display: grid !important;
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 0 !important;
+            padding: 12px 6px !important;
+            text-align: center !important;
+          }
+          .hero-trust-metrics > div {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 0 4px !important;
+          }
+          .hero-trust-metrics > div:not(:last-child) {
+            border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
+          }
+          .hero-trust-metrics > div:last-child {
+            border-right: none !important;
+          }
+          .desktop-stars {
+            display: none !important;
+          }
+          .desktop-only-text {
+            display: none !important;
           }
           .hero-action-buttons {
             order: 4 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            width: 100% !important;
+            gap: 12px !important;
+          }
+          .hero-action-buttons button {
+            width: 100% !important;
+            justify-content: center !important;
+            text-align: center !important;
+            padding: 15px 20px !important;
+            font-size: 0.95rem !important;
+            box-sizing: border-box !important;
           }
           .student-special-container {
             grid-template-columns: 1fr !important;
@@ -193,25 +236,6 @@ export const PreviewInktellectual: React.FC = () => {
           .status-bar-container {
             justify-content: center !important;
             text-align: center !important;
-          }
-        }
-
-        @media (max-width: 540px) {
-          .hero-trust-metrics {
-            grid-template-columns: 1fr !important;
-            gap: 10px !important;
-            padding: 12px 14px !important;
-          }
-          .hero-trust-metrics > div {
-            border-right: none !important;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-            padding-bottom: 8px !important;
-            padding-right: 0 !important;
-            padding-left: 0 !important;
-          }
-          .hero-trust-metrics > div:last-child {
-            border-bottom: none !important;
-            padding-bottom: 0 !important;
           }
         }
       `}</style>
@@ -560,6 +584,7 @@ export const PreviewInktellectual: React.FC = () => {
 
       {/* HERO SECTION */}
       <section
+        className="hero-section"
         style={{
           position: "relative",
           padding: "60px 24px 80px",
@@ -649,31 +674,34 @@ export const PreviewInktellectual: React.FC = () => {
                 maxWidth: "580px"
               }}
             >
-              <div style={{ paddingRight: "8px", borderRight: "1px solid rgba(255, 255, 255, 0.1)" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "4px", color: "#FACC15" }}>
-                  {[...Array(5)].map((_, i) => (
-                    <IconStar key={i} size={14} />
-                  ))}
+              <div style={{ paddingRight: "8px", borderRight: "1px solid rgba(255, 255, 255, 0.1)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center" }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "2px", color: "#FACC15" }}>
+                  <span className="desktop-stars" style={{ display: "inline-flex", gap: "2px" }}>
+                    {[...Array(4)].map((_, i) => (
+                      <IconStar key={i} size={13} />
+                    ))}
+                  </span>
+                  <IconStar size={13} />
                   <span style={{ fontWeight: 700, color: "#FFF", fontSize: "0.92rem", marginLeft: "2px" }}>4.9/5</span>
                 </div>
                 <div style={{ fontSize: "0.72rem", color: "#8E8E98", marginTop: "2px" }}>
-                  Over 350+ Buffalo Clients
+                  Over 350+ Clients
                 </div>
               </div>
-              <div style={{ paddingLeft: "4px", paddingRight: "8px", borderRight: "1px solid rgba(255, 255, 255, 0.1)" }}>
+              <div style={{ paddingLeft: "4px", paddingRight: "8px", borderRight: "1px solid rgba(255, 255, 255, 0.1)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center" }}>
                 <div style={{ fontWeight: 700, color: "#FFFFFF", fontSize: "0.92rem" }}>
-                  6 Resident Artisans
+                  6 <span className="desktop-only-text">Resident </span>Artisans
                 </div>
                 <div style={{ fontSize: "0.72rem", color: "#8E8E98", marginTop: "2px" }}>
-                  Distinct Disciplines
+                  Disciplines
                 </div>
               </div>
-              <div style={{ paddingLeft: "4px" }}>
+              <div style={{ paddingLeft: "4px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center" }}>
                 <div style={{ fontWeight: 700, color: "#4ADE80", fontSize: "0.92rem" }}>
                   Hospital Grade
                 </div>
                 <div style={{ fontSize: "0.72rem", color: "#8E8E98", marginTop: "2px" }}>
-                  100% Single-Use EO Gas
+                  100% Sterile EO
                 </div>
               </div>
             </div>
