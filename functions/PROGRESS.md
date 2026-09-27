@@ -2,6 +2,39 @@
 
 Dokumen ini mencatat seluruh riwayat fitur dan konfigurasi yang sudah diselesaikan agar agent di masa mendatang dapat melanjutkan tugas tanpa kehilangan konteks.
 
+## [2026-09-27] Pembuatan Prototype Website Mewah & Interaktif: Mia Bella's Hair Salon & Magick Boutique
+- **Status**: Selesai & Terverifikasi (Build Exit Code: 0, SSG Exported 23.2 kB, End-to-End Headless Chrome Verified)
+- **Pekerjaan yang Dilakukan**:
+  1. **Ekstraksi Aset Visual Nyata & Ambiance Toko**:
+     - Mengonversi foto ril user menjadi aset web optimal: Logo Pinup Glam Retro (`logo-pinup.jpg`), Electric Blue Vivid Hair (`electric-blue-hair.jpg`), Metallic Steel Blue Layers (`metallic-blue-layers.jpg`), dan Hidden Holographic Rainbow Peekaboo (`rainbow-peekaboo-prism.jpg`).
+     - Menyematkan visual suasana interior butik gotik mewah (`salon-interior.jpg`) dan etalase botani apotek herbal (`boutique-elixirs.jpg`).
+  2. **Identitas Visual Vintage Gothic Glamour & Anti-Slop**:
+     - Palet warna mewah: Obsidian Midnight (`#0A060E`), Beludru Plum/Blackberry (`#130A19`), Emas Antik Gilded (`#D4AF37`), dan Teks Ivory/Parchment (`#F5F2EB`).
+     - Tipografi elegan font serif Playfair Display & Cinzel dipadukan dengan sans-serif modern yang sangat mudah dibaca.
+     - Mengeliminasi emoji kasar; menggunakan custom inline SVG icons elegan (`IconMoon`, `IconScissors`, `IconCrystal`, `IconPotion`, `IconFlame`, `IconSparkles`, `IconShoppingBag`).
+  3. **Fitur Interaktif 1: Hair Alchemy & Color Transformation Calculator (`HairAlchemyQuizModal.tsx`)**:
+     - Membantu calon klien menghitung estimasi waktu pengerjaan di kursi salon (e.g. 3.5 – 4.5 jam) dan kisaran investasi biaya berdasarkan: kanvas awal (virgin, dark box dye, bleached), target gaya (electric blue, rainbow peekaboo, platinum ice), panjang dan ketebalan rambut, serta sacred add-ons (Moon-charged botanical scalp mask, Amethyst meridian comb release, Intuitive tarot consultation).
+     - Tombol konversi cerdas `Proceed to Book This Hair Ritual →` otomatis mentransfer seluruh data spesifikasi ke form pemesanan tanpa input ulang.
+  4. **Fitur Interaktif 2: Direct Digital Salon Appointment Wizard (`MiaBellaBookingModal.tsx`)**:
+     - Alur booking 3-langkah (Pilihan Layanan, Riwayat Kimiawi Rambut, Jadwal & Kontak).
+     - Jika dibuka dari kalkulator, langsung melompat ke Step 3 dengan banner spesifikasi terisi.
+     - Menerbitkan tiket digital resmi `#MB-RITUAL-XXXX` berstatus `CHAIR RESERVATION QUEUED`, instruksi persiapan kedatangan, dan opsi cetak/simpan tiket via `window.print()`.
+  5. **Fitur Interaktif 3: The Magick Boutique & Apothecary Showcase (`MagickBoutiqueModal.tsx`)**:
+     - Etalase interaktif untuk lini produk butik metafisika: Full-Moon Charged Hair Elixir ($28), Carved Amethyst Scalp Comb ($36), Gilded Radiance Intention Candle ($24), dan Sacred Rosemary Aura Mist ($22) dengan tombol `Reserve for Salon Visit Pickup`.
+  6. **Seksi Titik Lokasi, Google Maps Interaktif & Panduan Kunjungan (#location / #hours)**:
+     - Menyematkan peta interaktif Google Maps (Embed iframe) langsung pada alamat **329 East Ave, Lockport, NY 14094** tanpa memerlukan API key eksternal.
+     - Menyesuaikan tema peta secara visual dengan styling presisi Dark Alchemical Theme (latar belakang obsidian gelap, garis jalan slate, marker tembaga/emas) serta menyediakan toggle pengalih Satellite Mode udara nyata tanpa warna putih silau.
+     - Menampilkan kartu alamat resmi dengan tombol *Open Full Map* dan *Get Driving Directions*.
+     - Informasi parkir gratis khusus klien (*Free dedicated customer parking*).
+     - Lencana status jam buka *Walk-Ins Welcome Tue, Thu, Fri, Sat (12–8 PM)*.
+     - Tabel jam operasional terperinci lengkap dengan nomor telepon direct dial (716) 395-6352.
+  7. **Rute Next.js SSG & Metadata OpenGraph Bahasa Inggris**:
+     - Route src/app/preview/mia-bellas-hair-salon/page.tsx berukuran 23.2 kB dengan tag OpenGraph & Twitter Card bahasa Inggris lengkap ber-locale en_US.
+- **Hasil Verifikasi**:
+  - Halaman /preview/mia-bellas-hair-salon terverifikasi merespons HTTP Status 200.
+  - Headless Chrome testing (Puppeteer) membuktikan pembukaan kuis, kalkulasi dinamis, transfer data ke booking modal, modal butik, serta embed Google Maps di #location berjalan tanpa error.
+  - Tangkapan layar bukti visual tersimpan: mia_bella_map_preview.png, mia_bella_hero_verified.png, mia_bella_quiz_verified.png, mia_bella_booking_prefilled_verified.png, mia_bella_boutique_verified.png, mia_bella_services_verified.png, mia_bella_gallery_verified.png.
+
 ## [2026-09-27] Standarisasi Metadata OpenGraph Bahasa Inggris & Kustomisasi Card Link Preview untuk Bisnis Klien
 - **Status**: Selesai & Terverifikasi (Build Exit Code: 0, OpenGraph HTML Tags Tested)
 - **Pekerjaan yang Dilakukan**:
