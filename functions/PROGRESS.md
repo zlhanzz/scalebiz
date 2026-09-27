@@ -2,6 +2,56 @@
 
 Dokumen ini mencatat seluruh riwayat fitur dan konfigurasi yang sudah diselesaikan agar agent di masa mendatang dapat melanjutkan tugas tanpa kehilangan konteks.
 
+## [2026-09-28] Inktellectual Tattoo Preview Website: Perbaikan Presisi Visual Hero & Responsivitas Mobile
+- **Status**: Selesai & Terverifikasi (Build SSG Bersih, 0 Error TypeScript, Lolos Verifikasi Visual Puppeteer di Layar Desktop 1280px & Ponsel 375px)
+- **Pekerjaan yang Dilakukan**:
+  1. **Penyelarasan Metrik "Hospital Grade" pada Hero Section**:
+     - Mengubah arsitektur kotak metrik kepercayaan (*Hero Trust Box*) dari flexbox wrap yang memicu baris kedua menjadi **CSS Grid 3-Kolom Seimbang** (`gridTemplateColumns: "1fr 1fr 1fr"`).
+     - Mengisi kolom ke-3 secara presisi dengan *"Hospital Grade • 100% Single-Use EO Gas Needles"*, sejajar berdampingan dengan *"4.9/5 Over 350+ Clients"* dan *"6 Resident Artisans Distinct Disciplines"*.
+     - Menyediakan border divider vertikal yang elegan antar-kolom dan mengeliminasi ruang kosong di baris pertama.
+  2. **Eliminasi Pemotongan Tombol Header Navigation Desktop**:
+     - Memperbaiki tombol aksi header desktop (`[Estimate]` dan `[Book Consult]`) dengan label padat dan padding proporsional (`padding: 7px 11px` dan `8px 14px`).
+     - Menetapkan breakpoint mobile navigation drawer pada `@media (max-width: 1140px)` sehingga tidak ada luapan atau pemotongan tombol pada layar laptop/desktop.
+  3. **Responsivitas Sempurna Bagian Promo Mahasiswa Buffalo State (`#student-special`)**:
+     - Memperbaiki kartu promo mahasiswa Buffalo State University ($20 OFF) pada tampilan ponsel (375px) dengan menambahkan selektor kelas CSS `.student-special-container`, `.student-special-img`, `.student-special-tag`, dan `.student-special-btn`.
+     - Mengubah grid 3-kolom `auto 1fr auto` menjadi layout tumpukan 1-kolom (`grid-template-columns: 1fr`) pada ponsel: foto promo 140x140 terpusat di atas, teks informasi di tengah, dan tombol emas klaim voucher penuh (`width: 100%`), menghilangkan masalah gambar terpepet 10px secara permanen.
+  4. **Penataan Ulang Khusus Tampilan Mobile (Foto Hero Berada di Atas Review 4.9)**:
+     - Menggunakan teknik Flexbox modern `display: contents !important` pada `.hero-content` di `@media (max-width: 768px)` sehingga anak-anak elemennya berpartisipasi langsung dalam flex ordering `.hero-grid`:
+       - `order: 1` -> `.hero-heading-block` (Headline & subtext).
+       - `order: 2` -> `.hero-media` (**Foto Storefront & Kru Inktellectual** tampil tepat di atas ulasan).
+       - `order: 3` -> `.hero-trust-metrics` (Kotak ulasan 4.9/5, 6 Artisans, & Hospital Grade).
+       - `order: 4` -> `.hero-action-buttons` (Tombol konsultasi & kalkulator estimasi).
+  5. **Pengujian Puppeteer & Verifikasi Visual**:
+     - `scripts/test_inktellectual_preview.js` memverifikasi seluruh tampilan desktop (1280px), tablet (1140px), dan ponsel (375px).
+     - Bukti tangkapan layar tersimpan di folder artefak: `screenshot-inktellectual-desktop-hero.png`, `screenshot-inktellectual-desktop-header.png`, `screenshot-inktellectual-mobile-hero-flow.png`, dan `screenshot-inktellectual-mobile-student.png`.
+
+## [2026-09-28] Inktellectual Tattoo Preview Website: Custom Tattoo Atelier, 6 Resident Artists & Reference Photo Upload
+- **Status**: Selesai & Terverifikasi (Build SSG Bersih, 0 Error TypeScript, Upload Referensi Berhasil dengan Pratinjau Thumbnail & Tiket Konfirmasi)
+- **Pekerjaan yang Dilakukan**:
+  1. **Ekstraksi Aset Visual Nyata Klien (`scripts/crop_inktellectual.js`)**:
+     - Mengonversi 5 foto asli kiriman user menjadi 22 aset web optimal di `public/images/demo/inktellectual/` (Logo kacamata & pena emas, foto toko fisik 408 Amherst St, 6 artis residen, dan 10 karya portofolio riil).
+  2. **Fitur Unggah Referensi Foto Tato Interaktif (`InktellectualBookingModal.tsx`)**:
+     - Menambahkan antarmuka *Drag & Drop / Browse Device* untuk melampirkan referensi foto tato (sketsa, screenshot, foto letak anatomi, atau flash art).
+     - Menggunakan HTML5 File API + `FileReader` untuk merender pratinjau thumbnail instan dengan nama file, ukuran file, dan tombol hapus (`IconClose`).
+     - Menyematkan galeri thumbnail referensi yang diunggah ke dalam kartu tiket digital resmi `#INK-BUF-XXXX` di Step 3 (*Success State*).
+  3. **Data & Spesifikasi Teknis Bisnis (`src/data/inktellectualData.ts`)**:
+     - Menyusun profil mendalam untuk 6 artis residen (spesialisasi, biografi karya, rate awal, foto karya contoh).
+     - Menetapkan 4 pilar sterilisasi medis (100% single-use EO gas membrane needles, hospital autoclave & barrier wrapping, vegan organic pigments, sertifikasi NYS Department of Health).
+     - Promo khusus mahasiswa Buffalo State University (3 menit dari kampus di Amherst St, diskon $20 per sesi).
+  4. **Arsitektur Komponen Interaktif & Desain Anti-Slop**:
+     - `src/components/preview/inktellectual/InktellectualIcons.tsx`: Ikon SVG presisi dengan ukuran numerik (pen nib, glasses, needle, medical shield, upload, image, trash, dsb.).
+     - `src/components/preview/inktellectual/InktellectualEstimatorModal.tsx`: Kalkulator interaktif estimasi ukuran, penempatan anatomi tubuh, pencocokan artis residen otomatis, dan perkiraan jam pengerjaan.
+     - `src/components/preview/inktellectual/InktellectualBookingModal.tsx`: Formulir konsultasi mandiri 3-langkah dengan upload referensi foto tato.
+     - `src/components/preview/inktellectual/InktellectualVoucherModal.tsx`: Modal klaim voucher digital mahasiswa Buff State (`BUFFSTATE20`) untuk potongan $20.
+     - `src/components/preview/PreviewInktellectual.tsx`: Halaman presentasi berestetika Matte Obsidian Black & Brushed Gold (#D4AF37), tipografi serif sastra klasik, roster artis residen, galeri arsip filterable dengan lightbox, seksi higienitas medis, dan mobile floating CTA bar.
+     - `src/app/preview/inktellectual/page.tsx`: Route halaman Next.js statis (`/preview/inktellectual`) dengan metadata SEO OpenGraph lengkap.
+  5. **Pengujian & Verifikasi Visual Puppeteer (`scripts/test_inktellectual_preview.js`)**:
+     - `pnpm.cmd tsc --noEmit` -> Exit code 0 (100% type-safe).
+     - File Upload Simulation: Berhasil mengunggah file gambar uji (`work-dragon-beast.jpg`), merender thumbnail preview, dan mencantumkan foto di tiket pass konfirmasi.
+     - Desktop 1280px & Mobile 375px: Bebas horizontal scroll, navigasi satu baris, dan floating action bar responsif.
+- **Hasil Verifikasi**:
+  - Halaman `/preview/inktellectual/` berjalan sempurna di localhost:3000 dan siap ditawarkan ke pemilik Inktellectual Tattoo.
+
 ## [2026-09-28] Total Fence Production Push & Cloudflare Deployment (Live Production URL: 200 OK)
 - **Status**: Selesai, Terverifikasi & Live di Production (`https://scalebiz.sulhan77777.workers.dev/preview/total-fence/` - Status 200 OK)
 - **Pekerjaan yang Dilakukan**:

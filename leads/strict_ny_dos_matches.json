@@ -1,0 +1,698 @@
+{
+  "Hammond Auto Repair": {
+    "legalName": "HAMMOND AUTO REPAIR SERVICE INC.",
+    "agentName": "HAMMOND AUTO REPAIR SERVICE INC.",
+    "legalAddress": "80 WEST HURON STREET, BUFFALO 14202",
+    "filingDate": "2003-01-16",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "Walter Karyczak & Sons": {
+    "legalName": "WALTER KARYCZAK AND SONS, INC.",
+    "agentName": "MICHAEL KARYCZAK",
+    "legalAddress": "39 RED JACKET PARKWAY, BUFFALO 14220",
+    "filingDate": "1972-07-24",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "Supreme Tires INC.": {
+    "legalName": "SUPREME TIRES INC.",
+    "agentName": "Supreme Tires",
+    "legalAddress": "1657 broadway st, buffalo 14212",
+    "filingDate": "2023-09-01",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "Buffalo Auto Center": {
+    "legalName": "BUFFALO AUTO CENTER INC.",
+    "agentName": "the corp.",
+    "legalAddress": "1719 seneca street, BUFFALO 14210",
+    "filingDate": "2021-11-24",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "EC Auto Shop": {
+    "legalName": "EZ AUTO SHOP LLC",
+    "agentName": "EZ AUTO SHOP LLC",
+    "legalAddress": "861 SHERIDAN AVE, TONAWANDA 14150",
+    "filingDate": "2018-11-27",
+    "entityType": "DOMESTIC LIMITED LIABILITY COMPANY",
+    "county": "Erie"
+  },
+  "Niagara Auto Center": {
+    "legalName": "NIAGARA AUTO WERKS LLC",
+    "agentName": "NIAGARA AUTO WERKS LLC",
+    "legalAddress": "4500 EAST OVERLOOK DR., WILLIAMSVILLE 14221",
+    "filingDate": "2014-02-06",
+    "entityType": "DOMESTIC LIMITED LIABILITY COMPANY",
+    "county": "Niagara"
+  },
+  "Complete Care Auto Repair": {
+    "legalName": "ROYDEN'S COMPLETE CARE L.L.C.",
+    "agentName": "ROYDEN'S COMPLETE CARE L.L.C.",
+    "legalAddress": "29 FOISSET AVE., BUFFALO 14225",
+    "filingDate": "2020-02-14",
+    "entityType": "DOMESTIC LIMITED LIABILITY COMPANY",
+    "county": "Erie"
+  },
+  "Crash Automotive & Collison": {
+    "legalName": "CRASH AUTOMOTIVE AND COLLISION SERVICE, INC.",
+    "agentName": "CRASH AUTOMOTIVE AND COLLISION SERVICE, INC.",
+    "legalAddress": "1400 STATLER TOWERS, BUFFALO 14202",
+    "filingDate": "2002-03-22",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "DeCarlo Collision & Auto Painting": {
+    "legalName": "DECARLO COLLISION AND AUTO PAINTING, LLC",
+    "agentName": "DECARLO COLLISION AND AUTO PAINTING",
+    "legalAddress": "1351 NIAGARA STREET, BUFFALO 14213",
+    "filingDate": "2015-06-23",
+    "entityType": "DOMESTIC LIMITED LIABILITY COMPANY",
+    "county": "Erie"
+  },
+  "Hoffman Automotive & Collision": {
+    "legalName": "HOFFMAN AUTOMOTIVE, INC.",
+    "agentName": "HOFFMAN AUTOMOTIVE, INC.",
+    "legalAddress": "MAURICE D HOFFMAN, BUFFALO 14203",
+    "filingDate": "2002-06-28",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "Danner Collision": {
+    "legalName": "DANNER COLLISION, INC.",
+    "agentName": "DANNER COLLISION, INC.",
+    "legalAddress": "500 MICHIGAN AVENUE, BUFFALO 14203",
+    "filingDate": "1989-12-12",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "Great Arrow Truck & Auto Rpr": {
+    "legalName": "177 GREAT ARROW LLC",
+    "agentName": "GREAT ARROW MANAGMENT",
+    "legalAddress": "255 GREAT ARROW DRIVE, BUFFALO 14207",
+    "filingDate": "2024-12-23",
+    "entityType": "DOMESTIC LIMITED LIABILITY COMPANY",
+    "county": "Erie"
+  },
+  "Artisan Autoworks": {
+    "legalName": "ARTISAN AUTOWORKS, INC.",
+    "agentName": "ARTISAN AUTOWORKS, INC.",
+    "legalAddress": "516 RHODE ISLAND STREET, BUFFALO 14213",
+    "filingDate": "2015-11-18",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "Buffalo Auto Shop": {
+    "legalName": "BUFFALO AUTO SHOP INC.",
+    "agentName": "BUFFALO AUTO SHOP INC.",
+    "legalAddress": "835 SYCAMORE STREET, BUFFALO 14212",
+    "filingDate": "2016-06-24",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "24/7 Buffalo Towing": {
+    "legalName": "CHEAP BUFFALO TOWING LLC",
+    "agentName": "VASANTHAN SITAMPALAM",
+    "legalAddress": "1351 FRENCH RD, SUITE 3, DEPEW 14043",
+    "filingDate": "2019-01-25",
+    "entityType": "DOMESTIC LIMITED LIABILITY COMPANY",
+    "county": "Erie"
+  },
+  "Riverside Towing And Recovery": {
+    "legalName": "RIVERSIDE TOWING & RECOVERY INC.",
+    "agentName": "RIVERSIDE TOWING & RECOVERY INC.",
+    "legalAddress": "620 OLD BAILEY AVE, BUFFALO 14210",
+    "filingDate": "2003-10-14",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "Extreme Tire & Auto": {
+    "legalName": "EXTREME TIRE & AUTO INC.",
+    "agentName": "EXTREME TIRE & AUTO INC.",
+    "legalAddress": "2284 Genesee St, Buffalo 14225",
+    "filingDate": "2025-01-28",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "Horizon Performance & Auto Repair LLC": {
+    "legalName": "HORIZON PERFORMANCE & AUTO REPAIR LLC",
+    "agentName": "HORIZON PERFORMANCE & AUTO REPAIR LLC",
+    "legalAddress": "11848 BROWN SCHOOL HOUSE ROAD, FREEDOM 14065",
+    "filingDate": "2023-03-23",
+    "entityType": "DOMESTIC LIMITED LIABILITY COMPANY",
+    "county": "Erie"
+  },
+  "South Buffalo Auto Empire & Tires": {
+    "legalName": "KIWANIS CLUB OF SOUTH BUFFALO, INC.",
+    "agentName": "KIWANIS CLUB OF SOUTH BUFFALO, INC.",
+    "legalAddress": "230 DELAWARE AVE., DELMAR 12054",
+    "filingDate": "1953-12-07",
+    "entityType": "DOMESTIC NOT-FOR-PROFIT CORPORATION",
+    "county": "Erie"
+  },
+  "Bangla Motors": {
+    "legalName": "BANGLA MOTORS INC.",
+    "agentName": "Bangla Motors Inc.",
+    "legalAddress": "1712 CLINTON STREET, BUFFALO 14206",
+    "filingDate": "2023-11-26",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "Big Moe's Tires": {
+    "legalName": "BIG MOE'S TIRES, LLC",
+    "agentName": "MOHAMED KHALIL",
+    "legalAddress": "411 WALDEN AVE, BUFFALO 14211",
+    "filingDate": "2016-11-10",
+    "entityType": "DOMESTIC LIMITED LIABILITY COMPANY",
+    "county": "Erie"
+  },
+  "The Tire Depot & Auto": {
+    "legalName": "THE TIRE DEPOT & AUTO LLC",
+    "agentName": "THE LIMITED LIABILITY COMPANY",
+    "legalAddress": "1353 E Delavan Ave, Buffalo 14215",
+    "filingDate": "2023-10-20",
+    "entityType": "DOMESTIC LIMITED LIABILITY COMPANY",
+    "county": "Erie"
+  },
+  "Community Tire Center": {
+    "legalName": "COMMUNITY TIRE CENTER LLC",
+    "agentName": "COMMUNITY TIRE CENTER LLC",
+    "legalAddress": "1675 SENECA STREET, BUFFALO 14210",
+    "filingDate": "2016-07-06",
+    "entityType": "DOMESTIC LIMITED LIABILITY COMPANY",
+    "county": "Erie"
+  },
+  "LOVEJOY TIRES & AUTO REPAIR LLC": {
+    "legalName": "LOVEJOY TIRES & AUTO REPAIR LLC",
+    "agentName": "LOVEJOY TIRES & AUTO REPAIR LLC",
+    "legalAddress": "1255 BAILEY AVE, BUFFALO 14219",
+    "filingDate": "2020-12-21",
+    "entityType": "DOMESTIC LIMITED LIABILITY COMPANY",
+    "county": "Erie"
+  },
+  "Buffalo Heating & Air Conditioning": {
+    "legalName": "INTEGRITY BUFFALO HEATING & COOLING INC",
+    "agentName": "INTEGRITY BUFFALO HEATING & COOLING INC",
+    "legalAddress": "15 RENE DRIVE, WEST SENECA 14224",
+    "filingDate": "2017-03-27",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "OS Electric Inc": {
+    "legalName": "1-2-3 ELECTRICAL SERVICES INC.",
+    "agentName": "LEGALINC CORPORATE SERVICES INC.",
+    "legalAddress": "1967 WEHRLE DRIVE, BUFFALO 14221",
+    "filingDate": "2022-01-28",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Albany"
+  },
+  "Partners Auto Repair": {
+    "legalName": "PARTNERS AUTO AND HOME GROUP LLC",
+    "agentName": "SAMUEL TERRAZZINO",
+    "legalAddress": "300 CORPORATE PARKWAY, AMHERST 14226",
+    "filingDate": "2016-06-09",
+    "entityType": "DOMESTIC LIMITED LIABILITY COMPANY",
+    "county": "Erie"
+  },
+  "RAZZAQ AUTO REPAIR INC": {
+    "legalName": "RAZZAQ AUTO REPAIR INC",
+    "agentName": "RAZZAQ AUTO REPAIR INC",
+    "legalAddress": "261 KEYSTONE ST, BUFFALO 14211",
+    "filingDate": "2020-12-21",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "Iron Island Motors": {
+    "legalName": "IRON ISLAND MOTORS INC.",
+    "agentName": "KEVIN M. DONOHUE",
+    "legalAddress": "5359 ROBERTS RD., HAMBURG 14075",
+    "filingDate": "2014-01-06",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "Professional Automotive Services": {
+    "legalName": "INDEPENDENT PROFESSIONAL AUTOMOTIVE SERVICE LLC",
+    "agentName": "Independent Professional Automotive Service LLC",
+    "legalAddress": "2183 Sheridan Drive, Buffalo 14223",
+    "filingDate": "2026-02-12",
+    "entityType": "DOMESTIC LIMITED LIABILITY COMPANY",
+    "county": "Erie"
+  },
+  "Albano Automotive Center": {
+    "legalName": "ALBANO AUTOMOTIVE CENTER, INC.",
+    "agentName": "ALBANO AUTOMOTIVE CENTER, INC.",
+    "legalAddress": "834 NIAGARA STREET, BUFFALO 14213",
+    "filingDate": "1991-03-12",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "Buff City Auto Repair": {
+    "legalName": "BUFF CITY 716 INC.",
+    "agentName": "BUFF CITY 716 INC.",
+    "legalAddress": "88 LISBON AVENUE, BUFFALO 14214",
+    "filingDate": "2023-09-26",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "M N Auto Plus": {
+    "legalName": "ALL IN ONE AUTO PLUS LLC",
+    "agentName": "Thomas hooper",
+    "legalAddress": "11303 genesee st, Alden 14004",
+    "filingDate": "2022-04-19",
+    "entityType": "DOMESTIC LIMITED LIABILITY COMPANY",
+    "county": "Erie"
+  },
+  "Walden Express Auto Tech": {
+    "legalName": "WALDEN EXPRESS INC.",
+    "agentName": "WALDEN EXPRESS INC.",
+    "legalAddress": "2620 WALDEN AVE., CHEEKTOWAGA 14225",
+    "filingDate": "2015-11-30",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "Eisa Auto Repair and Car Sales": {
+    "legalName": "EISA AUTO REPAIR & CAR SALES INC.",
+    "agentName": "EISA AUTO REPAIR & CAR SALES INC.",
+    "legalAddress": "2140 GENESEE STREET, BUFFALO 14211",
+    "filingDate": "2020-03-18",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "Shamim Auto Repair INC": {
+    "legalName": "SHAMIM AUTO REPAIR INC",
+    "agentName": "SHAMIM AUTO REPAIR INC",
+    "legalAddress": "261 KEYSTONE ST, BUFFALO 14211",
+    "filingDate": "2018-10-01",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "Smith st auto": {
+    "legalName": "SMITH AUTO, INC.",
+    "agentName": "SMITH AUTO, INC.",
+    "legalAddress": "833 BROADWAY ST., BUFFALO 14212",
+    "filingDate": "2020-10-22",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "Talib Auto dealership": {
+    "legalName": "TALIB AUTO INC.",
+    "agentName": "TALIB AUTO INC.",
+    "legalAddress": "227 FILLMORE AVENUE, BUFFALO 14206",
+    "filingDate": "2018-05-30",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "Ace Collision Services": {
+    "legalName": "ACE COLLISION EQUIPMENT CONSULTANTS LLC",
+    "agentName": "LEGALINC CORPORATE SERVICES INC.",
+    "legalAddress": "1967 WEHRLE DR., STE. 1 #086, BUFFALO 14221",
+    "filingDate": "2025-04-25",
+    "entityType": "DOMESTIC LIMITED LIABILITY COMPANY",
+    "county": "Nassau"
+  },
+  "Best Motors and Repair Inc": {
+    "legalName": "BEST MOTORS AND REPAIR INC.",
+    "agentName": "C/O MUNAWAR HUSSAIN",
+    "legalAddress": "803 E EAGLE STREET, BUFFALO 14210",
+    "filingDate": "2023-04-08",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "Strictly Business Auto Body": {
+    "legalName": "STRICTLY BUSINESS AUTOMOTIVE LLC",
+    "agentName": "GEORGE JOHNSON",
+    "legalAddress": "506 Walden Avenue, Buffalo 14211",
+    "filingDate": "2021-11-22",
+    "entityType": "DOMESTIC LIMITED LIABILITY COMPANY",
+    "county": "Erie"
+  },
+  "Motorcar Restoration": {
+    "legalName": "MOTORCAR RESTORATION LLC",
+    "agentName": "MOTORCAR RESTORATION LLC",
+    "legalAddress": "324 ELMWOOD AVENUE, BUFFALO 14222",
+    "filingDate": "2015-01-23",
+    "entityType": "DOMESTIC LIMITED LIABILITY COMPANY",
+    "county": "Erie"
+  },
+  "AK’S AUTO MAGIC INC.": {
+    "legalName": "AK'S AUTO MAGIC INC.",
+    "agentName": "AK'S AUTO MAGIC INC.",
+    "legalAddress": "72 BROWN AVE., CHEEKTOWAGA 14227",
+    "filingDate": "2012-06-19",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "Bailey auto center": {
+    "legalName": "BAILEY AUTO CENTER INC.",
+    "agentName": "BAILEY AUTO CENTER INC.",
+    "legalAddress": "2695 BAILEY AVE, BUFFAO 14215",
+    "filingDate": "2022-08-25",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "Automotive Battery & Tire": {
+    "legalName": "AUTOMOTIVE BATTERY & TIRE, INC.",
+    "agentName": "AUTOMOTIVE BATTERY & TIRE, INC.",
+    "legalAddress": "3218 BAILEY AVENUE, BUFFALO 14215",
+    "filingDate": "2008-05-05",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "Kings Total Car Care": {
+    "legalName": "KINGS TOTAL CAR CARE, INC.",
+    "agentName": "PAUL LAPIANA",
+    "legalAddress": "296 ENCHANTED FOREST NORTH, LANCASTER 14086",
+    "filingDate": "2019-05-28",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "NEW DESHI AUTO REPAIR INC": {
+    "legalName": "NEW DESHI AUTO REPAIR INC.",
+    "agentName": "MD BABUL BHUIYAN",
+    "legalAddress": "43 KRAKOW ST, BUFFALO 14206",
+    "filingDate": "2026-04-17",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "Max Auto Service": {
+    "legalName": "MAX AUTO REPAIR & TIRE INC.",
+    "agentName": "MAX AUTO REPAIR & TIRE INC.",
+    "legalAddress": "609 WALDEN AVE, BUFFALO 14211",
+    "filingDate": "2013-02-14",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "Hertel Auto Care": {
+    "legalName": "HERTEL AUTO CARE INC",
+    "agentName": "HERTEL AUTO CARE INC",
+    "legalAddress": "1261 HERTEL AVE, BUFFALO 14216",
+    "filingDate": "2019-04-19",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "Auto Stop Inc": {
+    "legalName": "LAR'S AUTO STOP, LLC",
+    "agentName": "LAR'S AUTO STOP, LLC",
+    "legalAddress": "26 MISSISSIPPI STREET, BUFFALO 14203",
+    "filingDate": "2013-08-19",
+    "entityType": "DOMESTIC LIMITED LIABILITY COMPANY",
+    "county": "Cattaraugus"
+  },
+  "Jay Bee's": {
+    "legalName": "JAY BEE CONTRACTING, LLC",
+    "agentName": "JAY BEE CONTRACTING, LLC",
+    "legalAddress": "17 NORTH MAPLE ST, WARSAW 14569",
+    "filingDate": "2019-07-23",
+    "entityType": "DOMESTIC LIMITED LIABILITY COMPANY",
+    "county": "Wyoming"
+  },
+  "716 Auto & Tire Inc.": {
+    "legalName": "716 AUTO & TIRE, INC",
+    "agentName": "716 AUTO & TIRE, INC",
+    "legalAddress": "77 LOVERING AVE, BUFFALO 14216",
+    "filingDate": "2016-10-28",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "E. Delavan Auto Sales & Repair": {
+    "legalName": "E DELAVAN AUTO SALES & REPAIR INC.",
+    "agentName": "E DELAVAN AUTO SALES & REPAIR INC.",
+    "legalAddress": "2008-2010 NIAGARA STREET, BUFFALO 14207",
+    "filingDate": "2014-04-07",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "Dynamic ATR": {
+    "legalName": "DYNAMIC ATR LLC",
+    "agentName": "DYNAMIC ATR LLC",
+    "legalAddress": "409 KNOLL DR, HAMBURG 14075",
+    "filingDate": "2017-04-28",
+    "entityType": "DOMESTIC LIMITED LIABILITY COMPANY",
+    "county": "Erie"
+  },
+  "Larkin Service Inc": {
+    "legalName": "MADDIE LARKIN ENTERPRISES, LLC",
+    "agentName": "MADDIE LARKIN ENTERPRISES, LLC",
+    "legalAddress": "9231 FALLS ROAD, WEST FALLS 14170",
+    "filingDate": "2011-10-25",
+    "entityType": "DOMESTIC LIMITED LIABILITY COMPANY",
+    "county": "Erie"
+  },
+  "Diesel Services of W NY Inc": {
+    "legalName": "709TH AUTODIESEL ANONYMOUS WING, INC.",
+    "agentName": "GREGORY BARNHARD",
+    "legalAddress": "19 SOLDIER WOOD CIRCLE, ORCHARD PARK 14127",
+    "filingDate": "2021-08-11",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "Done Well Home Improvement": {
+    "legalName": "DONE WELL HOME IMPROVEMENTS, LLC",
+    "agentName": "SCOTT J. WHITBECK, ESQ.",
+    "legalAddress": "43 COURT ST., BUFFALO 14202",
+    "filingDate": "2016-06-07",
+    "entityType": "DOMESTIC LIMITED LIABILITY COMPANY",
+    "county": "Erie"
+  },
+  "Bynum Brothers": {
+    "legalName": "BYNUM BROTHERS LLC",
+    "agentName": "BYNUM BROTHERS LLC",
+    "legalAddress": "324 GLENWOOD AVENUE, BUFFALO 14208",
+    "filingDate": "2007-09-18",
+    "entityType": "DOMESTIC LIMITED LIABILITY COMPANY",
+    "county": "Erie"
+  },
+  "J Cap Contractors LLC": {
+    "legalName": "J CAP CONTRACTORS, LLC",
+    "agentName": "J CAP CONTRACTORS, LLC",
+    "legalAddress": "2004 SWEET HOME ROAD, AMHERST 14228",
+    "filingDate": "2011-03-08",
+    "entityType": "DOMESTIC LIMITED LIABILITY COMPANY",
+    "county": "Erie"
+  },
+  "Friendly Chimney & Home Maintenance": {
+    "legalName": "FRIENDLY CHIMNEY & HOME MAINTENANCE LLC",
+    "agentName": "Joel Victori",
+    "legalAddress": "142 Imson Street, Buffalo 14210",
+    "filingDate": "2023-04-13",
+    "entityType": "DOMESTIC LIMITED LIABILITY COMPANY",
+    "county": "Erie"
+  },
+  "Blue Cord Plumbing and HVAC Inc.": {
+    "legalName": "BLUE CORD PLUMBING & HVAC, INC.",
+    "agentName": "BLUE CORD PLUMBING AND HVAC INC.",
+    "legalAddress": "5487 Pinkney rd, Castile 144279998",
+    "filingDate": "2019-04-03",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "Benzinger Plumbing & Heating": {
+    "legalName": "BENZINGER PLUMBING & HEATING, LLC",
+    "agentName": "BENZINGER PLUMBING & HEATING, LLC",
+    "legalAddress": "4238 SOUTH TAYLOR ROAD, ORCHARD PARK 14127",
+    "filingDate": "2005-12-06",
+    "entityType": "DOMESTIC LIMITED LIABILITY COMPANY",
+    "county": "Erie"
+  },
+  "Osinski's Plumbing Inc": {
+    "legalName": "DENNY OSINSKI PLUMBING LLC",
+    "agentName": "DENNY OSINSKI PLUMBING LLC",
+    "legalAddress": "13583 SCHANG ROAD, EAST AURORA 14052",
+    "filingDate": "2022-08-11",
+    "entityType": "DOMESTIC LIMITED LIABILITY COMPANY",
+    "county": "Erie"
+  },
+  "W C Roberson Plumbing & Construction": {
+    "legalName": "W. C. ROBERSON PLUMBING & CONSTRUCTION CORP.",
+    "agentName": "W. C. ROBERSON PLUMBING & CONSTRUCTION CORP.",
+    "legalAddress": "602 E. DELAVAN AVENUE, BUFFALO 14211",
+    "filingDate": "1992-11-25",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "CJW Electric LLC": {
+    "legalName": "CJW ELECTRIC LLC",
+    "agentName": "USACORP INC.",
+    "legalAddress": "325 DIVISION AVENUE, BROOKLYN 11211",
+    "filingDate": "2017-05-04",
+    "entityType": "DOMESTIC LIMITED LIABILITY COMPANY",
+    "county": "Erie"
+  },
+  "Affordable Electrical Services": {
+    "legalName": "AFFORDABLE ELECTRICAL SERVICES BY SAPIENZA ELECTRIC, INC.",
+    "agentName": "AFFORDABLE ELECTRICAL SERVICES BY SAPIENZA ELECTRIC, INC.",
+    "legalAddress": "4810 MAIN STREET, SNYDER 14226",
+    "filingDate": "2011-10-14",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "Quermback Electric Inc": {
+    "legalName": "QUERMBACK ELECTRIC, INC.",
+    "agentName": "QUERMBACK ELECTRIC, INC.",
+    "legalAddress": "215 GENESEE ST, BUFFALO 14203",
+    "filingDate": "1931-01-29",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "Affordable Electric": {
+    "legalName": "AFFORDABLE ELECTRIC PROGRAM LLC",
+    "agentName": "Jayson Lopez",
+    "legalAddress": "3960 Harlem RD, Buffalo 14226",
+    "filingDate": "2023-02-15",
+    "entityType": "DOMESTIC LIMITED LIABILITY COMPANY",
+    "county": "Erie"
+  },
+  "Blue Collar Electric": {
+    "legalName": "BLUE COLLAR BBQ, LLC",
+    "agentName": "C/O UNITED STATES CORPORATION AGENTS INC",
+    "legalAddress": "7014 13TH AVENUE SUITE 202, BROOKLYN 11228",
+    "filingDate": "2017-04-17",
+    "entityType": "DOMESTIC LIMITED LIABILITY COMPANY",
+    "county": "Orleans"
+  },
+  "Doll Electric": {
+    "legalName": "DOLL ELECTRIC, INC.",
+    "agentName": "DOLL ELECTRIC, INC.",
+    "legalAddress": "PO BOX 224, TONAWANDA 14150",
+    "filingDate": "2015-01-28",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "Erie Electrical Services": {
+    "legalName": "ERIE ELECTRICAL SERVICES, INC.",
+    "agentName": "ANDY V POTWORA",
+    "legalAddress": "18 NAVAHO PKWY, BUFFALO 14210",
+    "filingDate": "2024-01-09",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "Anthony Paul Salon": {
+    "legalName": "ANTHONY PAUL ENTERPRISES, INC.",
+    "agentName": "ANTHONY PAUL IPPOLITO",
+    "legalAddress": "839 AUBURN AVE, BUFFALO 14222",
+    "filingDate": "2002-05-01",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "Good Looks Barber Shop": {
+    "legalName": "GOOD LOOKS EXCLUSIVE FASHIONS INC.",
+    "agentName": "GOOD LOOKS EXCLUSIVE FASHIONS INC.",
+    "legalAddress": "JEREMIE C. JONES, BUFFALO 14216",
+    "filingDate": "2006-08-22",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "88 South Barbershop": {
+    "legalName": "88 SOUTH BARBERSHOP LLC",
+    "agentName": "CORPORATE CREATIONS NETWORK INC.",
+    "legalAddress": "600 MAMARONECK AVENUE #400, HARRISON 10528",
+    "filingDate": "2022-11-17",
+    "entityType": "DOMESTIC LIMITED LIABILITY COMPANY",
+    "county": "Erie"
+  },
+  "CNG Construction Inc": {
+    "legalName": "CNG CONSTRUCTION, INC.",
+    "agentName": "C/O UNITED STATES CORPORATION AGENTS, INC.",
+    "legalAddress": "7014 13TH AVENUE, BROOKLYN 11228",
+    "filingDate": "2014-08-18",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "Elite Concrete Contractors Buffalo": {
+    "legalName": "ELITE CONCRETE FOUNDATIONS, LLC",
+    "agentName": "MOSEY PERSICO, LLP",
+    "legalAddress": "625 DELAWARE AVE., STE. 304, BUFFALO 14202",
+    "filingDate": "2014-06-12",
+    "entityType": "DOMESTIC LIMITED LIABILITY COMPANY",
+    "county": "Niagara"
+  },
+  "Newton Concrete Inc": {
+    "legalName": "NEWTON CONCRETE, INC.",
+    "agentName": "DANIEL M CIRASUNDA",
+    "legalAddress": "188 ELLICOTT RD, WEST FALLS 14170",
+    "filingDate": "1990-01-19",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "Buffalo Blacktop & More, Inc.": {
+    "legalName": "BUFFALO BLACKTOP & MORE DIVERSIFIED INC.",
+    "agentName": "BUFFALO BLACKTOP & MORE DIVERSIFIED INC.",
+    "legalAddress": "45 Doat Street, Buffalo 14211",
+    "filingDate": "2022-04-26",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "Diamond Concrete Wny Inc.": {
+    "legalName": "DIAMOND CONCRETE WNY INC.",
+    "agentName": "DIAMOND CONCRETE WNY INC.",
+    "legalAddress": "5029 BROADWAY, DEPEW 14043",
+    "filingDate": "2012-11-16",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "Crispell Masonry Restoration": {
+    "legalName": "CRISPELL MASONRY RESTORATION, LLC",
+    "agentName": "c/o the llc",
+    "legalAddress": "14 15th street, BUFFALO 14213",
+    "filingDate": "2023-05-15",
+    "entityType": "DOMESTIC LIMITED LIABILITY COMPANY",
+    "county": "Erie"
+  },
+  "KAT Masonry Construction Inc.": {
+    "legalName": "KAT MASONRY CONSTRUCTION, INC.",
+    "agentName": "KAT MASONRY CONSTRUCTION, INC.",
+    "legalAddress": "1561 NORTH FOREST ROAD, WILLIAMSVILLE 14221",
+    "filingDate": "2018-01-12",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "Total Fence of WNY Inc": {
+    "legalName": "TOTAL FENCE OF WNY INC.",
+    "agentName": "marc arbatosky",
+    "legalAddress": "6367 walmore road, NIAGARA FALLS 14304",
+    "filingDate": "2020-05-08",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Niagara"
+  },
+  "Andrews Decks & More": {
+    "legalName": "ANDREWS DECKS & MORE LLC",
+    "agentName": "MY BUSINESS LLC",
+    "legalAddress": "142 Hamilton drive, Buffalo 14226",
+    "filingDate": "2023-04-23",
+    "entityType": "DOMESTIC LIMITED LIABILITY COMPANY",
+    "county": "Erie"
+  },
+  "The Barbers Factory": {
+    "legalName": "THE BARBERS FACTORY BUFFALO NY LLC",
+    "agentName": "THE BARBERS FACTORY",
+    "legalAddress": "941 Tonawanda st, Buffalo 14207",
+    "filingDate": "2024-05-28",
+    "entityType": "DOMESTIC LIMITED LIABILITY COMPANY",
+    "county": "Erie"
+  },
+  "Divine Esthetics": {
+    "legalName": "POKDIVINE ESTHETICS, INC.",
+    "agentName": "POKDIVINE ESTHETICS, INC.",
+    "legalAddress": "5651 MAIN STREET, WILLIAMSVILLE 14221",
+    "filingDate": "2019-06-19",
+    "entityType": "DOMESTIC BUSINESS CORPORATION",
+    "county": "Erie"
+  },
+  "Inktellectual Tattoo": {
+    "legalName": "INKTELLECTUAL TATTOO LLC",
+    "agentName": "InkTellectual Tattoo LLC",
+    "legalAddress": "408 Amherst Street, Buffalo 14207",
+    "filingDate": "2026-05-04",
+    "entityType": "DOMESTIC LIMITED LIABILITY COMPANY",
+    "county": "Erie"
+  },
+  "Lucky Leaf Tattoo": {
+    "legalName": "LUCKY LEAF TATTOO LLC",
+    "agentName": "DIN TRAN",
+    "legalAddress": "1809 Hertel Avenue, Buffalo 14216",
+    "filingDate": "2022-09-21",
+    "entityType": "DOMESTIC LIMITED LIABILITY COMPANY",
+    "county": "Erie"
+  }
+}

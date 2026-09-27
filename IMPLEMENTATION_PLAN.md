@@ -1,67 +1,55 @@
-# Rencana Implementasi: Perapihan Total Header Navigation Desktop & Penyelarasan Proporsi
+# Rencana Implementasi: Perbaikan Presisi Visual Hero, Header Desktop, Section Mahasiswa Mobile, dan Reordering Hero Mobile
 
-Dokumen ini disusun untuk mengatasi masalah spesifik pada menu navigasi header desktop yang masih amburadul, di mana teks tautan menu membungkus menjadi dua baris (*multi-line word wrap*) dan memiliki jarak yang tidak proporsional pada resolusi desktop menengah (901px – 1240px).
-
----
-
-## 1. Analisis Masalah & Akar Penyebab (Root Cause)
-
-Berdasarkan tangkapan layar terbaru dari user:
-1. **Teks Navigasi Membungkus Menjadi 2 Baris Vertikal**:
-   - `Fencing` terpisah dengan `Styles` di baris kedua.
-   - `42" Frost` terpisah dengan `Standard` di baris kedua.
-   - `Good Neighbor` terpisah dengan `Program` di baris kedua.
-   - `Real` terpisah dengan `Projects` di baris kedua.
-   - `Reviews` berada di baris tunggal.
-2. **Akar Masalah Teknis**:
-   - Elemen `<a>` pada `.desktop-nav` tidak memiliki atribut `white-space: nowrap`.
-   - Panjang total karakter tautan lama (`Fencing Styles` + `42" Frost Standard` + `Good Neighbor Program` + `Real Projects` + `Reviews` = ~74 karakter / ~666px) ditambah Logo (~250px) dan 2 Tombol Aksi Header (~340px) membutuhkan lebar minimum **1256px**.
-   - Breakpoint mobile sebelumnya diatur pada `max-width: 900px`. Akibatnya, pada semua layar antara **901px hingga 1240px** (laptop 13–14 inci, tablet landscape, layar desktop dengan scaling 125%), ruang yang tersisa untuk navigasi menyusut hingga di bawah 400px. Browser secara otomatis memotong kata menjadi dua baris vertikal (*word wrap*).
-   - Tampilan menjadi tidak sejajar secara vertikal (*misaligned*), tinggi header melar tidak beraturan, dan jarak antar menu terlihat aneh dan amburadul.
+Dokumen ini disusun sebagai panduan perbaikan tata letak UI/UX pada website Inktellectual Tattoo berdasarkan umpan balik spesifik dari pengguna.
 
 ---
 
-## 2. Solusi Desain & Teknis (Design & Code Architecture)
-
-1. **Pencegahan Word Wrap Permanen**:
-   - Menambahkan `white-space: nowrap !important;` pada seluruh tautan navigasi header.
-2. **Optimalisasi Label Navigasi yang Ringkas & Modern**:
-   - `Fencing Styles` -> `Fencing Styles` (dengan `white-space: nowrap` & padding proporsional).
-   - `42" Frost Standard` -> `42" Frost Standard`.
-   - `Good Neighbor Program` -> `Neighbor Co-Op` (lebih padat, profesional, dan menghemat 45px).
-   - `Real Projects` -> `Projects` atau `Real Projects` (dengan `nowrap`).
-   - `Reviews` -> `Reviews`.
-3. **Penyempurnaan Tombol Aksi Header**:
-   - Label tombol diselaraskan:
-     - `Estimate Cost` -> `Estimate Cost` (padding `8px 14px`, `fontSize: 0.84rem`).
-     - `Book Laser Measure` -> `Book Laser Measure` (padding `8px 16px`, `fontSize: 0.84rem`).
-   - Kontainer aksi diberi `flexShrink: 0`.
-4. **Penyesuaian Breakpoint Responsif**:
-   - Mengubah breakpoint menu desktop dari `900px` menjadi `1024px` (`@media (max-width: 1024px)`).
-   - Pada layar di bawah `1024px` (tablet dan ponsel), tampilan otomatis beralih ke Header Bersih + Drawer Hamburger Interaktif yang elegan, sehingga tidak ada lagi kondisi di mana tautan tertekan di layar sedang.
-5. **Estetika Interaktif Modern**:
-   - Setiap tautan header diberi style `padding: 6px 12px`, `borderRadius: "6px"`, dan efek hover `background: #F1F5F9` serta warna aktif `#0D3594`.
-
----
-
-## 3. Dampak Perubahan (Files Affected)
-
-1. [src/components/preview/PreviewTotalFence.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/components/preview/PreviewTotalFence.tsx):
-   - Memperbarui struktur `<nav className="desktop-nav">` dengan inline `whiteSpace: "nowrap"` dan label yang proporsional.
-   - Memperbarui breakpoint CSS di `<style jsx global>` dari `900px` ke `1024px`.
-   - Menambahkan styling hover halus pada class `.header-nav-link`.
-2. [scripts/test_total_fence_preview.js](file:///c:/Users/ZHULL/Documents/Freelance/scripts/test_total_fence_preview.js):
-   - Menambahkan pengujian viewport desktop menengah (1080x800) dan desktop standar (1280x900) untuk memvalidasi bahwa seluruh tautan navigasi berada dalam satu baris (tidak ada word-wrap vertikal) dan proporsional.
+## 1. Analisis Masalah
+1. **Hospital Grade Menggantung ke Bawah pada Hero Section**:
+   - Teks "Hospital Grade 100% Single-Use EO Gas Needles" terdorong ke baris kedua di bawah metrik 4.9/5 dan 6 Artisans akibat kontainer `flex-wrap: wrap` dengan gap lebar, meninggalkan ruang kosong di sebelah kanan.
+   - **Solusi**: Mengubah tata letak metrik menjadi `display: grid; gridTemplateColumns: repeat(3, 1fr)` sehingga ketiga metrik (Rating 4.9/5, 6 Resident Artisans, Hospital Grade) tersusun rapi dalam 1 baris horizontal yang seimbang.
+2. **Tombol "Consultation Desk" Terpotong di Header Desktop (Layar Laptop 1025px–1180px)**:
+   - Lebar total logo, 5 menu navigasi, dan 2 tombol CTA panjang (~1170px) melebihi lebar layar laptop sebelum mencapai breakpoint mobile lama (`1024px`), menyebabkan tombol paling kanan terpotong oleh scrollbar.
+   - **Solusi**:
+     - Menaikkan breakpoint navigasi desktop ke `1140px`.
+     - Memadatkan tombol aksi: `"Book Consult"` dan `"Estimate"`, dengan padding proporsional (`8px 12px`).
+     - Memadatkan link navigasi (`padding: 4px 8px`, `gap: 8px`).
+3. **Section Promo Mahasiswa Rusak pada Tampilan Mobile (375px)**:
+   - Menggunakan `gridTemplateColumns: "auto 1fr auto"` kaku yang tidak responsif pada mobile, sehingga foto promo terjepit menjadi garis tipis ~10px dan teks berantakan.
+   - **Solusi**: Menambahkan kelas responsif `.student-special-container` yang beralih menjadi 1 kolom vertikal (`grid-template-columns: 1fr`) pada layar `<= 768px`, dengan foto promo berukuran ideal (140x140px terpusat), teks tertata rapi, dan tombol klaim lebar penuh.
+4. **Urutan Foto Hero pada Tampilan Mobile**:
+   - Pengguna meminta secara khusus agar foto kru toko fisik (`hero-media`) diletakkan **di atas** kotak review 4.9 / trust metrics saat berada di layar ponsel.
+   - **Solusi**: Menggunakan teknik arsitektur CSS `display: contents` pada `.hero-content` di mobile (`@media (max-width: 768px)`), sehingga elemen-elemen hero tersusun dengan urutan visual presisi:
+     1. Headline & Paragraf Deskripsi (`order: 1`)
+     2. **Foto Hero Kru Studio Amherst St (`order: 2`)**
+     3. **Kotak Review 4.9 & Trust Metrics 3-Kolom (`order: 3`)**
+     4. **Dua Tombol Aksi Hero (`order: 4`)**
 
 ---
 
-## 4. Rencana Verifikasi
+## 2. Dampak Perubahan
+File yang akan dimodifikasi:
+1. `src/components/preview/PreviewInktellectual.tsx`:
+   - Penyesuaian CSS media query untuk hero ordering, breakpoint header, dan student special.
+   - Restrukturisasi trust metrics hero menjadi CSS Grid 3 kolom.
+   - Penataan ulang kelas `hero-heading-block`, `hero-trust-metrics`, `hero-action-buttons`, dan `hero-media`.
+   - Pembaharuan container section promo mahasiswa `#student-special`.
+2. `scripts/test_inktellectual_preview.js`:
+   - Pengujian visual di resolusi laptop (1140px), desktop (1280px), dan mobile (375px) untuk memverifikasi seluruh perbaikan.
 
-1. Menjalankan `pnpm.cmd tsc --noEmit` untuk memastikan tidak ada kesalahan TypeScript.
-2. Menjalankan pengujian Puppeteer headless pada lebar:
-   - 1280px (Desktop lebar)
-   - 1100px (Desktop menengah / laptop)
-   - 1024px (Breakpoint tablet)
-   - 375px (Mobile)
-3. Memverifikasi bahwa tinggi seluruh elemen `<a>` navigasi sama persis dengan line-height baris tunggal (tidak ada yang membungkus ke baris 2).
-4. Memeriksa tangkapan layar baru dengan `view_file`.
+---
+
+## 3. Langkah-Langkah Eksekusi
+1. **Modifikasi `PreviewInktellectual.tsx`**:
+   - Perbarui CSS `@media` rules (breakpoint 1140px, `display: contents` untuk hero mobile ordering, dan styling mobile promo mahasiswa).
+   - Terapkan layout Grid 3 kolom pada Trust Metrics di Hero Section.
+   - Berikan nama kelas semantik pada elemen Hero (`hero-heading-block`, `hero-trust-metrics`, `hero-action-buttons`).
+   - Perbarui header buttons dan menu agar kompak dan tidak terpotong.
+   - Jadikan container `#student-special` fleksibel/responsif di mobile.
+2. **Kompilasi & Pengujian**:
+   - Jalankan `pnpm.cmd tsc --noEmit`.
+   - Jalankan Puppeteer test untuk menangkap screenshot di 1140px, 1280px, dan 375px.
+3. **Verifikasi Visual**:
+   - Periksa screenshot apakah 3 metrik dalam 1 baris, tombol header utuh, foto hero berada di atas review 4.9 pada mobile, dan banner mahasiswa tampil rapi.
+4. **Dokumentasi**:
+   - Perbarui `WALKTHROUGH.md` dan `functions/PROGRESS.md`.
