@@ -2,7 +2,78 @@
 
 Dokumen ini mencatat seluruh riwayat fitur dan konfigurasi yang sudah diselesaikan agar agent di masa mendatang dapat melanjutkan tugas tanpa kehilangan konteks.
 
-## [2026-09-27] Optimasi Total Tampilan Mobile (Mobile-First Responsiveness) Truly Organic Hair Studio
+## [2026-09-27] Pemisahan Kalkulator Estimasi Biaya Properti & Formulir Booking Mandiri (Dual-Action System) FH Land Services
+- **Status**: Selesai & Terverifikasi (Build Exit Code: 0, SSG Exported 19 kB, End-to-End Headless Chrome Verified)
+- **Pekerjaan yang Dilakukan**:
+  1. **Pemisahan Fungsi Estimator vs Direct Booking**:
+     - Membuat [PropertyEstimatorModal.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/components/preview/PropertyEstimatorModal.tsx) sebagai kalkulator estimasi biaya properti yang konkret, interaktif, dan transparan (pemilihan layanan Summer/Winter, modifikasi ukuran lahan, tipe driveway, rincian biaya per item, dan jaminan Handshake Rate Guarantee).
+     - Mempertahankan [EstimateModal.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/components/preview/EstimateModal.tsx) sebagai formulir pemesanan rute langsung 3-langkah (Step 1: Layanan, Step 2: Spesifikasi Lapangan, Step 3: Alamat Rute & Kontak).
+  2. **Dual-Action Buttons pada Kartu Layanan & Area CTA**:
+     - Memisahkan tombol tunggal gabungan pada setiap kartu layanan menjadi 2 tombol terpisah dengan fungsi yang berbeda:
+       - `Estimate Cost` (Outline button dengan ikon meteran): Membuka kalkulator estimasi biaya properti dengan layanan tersebut terpilih otomatis.
+       - `Book Service` (Solid green button dengan ikon kalender): Membuka formulir booking rute langsung pada Step 1.
+     - Memperbarui tombol pada Header (`Estimate Cost` & `Book Online`), Hero Section (`Estimate Property Cost` & `Book Route Online`), About Section (`Calculate Property Estimate` & `Book Route Online`), dan Interactive Booking Station (`#book`).
+  3. **Seamless Transfer Data dari Estimator ke Booking Tanpa Input Ulang**:
+     - Saat customer selesai menghitung estimasi biaya di kalkulator dan mengklik tombol `Proceed to Book This Estimate →`, seluruh data spesifikasi properti (musim, layanan yang dipilih, ukuran lahan, tipe driveway, estimasi harga) otomatis ditransfer ke modal Booking.
+     - Modal Booking langsung melompat ke **Step 3 (Service Address & Route Schedule)** dan menampilkan banner konfirmasi hijau: `✓ Cost Estimator Specs Loaded: ...`.
+     - Customer tidak perlu mengisi ulang spesifikasi properti, cukup melengkapi nama, alamat properti, dan nomor telepon untuk rute lapangan.
+  4. **Perbaikan Masalah Server Dev & State Variabel**:
+     - Memperbaiki deklarasi state `isSubmitted` dan `confirmedTicket` pada `EstimateModal.tsx`.
+     - Mengganti sisa pemanggilan lama `handleOpenEstimate` pada seksi cerita kru menjadi tombol ganda.
+     - Menghentikan proses zombie dev server lama dan menjalankan ulang `pnpm dev`.
+- **Hasil Verifikasi**:
+  - `pnpm.cmd run build` -> Exit Code: 0 (Halaman statis `/preview/fh-land-services` berukuran 19 kB berhasil diekspor).
+  - Headless Chrome testing membuktikan 8 tombol `Estimate Cost` dan 6 tombol `Book Service` bekerja tanpa error.
+  - Tangkapan layar `service_cards_dual_buttons.png`, `estimator_modal_verified.png`, dan `booking_prefilled_verified.png` memverifikasi tampilan visual dan perpindahan data mulus.
+
+
+## [2026-09-27] Implementasi Sistem Booking & Order Properti Mandiri (Tanpa Ketergantungan Telepon) FH Land Services
+- **Status**: Selesai & Terverifikasi (Build Exit Code: 0, SSG Exported)
+- **Pekerjaan yang Dilakukan**:
+  1. **Penghapusan Ketergantungan Nomor HP pada Alur Booking / Order**:
+     - Mengubah seluruh tombol reservasi di top banner, header desktop, mobile navigation drawer, hero CTA, card layanan, dan bottom CTA menjadi aksi digital langsung (`Book Online`, `Get Free Property Estimate`, `Book Route Online`).
+     - Mengeliminasi tombol panggilan telepon/SMS wajib pada modal konfirmasi pesanan; proses booking kini 100% mandiri di dalam web (*fully self-contained*).
+  2. **Pembangunan Sistem Booking & Order Properti Lengkap (`EstimateModal.tsx`)**:
+     - **Step 1 (Layanan & Musim)**: Pilihan switch dinamis antara *Spring/Summer Lawn Care* (Weekly Mowing, Bed Edging & Mulch, Spring Cleanup, Fall Leaves, Shrub Trimming) dan *Winter Snow Management* (Seasonal Driveway Pass, Commercial Lot, On-Call Plowing, Hand Shoveling, Salting/De-icing) beserta frekuensi rute (Weekly Recurring, Bi-Weekly, One-Time Project, Full Season Unlimited Pass).
+     - **Step 2 (Spesifikasi Lahan & Akses Lapangan)**: Karakteristik properti (Residential vs Commercial), ukuran lahan (< 1/4 acre, 1/4–1/2 acre, 1/2–1 acre, 1+ acre), tipe driveway (2-car, 4-car, wrap-around, rural lane > 100 ft), warna mulsa triple-shred (Black, Brown, Cedar), dan checklist kendala lapangan (pagar gerbang sempit, in-ground sprinklers, hewan peliharaan, lereng, patok salju).
+     - **Step 3 (Jadwal Rute & Lokasi Properti)**: Target waktu pengerjaan (24–48 jam, jadwal rute Senin, reservasi pre-season), input alamat jalan, pilihan area kota (Lockport, Pendleton, Clarence, Amherst, Newfane, Wrights Corners), nama lengkap, email (untuk invoice digital & satelit route), no HP (hanya untuk notifikasi otomatis kru tiba di lokasi), dan catatan gerbang/staging.
+     - **Kalkulator Harga Estimasi Real-Time**: Memberikan kisaran biaya transparan secara dinamis selama customer mengisi formulir (misal: `$48 – $62 / cut` untuk 1/4–1/2 acre atau `$395 – $490` untuk season pass salju) dengan jaminan *zero hidden fees*.
+     - **Step 4 (Official Digital Work Order Ticket)**: Menerbitkan tiket pesanan kerja resmi berformat `#FH-2026-XXXX` berstatus `● ORDER CONFIRMED & DISPATCH QUEUED`, ringkasan spesifikasi lengkap, petunjuk tahapan selanjutnya tanpa telepon, serta tombol simpan/cetak tiket via `window.print()`.
+  3. **Penyediaan On-Page Interactive Booking & Estimate Station (`#book`)**:
+     - Membangun seksi interaktif mandiri tepat sebelum footer dengan 3 quick-start card (Weekly Mowing, Bed Edging & Mulch, Winter Snow Pass) dan tombol peluncuran formulir.
+  4. **Pembersihan Emoji Kasar**:
+     - Mengganti emoji kasar `📍` pada daftar area layanan dengan ikon SVG elegan `<IconMapPin />`.
+  5. **Perbaikan Masalah Hydration Mismatch (Minified React Error #418)**:
+     - Mengidentifikasi akar masalah: Elemen `<textarea />` ditulis secara self-closing pada `EstimateModal.tsx` yang oleh parser HTML5 browser dianggap sebagai tag terbuka, menelan elemen DOM sesudahnya dan memicu React hydration mismatch #418.
+     - Mengubah `<textarea ... />` menjadi `<textarea ...></textarea>`.
+     - Menambahkan atribut hoisting React 19 (`precedence="default"` dan `href="fh-land-preview-style"`) pada tag `<style>`, memasang `suppressHydrationWarning` pada root container dan `<main>`, serta mengganti ekspresi dinamis tahun dengan konstanta statis `2026`.
+- **Hasil Verifikasi**:
+  - Cache `.next` dibersihkan dan `pnpm.cmd run build` dieksekusi dengan hasil Exit Code: 0.
+  - Halaman statis `/preview/fh-land-services` berukuran 16.2 kB berhasil diekspor tanpa error.
+
+- **Status**: Selesai & Terverifikasi (Build Exit Code: 0, SSG Exported)
+- **Pekerjaan yang Dilakukan**:
+  1. **Branding & Visual Palette Sesuai Identitas Resmi**:
+     - Mengadopsi palet warna logo resmi (Forest Green `#1E4D2B`, Deep Charcoal `#16231A`, Fresh Lawn Green `#3B7A57`, Soft Neutral `#F7FAF8`, Crisp White `#FFFFFF`).
+     - Mengeliminasi kesan AI-slop: Tanpa gradasi ungu neon/glassmorphism berlebihan, tanpa copywriting robot, dan tanpa emoji kasar (menggantinya dengan custom inline SVG icons yang elegan: rumput, salju, truk trailer, sekop, meteran, perisai garansi, bintang rating, dan jam operasional).
+  2. **Ekstraksi Aset Foto Nyata Proyek Lapangan (`scripts/crop_fh_land.js`)**:
+     - Mengonversi 4 tangkapan layar user menjadi 13 aset web resolusi optimal di `public/images/demo/fh-land/`:
+       - `logo.png` (Logo resmi kotak ganda FH Land Services)
+       - `hero-landscape.jpg` (Tampilan lanskap rumah mewah dengan mulsa rapi)
+       - `team-story.jpg` (Foto tim Steve/Kenny bersama kura-kura yang diselamatkan di jalan dan truk GMC merah)
+       - Foto galeri mulsa tebal (*dark black mulch*), pangkas semak bulat presisi, *curved bed edging*, garis potong rumput (*lawn striping*), dan mowers komersial.
+  3. **Fitur Khusus Model Bisnis Kontraktor Lanskap & Salju**:
+     - **Dual Season Service Switcher**: Tab interaktif untuk beralih antara musim panas/semi (*Spring & Summer Lawn & Bed Care*) dan musim dingin (*Winter Snow & Ice Management*).
+     - **Interactive Instant Property Estimate Calculator (`EstimateModal.tsx`)**: Modal kalkulator taksiran 4 langkah (Pilihan jenis properti residensial/komersial, multi-pilihan paket servis, estimasi ukuran lahan, dan ringkasan konfirmasi instan `#FH-XXXX` dengan opsi langsung SMS ke pemilik).
+     - **Authentic Crew & Community Story**: Cerita lokal asli tentang Steve Frazer & Kenny Jordan (disertai foto aksi peduli hewan lokal dan komitmen kerja keras khas Western NY).
+     - **Real Work Photo Gallery**: Filter kategori galeri (All, Mulch & Beds, Lawn Striping, Commercial).
+     - **Social Proof & Neighborhood Trust**: Testimoni warga Lockport, Clarence, & Pendleton, garansi kepuasan, status berizin & berasuransi (*Fully Licensed & Insured*).
+     - **Mobile-First Responsive Layout**: Dilengkapi hamburger drawer, fixed click-to-call direct dial `(716) 523-8341`, dan no-overflow viewport.
+  4. **Pemasangan Halaman Next.js SSG**:
+     - Membuat route `src/app/preview/fh-land-services/page.tsx` dengan metadata no-index (preview konsep khusus klien).
+- **Hasil Verifikasi**:
+  - `pnpm.cmd run build` -> Exit Code: 0 (Halaman statis `/preview/fh-land-services` berukuran 11.9 kB berhasil diekspor).
+
 - **Status**: Selesai & Terverifikasi (Build Exit Code: 0, SSG Exported)
 - **Pekerjaan yang Dilakukan**:
   1. **Eliminasi Masalah Viewport Blowout / Horizontal Overflow di Ponsel**:
