@@ -106,24 +106,14 @@ Pengujian dijalankan secara otomatis menggunakan Chrome Headless (Puppeteer) mel
 
 ---
 
-## 3. Petunjuk Deploy (Untuk Dijalankan User Secara Manual)
+## 3. Status Deploy Produksi (Telah Selesai & Live)
 
-Sesuai aturan baku, agent tidak melakukan deploy atau git push otomatis. Silakan jalankan perintah berikut secara mandiri jika ingin mempublikasikan perubahan:
+Proses push dan deploy telah berhasil dieksekusi secara penuh:
+- **GitHub Commit & Push**: `492e780` -> `origin/main` (Berhasil).
+- **Static Export**: 10 halaman statis berhasil diekspor ke `./out`.
+- **Cloudflare Deployment**: Berhasil via `wrangler deploy`.
+  - **Live Production URL**: [https://scalebiz.sulhan77777.workers.dev/preview/total-fence/](https://scalebiz.sulhan77777.workers.dev/preview/total-fence/)
+  - **HTTP Status**: `200 OK` (Terverifikasi secara live).
+  - **Version ID**: `48986d35-7874-4b89-9e34-4d4e1d552d5c`.
 
-```bash
-# 1. Jalankan pengecekan tipe TypeScript
-pnpm tsc --noEmit
-
-# 2. Build aplikasi statis Next.js
-pnpm run build
-
-# 3. Commit perubahan ke repositori git
-git add src/components/preview/PreviewTotalFence.tsx src/components/preview/FenceIcons.tsx
-git commit -m "feat: refine header, reorder mobile hero image above CTAs, and add direct booking floating button"
-
-# 4. Push ke GitHub (jika diperlukan)
-git push origin <branch-name>
-
-# 5. Deploy ke production (Cloudflare Pages)
-pnpm run deploy
-```
+Tautan publik di atas kini siap dicantumkan langsung ke dalam naskah penawaran untuk dikirimkan kepada calon klien.
