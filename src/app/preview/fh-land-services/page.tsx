@@ -10,6 +10,28 @@ export const metadata: Metadata = {
     index: false,
     follow: false,
   },
+  openGraph: {
+    title: `${FH_LAND_DATA.businessName} • Landscaping & Snow Removal | Lockport, NY`,
+    description: `${FH_LAND_DATA.tagline} - Precision lawn striping, mulch bed edging, and winter snow removal in Lockport & Western NY. Interactive property cost estimator & direct route booking.`,
+    url: "https://scalebiz.web.id/preview/fh-land-services/",
+    siteName: FH_LAND_DATA.businessName,
+    images: [
+      {
+        url: "https://scalebiz.web.id/images/demo/fh-land/hero-landscape.jpg",
+        width: 1200,
+        height: 630,
+        alt: `${FH_LAND_DATA.businessName} - Lockport, NY`,
+      },
+    ],
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${FH_LAND_DATA.businessName} • Landscaping & Snow Removal | Lockport, NY`,
+    description: `${FH_LAND_DATA.tagline} - Commercial zero-turn striping, mulch bed edging, and winter snow removal in Western NY.`,
+    images: ["https://scalebiz.web.id/images/demo/fh-land/hero-landscape.jpg"],
+  },
 };
 
 export default function FHLandServicesPreviewPage() {

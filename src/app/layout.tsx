@@ -11,20 +11,19 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://scalebiz.web.id"),
   title: {
-    default: "Scalebiz | Scaleup dan Optimalisasi Bisnis Kamu",
+    default: "Scalebiz | High-Performance Web & Business Systems Engineering",
     template: "%s | Scalebiz",
   },
   description:
-    "Scalebiz - Solusi rekayasa sistem dan optimalisasi digital: Website Interaktif, Point of Sale & Finansial, Otomasi Alur Kerja, serta ERP Operasional tanpa biaya langganan bulanan.",
+    "Scalebiz - Custom-engineered digital systems, high-converting interactive web platforms, workflow automation, and operational software without monthly subscription lock-ins.",
   keywords: [
     "Scalebiz",
-    "Scaleup Bisnis",
-    "Optimalisasi Bisnis",
-    "Jasa Website Bisnis",
-    "Sistem POS & Kasir",
-    "Otomasi Bisnis",
-    "Custom ERP Indonesia",
-    "Software House UMKM",
+    "Business Optimization",
+    "Custom Web Development",
+    "Interactive Business Websites",
+    "Point of Sale Systems",
+    "Workflow Automation",
+    "Custom Operational Software",
   ],
   authors: [{ name: "Scalebiz" }],
   creator: "Scalebiz",
@@ -34,9 +33,9 @@ export const metadata: Metadata = {
     follow: true,
   },
   openGraph: {
-    title: "Scalebiz | Scaleup dan Optimalisasi Bisnis Kamu",
+    title: "Scalebiz | High-Performance Web & Business Systems Engineering",
     description:
-      "Scaleup dan optimalisasi bisnis kamu dengan arsitektur digital kustom: Website, POS Finansial, Otomasi Workflow, dan ERP Operasional.",
+      "Engineered digital systems, custom interactive web platforms, and operational automation for growing businesses.",
     url: "https://scalebiz.web.id",
     siteName: "Scalebiz",
     images: [
@@ -44,17 +43,17 @@ export const metadata: Metadata = {
         url: "/images/scalebiz-symbol.webp",
         width: 800,
         height: 800,
-        alt: "Scalebiz - Scaleup & Optimalisasi Bisnis",
+        alt: "Scalebiz - Web & Business Systems Engineering",
       },
     ],
     type: "website",
-    locale: "id_ID",
+    locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Scalebiz | Scaleup dan Optimalisasi Bisnis Kamu",
+    title: "Scalebiz | High-Performance Web & Business Systems Engineering",
     description:
-      "Scaleup dan optimalisasi bisnis kamu dengan arsitektur digital kustom: Website, POS Finansial, Otomasi Workflow, dan ERP Operasional.",
+      "Engineered digital systems, custom interactive web platforms, and operational automation for growing businesses.",
     images: ["/images/scalebiz-symbol.webp"],
   },
 };
@@ -67,7 +66,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="id" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body suppressHydrationWarning>
         <LanguageProvider>{children}</LanguageProvider>
       </body>

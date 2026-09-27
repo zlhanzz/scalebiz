@@ -2,6 +2,22 @@
 
 Dokumen ini mencatat seluruh riwayat fitur dan konfigurasi yang sudah diselesaikan agar agent di masa mendatang dapat melanjutkan tugas tanpa kehilangan konteks.
 
+## [2026-09-27] Standarisasi Metadata OpenGraph Bahasa Inggris & Kustomisasi Card Link Preview untuk Bisnis Klien
+- **Status**: Selesai & Terverifikasi (Build Exit Code: 0, OpenGraph HTML Tags Tested)
+- **Pekerjaan yang Dilakukan**:
+  1. **Investigasi Masalah Link Preview Media Sosial**:
+     - Mengidentifikasi bahwa teks Indonesia pada DM preview bukan karena IP lokasi pengirim, melainkan karena crawler Facebook/Instagram membaca tag OpenGraph HTML.
+     - Halaman sub-preview sebelumnya belum memiliki properti openGraph tersendiri sehingga mewarisi (fallback) metadata root layout.tsx yang berbahasa Indonesia dan memakai logo Scalebiz.
+  2. **Kustomisasi OpenGraph & Twitter Card Masing-Masing Klien**:
+     - Truly Organic Hair Studio: Judul salon butik bahasa Inggris, deskripsi 11 independent artisans di Davison Rd, foto hero salon organik (og:image), locale en_US.
+     - FH Land Services: Judul landscaping & snow removal Lockport NY, deskripsi precision lawn striping & online route dispatch, foto lanskap (og:image), locale en_US.
+     - Trendy Nail Spa: Judul luxury nails & organic spa care di S Transit Rd, foto salon kuku (og:image), locale en_US.
+  3. **Standarisasi Root layout.tsx ke Bahasa Inggris**:
+     - Mengubah metadata default root menjadi bahasa Inggris (Scalebiz | High-Performance Web & Business Systems Engineering), html lang="en", dan locale en_US.
+- **Hasil Verifikasi**:
+  - pnpm.cmd run build berhasil dengan exit code 0.
+  - Inspeksi HTML membuktikan seluruh tag og:title, og:description, og:image, dan og:locale pada out/preview/... sudah 100% berbahasa Inggris dan menampilkan foto asli bisnis klien.
+
 ## [2026-09-27] Pemisahan Kalkulator Estimasi Biaya Properti & Formulir Booking Mandiri (Dual-Action System) FH Land Services
 - **Status**: Selesai, Terverifikasi & LIVE DI PRODUCTION (Deployed to Cloudflare: scalebiz.web.id & Pushed to GitHub)
 - **Pekerjaan yang Dilakukan**:

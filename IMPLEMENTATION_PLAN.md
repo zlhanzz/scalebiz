@@ -1,55 +1,63 @@
-# Rencana Implementasi: Pemisahan Fitur Estimasi Biaya (Kalkulator) dan Form Booking Mandiri FH Land Services
+# Rencana Implementasi: Standarisasi Metadata OpenGraph Bahasa Inggris & Kustomisasi Card Link Preview untuk Bisnis Klien
 
-Dokumen ini disusun sebelum modifikasi kode sesuai dengan protokol kerja baku workspace (`RULE[user_global]`).
-
----
-
-## 1. Analisis Masalah & Kebutuhan Pengguna
-- **Feedback Pengguna**:
-  1. *Estimasi Biaya Properti* dan *Booking Layanan* memiliki tujuan yang berbeda:
-     - **Estimasi Biaya**: Tujuannya murni sebagai kalkulator biaya properti interaktif yang konkret, transparan, dan instan.
-     - **Booking Layanan**: Tujuannya untuk pemesanan rute/jadwal nyata (*work order dispatch*) dengan pengisian alamat, jadwal pengerjaan, dan data kontak.
-  2. Saat ini tombol di kartu layanan dan navigasi masih menggabungkan kedua fungsi tersebut (`Book & Get Instant Estimate →`). Tombol harus dipisahkan menjadi dua tombol berbeda pada setiap kartu layanan: satu untuk **Estimate Cost** dan satu untuk **Book Service**.
-  3. Alur transisi harus mulus (*seamless*): Setelah melihat estimasi biaya konkret di kalkulator, pengguna dapat langsung menekan tombol booking tanpa perlu menginput ulang data spesifikasi lahan yang sudah dipilih di kalkulator (data estimasi otomatis terbawa ke formulir booking).
+Dokumen ini disusun sesuai protokol kerja baku workspace (`RULE[user_global]`).
 
 ---
 
-## 2. Dampak Perubahan
-File yang akan disentuh/dibuat:
-1. **`src/components/preview/PropertyEstimatorModal.tsx` (File Baru)**:
-   - Komponen modal khusus kalkulator estimasi biaya properti yang konkret dan interaktif.
-   - Pilihan layanan Summer/Winter, ukuran yard/lot, tipe driveway, volume mulsa, dan frekuensi.
-   - Tampilan rincian biaya konkret (*itemized breakdown*, estimasi per-visit / per-musim, jaminan tanpa biaya siluman).
-   - Tombol aksi utama: **`Proceed to Book This Estimate →`** yang meneruskan data spesifikasi ke modal booking tanpa input ulang.
-2. **`src/components/preview/EstimateModal.tsx` (Direfaktor menjadi `BookingOrderModal`)**:
-   - Fokus sebagai formulir booking kerja nyata (*Work Order & Route Scheduling*).
-   - Menerima parameter `initialBookingData` dari kalkulator estimasi (otomatis pre-fill layanan, luas lahan, driveway, dan kisaran harga estimasi).
-   - Menyelesaikan booking dengan alamat lengkap, jadwal, dan kontak, kemudian menerbitkan tiket kerja resmi `#FH-2026-XXXX`.
-3. **`src/components/preview/PreviewFHLandServices.tsx`**:
-   - Memisahkan tombol pada setiap kartu layanan menjadi:
-     - Tombol Sekunder: `Estimate Cost` (Ikon kalkulator/ruler).
-     - Tombol Primer: `Book Service` (Ikon kalender/truk).
-   - Memperbarui tombol di Header, Hero, dan Bottom Station agar terpisah jelas antara `Estimate Cost` dan `Book Online`.
-   - Mengelola state transisi data dari Estimator ke Booking Modal.
+## 1. Analisis Masalah (Problem Analysis)
+Pengguna menemukan masalah kritis saat membagikan link preview via DM Instagram/Facebook:
+> *"sayangnya preview link saat dm masih menggunakan bahasa indonesia. apakah ini karena saya menggunakan ip indonesia atua tidak, atau memang sistem kita belum support, atau memang basicnya masih bahasa indonesia? saya ingin agar basisnya dalah bahasa inggris"*
+
+### Mengapa Masalah Ini Terjadi?
+1. **Bukan karena IP Pengguna**: Crawler media sosial (Facebook External Hit, Instagram In-App Browser, WhatsApp Link Unfurler) tidak memeriksa IP pengirim. Crawler membaca tag HTML metadata **OpenGraph (`og:title`, `og:description`, `og:image`, `og:locale`)** yang dihasilkan server.
+2. **Ketiadaan OpenGraph pada Halaman Preview**:
+   - `src/app/preview/truly-organic-hair-studio/page.tsx`, `src/app/preview/fh-land-services/page.tsx`, dan `src/app/preview/trendy-nail-spa/page.tsx` hanya mendefinisikan `<title>` dasar, tetapi **belum mendefinisikan properti `openGraph` dan `twitter`**.
+   - Dalam Next.js App Router, jika sebuah halaman tidak mendeklarasikan `openGraph`, Next.js otomatis mewarisi (*inherit / fallback*) metadata dari root `layout.tsx`.
+3. **Root `layout.tsx` Masih Berbahasa Indonesia**:
+   - Root `layout.tsx` memiliki `openGraph.title = "Scalebiz | Scaleup dan Optimalisasi Bisnis Kamu"` dan gambar default berupa logo Scalebiz.
+   - Akibatnya, saat link `/preview/truly-organic-hair-studio/` di-paste ke DM, kartu pratinjau yang muncul di layar penerima Amerika adalah teks bahasa Indonesia dan logo Scalebiz.
 
 ---
 
-## 3. Langkah-Langkah Eksekusi
-1. **Langkah 1**: Buat komponen `src/components/preview/PropertyEstimatorModal.tsx` dengan kalkulator harga dinamis yang konkret dan tombol transfer data ke booking.
-2. **Langkah 2**: Sesuaikan `src/components/preview/EstimateModal.tsx` agar dapat menerima data transferan dari kalkulator estimasi secara instan (*pre-populated*).
-3. **Langkah 3**: Perbarui `src/components/preview/PreviewFHLandServices.tsx`:
-   - Pasang dua tombol terpisah pada setiap kartu layanan: `Estimate Cost` dan `Book Service`.
-   - Pisahkan tombol di Header (`Estimate Cost` & `Book Online`) dan Hero.
-   - Hubungkan alur data: saat user klik "Proceed to Book This Estimate" di modal kalkulator, modal kalkulator ditutup dan modal booking dibuka dengan data yang sudah terisi.
-4. **Langkah 4**: Jalankan `pnpm.cmd run build` untuk memverifikasi kompilasi TypeScript dan static export Next.js.
-5. **Langkah 5**: Uji interaktivitas di browser via script Puppeteer otomatis untuk memastikan tombol estimasi, tombol booking, dan transfer data berjalan sempurna.
-6. **Langkah 6**: Perbarui `functions/PROGRESS.md` dan `WALKTHROUGH.md` sesuai protokol kerja baku.
+## 2. Dampak Perubahan (Impact of Changes)
+File-file yang akan dimodifikasi:
+1. `src/app/layout.tsx`:
+   - Mengubah basis default metadata dari bahasa Indonesia ke **Bahasa Inggris profesional global** (`title`, `description`, `openGraph`, `twitter`, dan `html lang="en"`).
+2. `src/app/preview/truly-organic-hair-studio/page.tsx`:
+   - Menambahkan metadata OpenGraph dan Twitter Card spesifik untuk *Truly Organic Hair Studio* (judul salon, deskripsi low-tox beauty sanctuary di Davison Rd, foto hero salon organik, dan `locale: "en_US"`).
+3. `src/app/preview/fh-land-services/page.tsx`:
+   - Menambahkan metadata OpenGraph dan Twitter Card spesifik untuk *FH Land Services* (judul landscaping & snow removal di Lockport NY, foto lanskap lapangan, dan `locale: "en_US"`).
+4. `src/app/preview/trendy-nail-spa/page.tsx`:
+   - Menambahkan metadata OpenGraph dan Twitter Card spesifik untuk *Trendy Nail Spa* (judul nail spa & organic care di S Transit Rd, foto manicure/pedicure, dan `locale: "en_US"`).
 
 ---
 
-## 4. Rencana Verifikasi
-- Uji kartu layanan: Pastikan tombol `Estimate Cost` membuka kalkulator estimasi dengan layanan terpilih.
-- Uji kartu layanan: Pastikan tombol `Book Service` membuka form booking dengan layanan terpilih.
-- Uji kalkulator: Ubah ukuran lahan/driveway, pastikan breakdown biaya berubah secara dinamis dan konkret.
-- Uji transfer data: Klik `Proceed to Book This Estimate →`, pastikan modal booking terbuka dengan data lot size, driveway, dan service yang sudah terisi tanpa perlu input ulang.
-- Validasi build: `pnpm run build` menghasilkan Exit Code 0.
+## 3. Langkah-Langkah Eksekusi (Execution Steps)
+1. **Perbarui `src/app/layout.tsx`**:
+   - Standarisasi root metadata ke Bahasa Inggris:
+     - `title.default`: `"Scalebiz | High-Performance Web & Business Engineering Systems"`
+     - `description`: `"Custom-engineered digital systems, high-converting interactive websites, workflow automation, and operational platforms without monthly software lock-ins."`
+     - `openGraph` & `twitter` dalam Bahasa Inggris, `locale: "en_US"`.
+     - Ubah `<html lang="id">` menjadi `<html lang="en">`.
+2. **Perbarui Metadata di `src/app/preview/truly-organic-hair-studio/page.tsx`**:
+   - Tambahkan `openGraph` & `twitter` dengan image: `"/images/demo/truly-organic/hero.jpg"`.
+3. **Perbarui Metadata di `src/app/preview/fh-land-services/page.tsx`**:
+   - Tambahkan `openGraph` & `twitter` dengan image: `"/images/demo/fh-land/hero-landscape.jpg"`.
+4. **Perbarui Metadata di `src/app/preview/trendy-nail-spa/page.tsx`**:
+   - Tambahkan `openGraph` & `twitter` dengan image: `"/images/demo/trendy/hero.jpg"`.
+5. **Verifikasi Build**:
+   - Jalankan `pnpm run build` untuk memverifikasi ekspor statis HTML dengan semua tag meta OpenGraph yang valid.
+6. **Inspeksi HTML Output**:
+   - Periksa file HTML yang diekspor di `out/preview/...` untuk memastikan tag `<meta property="og:title">`, `<meta property="og:description">`, `<meta property="og:image">`, dan `<meta property="og:locale">` terpasang dalam Bahasa Inggris dengan link gambar absolut/relatif yang benar.
+7. **Pembaruan Dokumentasi**:
+   - Catat progres di `functions/PROGRESS.md` dan `WALKTHROUGH.md`.
+
+---
+
+## 4. Rencana Verifikasi (Verification Plan)
+- Menjalankan script parser HTML terhadap folder `out/preview/truly-organic-hair-studio/index.html` dan `out/preview/fh-land-services/index.html` untuk memastikan:
+  1. `og:title` berbahasa Inggris dan mencerminkan nama bisnis klien.
+  2. `og:description` berbahasa Inggris dan memuat poin penting lokal Lockport, NY.
+  3. `og:image` menunjuk pada foto ril masing-masing bisnis klien.
+  4. Tidak ada lagi sisa teks Indonesia pada tag meta pratinjau link.
+- Build Next.js exit code: 0.
