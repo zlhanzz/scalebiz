@@ -1,54 +1,60 @@
-# Implementation Plan: Perbaikan Presisi & Proporsi Hero Trust Box & Action Buttons di Tampilan Mobile
+# Implementation Plan: Restorasi Estetika Minimalis & Alur Intake Eksklusif (Lucky Leaf Tattoo)
 
-Dokumen ini adalah rencana kerja baku untuk memperbaiki proporsi dan keteraturan tampilan **Hero Trust Box** (Review 4.9/5, 6 Artisans, Hospital Grade) dan **Hero CTA Buttons** pada tampilan mobile website Inktellectual Tattoo.
+Dokumen ini adalah rencana modifikasi kode untuk mengembalikan kebersihan dan estetika elegan halaman web **Lucky Leaf Tattoo** (1809 Hertel Ave, Buffalo NY) sesuai arahan pengguna.
 
 ---
 
-## 1. Analisis Masalah
-- **Kondisi Saat Ini pada Mobile**:
-  - Pada layar ponsel (`<= 540px`), terdapat aturan CSS `@media (max-width: 540px)` yang memaksa `.hero-trust-metrics` menjadi `grid-template-columns: 1fr !important;` (vertikal 3 baris bertumpuk).
-  - Karena tidak memiliki `width: 100%`, kontainer kartu trust mengecil secara otomatis mengikuti kontennya (`width: fit-content`), menghasilkan kartu tinggi yang sempit dan canggung di tengah layar.
-  - Dua tombol aksi di bawahnya (`Book Free Consultation` dan `Estimate Custom Tattoo`) memiliki lebar intrinsik yang tidak seragam (tombol pertama lebih lebar dari tombol kedua, dan keduanya lebih lebar dari kartu trust di atasnya).
-  - Akibatnya, elemen-elemen di bawah foto hero memiliki 3 lebar yang berbeda-beda, membuat UI tampak tidak seimbang, tidak teratur, dan tidak proporsional (*unaligned*).
-- **Target yang Ingin Dicapai**:
-  - Menghapus aturan vertikal sempit pada mobile.
-  - Mengubah `.hero-trust-metrics` menjadi kartu horizontal 3-kolom simetris yang membentang penuh 100% lebar layar mobile (`width: 100%`), dengan padding dan perataan tengah yang presisi.
-  - Mengubah `.hero-action-buttons` pada layar mobile menjadi tata letak vertikal penuh (`width: 100%`) di mana kedua tombol memiliki lebar 100% yang seragam, simetris, dan rapi sejajar dengan kartu metrik dan foto hero di atasnya.
+## 1. Analisis Masalah & Keputusan Desain
+
+### A. Evaluasi Pengalaman Pengguna (UX) & Estetika Visual
+- **Temuan Pengguna**: Penambahan section formulir *in-page* "Custom Tattoo Order & Reference Desk" di badan landing page dinilai mengurangi kesan tenang, eksklusif, dan minimalis (*cluttered* dan kurang estetik untuk studio tato privat berkonsep santuari).
+- **Kekuatan Sistem Sebelumnya**: Sistem sebelumnya sudah memiliki arsitektur intake yang sangat terorganisir dan elegan:
+  1. **Alur Konsultasi Kustom**: Tombol `[ Request Appointment ]` / `[ Inquire / Book ]` membuka wizard 5-tahap (`LuckyLeafBookingModal.tsx`) yang menuntun klien langkah demi langkah, termasuk pengunggahan foto referensi di **Step 3**, penentuan anatomi di **Step 2**, dan preferensi jadwal serta kebijakan di **Step 4**.
+  2. **Alur Klaim Flash 1-of-1**: Klien dapat memilih langsung dari katalog karya unik Din Tran di bagian Senbazuru / Flash Gallery (`LuckyLeafFlashModal.tsx`), yang secara otomatis mengisi data karya dan membuka formulir reservasi.
+- **Keputusan**:
+  - Menghapus section form *in-page* `#custom-order` agar halaman kembali bersih, elegan, dan berjiwa *mindful sanctuary*.
+  - Mempertahankan gambar hero baru yang modern dan realistik (`hero-tattoo-real.jpg`) yang menampilkan seni tato botani halus pada kulit klien dengan sempurna.
+  - Memastikan alur booking modal dengan upload referensi foto di Step 3 dan klaim flash 1-of-1 tetap berjalan 100% mulus.
 
 ---
 
 ## 2. Dampak Perubahan
-File yang akan disentuh:
-- `src/components/preview/PreviewInktellectual.tsx` (CSS `<style>` dan markup Hero Section)
-- `scripts/test_inktellectual_preview.js` (Pengujian visual Puppeteer pada mobile 375px)
-- `WALKTHROUGH.md` (Dokumentasi setelah perubahan)
-- `functions/PROGRESS.md` (Catatan riwayat progres)
+
+1. **Komponen Master (`src/components/preview/PreviewLuckyLeaf.tsx`)**:
+   - Menghapus section `<section id="custom-order">`.
+   - Menghapus state lokal dan handler form in-page (`customImages`, `customDescription`, `customPlacement`, `customSize`, `customMonth`, `customDays`, `customName`, `customEmail`, dll.).
+   - Mengembalikan tombol CTA pada Hero Section: `[ Request Appointment -> ]` (membuka modal booking) dan `[ ✦ 1-of-1 Flash Gallery ]` (smooth scroll ke `#flash-gallery`).
+   - Menghapus link "Custom Order & Upload" dari Master Header desktop dan Mobile Navigation Drawer.
+   - Tetap menggunakan foto hero real `hero-tattoo-real.jpg`.
+2. **Skrip Verifikasi (`scripts/test_lucky_leaf_preview.js`)**:
+   - Menyesuaikan pengujian otomatis untuk memverifikasi hero real tato, membuka modal wizard 5-tahap, menguji upload foto referensi di Step 3, dan mengambil screenshot desktop serta mobile tanpa section custom in-page.
+3. **Dokumentasi**:
+   - Memperbarui `WALKTHROUGH.md` dan `functions/PROGRESS.md`.
 
 ---
 
 ## 3. Langkah-Langkah Eksekusi
-1. **Pembaruan CSS Media Query (`PreviewInktellectual.tsx`)**:
-   - Di `@media (max-width: 768px)`:
-     - Tetapkan `.hero-trust-metrics` dengan `width: 100% !important; max-width: 100% !important; box-sizing: border-box !important; display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 0 !important; text-align: center !important;`.
-     - Tetapkan `.hero-trust-metrics > div` agar memiliki perataan tengah vertikal dan horizontal dengan divider elegan.
-     - Tetapkan `.hero-action-buttons` dengan `display: flex !important; flex-direction: column !important; width: 100% !important; gap: 12px !important;`.
-     - Tetapkan `.hero-action-buttons button` agar `width: 100% !important; justify-content: center !important; text-align: center !important; padding: 14px 20px !important;`.
-   - Hapus atau sesuaikan aturan `@media (max-width: 540px)` yang sebelumnya memecah trust box menjadi 1 kolom sempit.
-2. **Penyempurnaan Padding Hero Section Mobile**:
-   - Tambahkan kelas `.hero-section` dan atur padding responsif `36px 18px 60px` pada layar `<= 768px` agar memberikan ruang lebar yang lega dan seimbang.
-3. **Pengujian TypeScript**:
-   - Jalankan `pnpm.cmd tsc --noEmit` untuk memastikan tidak ada kesalahan tipe.
-4. **Verifikasi Visual Puppeteer**:
-   - Jalankan `node scripts/test_inktellectual_preview.js` untuk mengambil screenshot tampilan mobile 375px dan memeriksa keteraturan serta proporsi elemen hero.
-5. **Dokumentasi & Laporan**:
-   - Perbarui `WALKTHROUGH.md` dan `functions/PROGRESS.md`.
+
+1. **Refactoring `src/components/preview/PreviewLuckyLeaf.tsx`**:
+   - Hapus state in-page custom form dan fungsi handler terkait.
+   - Hapus link navigasi "Custom Order".
+   - Kembalikan tombol CTA Hero menjadi `[ Request Appointment -> ]` dan `[ ✦ 1-of-1 Flash Gallery ]`.
+   - Hapus section `#custom-order`.
+2. **Pembersihan & Penyesuaian Skrip Uji (`scripts/test_lucky_leaf_preview.js`)**:
+   - Uji pemuatan Hero Real Image.
+   - Uji alur 5-step modal booking (Step 1 deskripsi, Step 2 penempatan, Step 3 upload referensi & thumbnail, Step 4 jadwal & kebijakan, Step 5 digital pass).
+   - Uji responsivitas mobile 375px.
+3. **Verifikasi Visual & TypeScript**:
+   - Jalankan `node ./scripts/test_lucky_leaf_preview.js`.
+   - Periksa screenshot hasil pengujian.
+   - Jalankan `pnpm tsc --noEmit`.
+4. **Dokumentasi**:
+   - Update `WALKTHROUGH.md` dan `functions/PROGRESS.md`.
 
 ---
 
 ## 4. Rencana Verifikasi
-- Pengujian headless Chrome (375x812 iPhone standard):
-  - Memverifikasi `scrollWidth === clientWidth` (0 horizontal overflow).
-  - Memeriksa tangkapan layar `screenshot-inktellectual-mobile-hero-flow.png` untuk memastikan:
-    1. Kartu trust berbaris 3 kolom horizontal membentang 100% lebar kontainer secara elegan.
-    2. Tombol `Book Free Consultation` dan `Estimate Custom Tattoo` berukuran lebar penuh 100% seragam.
-    3. Seluruh elemen sejajar simetris dari foto kru hingga kedua tombol aksi.
+
+- **Verifikasi Estetika**: Halaman landing page kembali bersih, lapang, berkelas editorial, dan tidak ada formulir panjang yang merusak ritme halaman.
+- **Verifikasi Fungsionalitas**: Tombol booking di header, hero, dan mobile sticky bar membuka modal intake 5-step dengan dropzone referensi di Step 3.
+- **Verifikasi Tipe**: 0 error TypeScript.

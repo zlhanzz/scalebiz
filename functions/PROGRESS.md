@@ -2,6 +2,70 @@
 
 Dokumen ini mencatat seluruh riwayat fitur dan konfigurasi yang sudah diselesaikan agar agent di masa mendatang dapat melanjutkan tugas tanpa kehilangan konteks.
 
+## [2026-09-28] Lucky Leaf Tattoo: Penyesuaian Proporsi Vertikal Foto Hero & Perbaikan Visual Hierarchy
+- **Status**: Selesai & Terverifikasi (Build Bersih, 0 Error TypeScript, Lolos Verifikasi Visual Puppeteer Desktop 1280px & Mobile 375px)
+- **Pekerjaan yang Dilakukan**:
+  1. **Penyesuaian Proporsi & Breathing Room Hero Section**:
+     - Memperbaiki padding atas hero section dari `54px` menjadi `68px` sehingga tidak lagi menempel terlalu dekat ke bilah header navigasi.
+     - Mengubah aspek rasio kartu foto hero dari `3/4` (terlalu tinggi vertikal: ~600px+) menjadi `4/5` dengan pembatasan tinggi maksimum `maxHeight: "490px"` dan `maxWidth: "440px"`.
+     - Hasilnya tinggi kolom foto hero (~480px) kini sejajar presisi dan seimbang dengan tinggi kolom teks utama (~460px), dengan titik tengah headline sejajar visual dengan bahu model tato.
+  2. **Refinement Posisi Fokus & Badge Floating**:
+     - Mengatur `objectPosition: "center 28%"` sehingga detail garis halus tato botani dan daun ginkgo di pundak/selangka klien berada tepat di titik fokus mata tanpa terpotong.
+     - Memindahkan floating ginkgo badge dari posisi offset negatif yang sebelumnya menjulur ke luar atas (`top: -14px`) menjadi inset rapi di dalam foto (`top: 16px, right: 16px`) dengan efek frosted glass backdrop blur.
+     - Mempercantik inset caption card di bagian bawah foto (`bottom: 16px, left: 16px, right: 16px`) dengan kontras dan padding yang terukur.
+  3. **Verifikasi Visual Puppeteer & TypeScript Typecheck**:
+     - `pnpm.cmd tsc --noEmit` lulus bersih dengan 0 error.
+     - `node ./scripts/test_lucky_leaf_preview.js` berhasil mengeksekusi penangkapan visual hero desktop (1280x900) dan mobile (375x812) tanpa overflow dan proporsi tampak elegan.
+
+## [2026-09-28] Lucky Leaf Tattoo: Restorasi Estetika Minimalis Santuari, Hero Real Tattoo & Modal Intake Step 3 Upload
+- **Status**: Selesai & Terverifikasi (Build Bersih, 0 Error TypeScript, Lolos Verifikasi Visual Puppeteer Desktop 1280px & Mobile 375px)
+- **Pekerjaan yang Dilakukan**:
+  1. **Restorasi Kebersihan & Estetika Halaman Utama**:
+     - Menghapus section formulir in-page `#custom-order` yang berlebihan agar ritme visual santuari privat tetap tenang, berkelas, dan minimalis.
+     - Membersihkan seluruh state lokal dan fungsi handler in-page yang tidak lagi digunakan.
+     - Menghapus anchor link "Custom Order" dari header desktop dan mobile drawer.
+  2. **Hero Section dengan Foto Real Fine-Line Tattoo & CTA Seimbang**:
+     - Mempertahankan foto karya seni tato botani asli (`hero-tattoo-real.jpg`) yang disukai user pada bahu/collarbone klien.
+     - Menata ulang tombol CTA Hero menjadi dua tombol proporsional:
+       - `[ Request Appointment -> ]` (membuka modal intake wizard 5-tahap).
+       - `[ ✦ Explore 1-of-1 Flash ]` (smooth scroll ke katalog flash claimable).
+  3. **Verifikasi Alur Intake Modal 5-Tahap & Upload Referensi Step 3**:
+     - Memastikan modal wizard `LuckyLeafBookingModal.tsx` bekerja dengan sempurna:
+       - Step 1: Pilihan Custom vs Flash & deskripsi konsep.
+       - Step 2: Penentuan letak tubuh & ukuran skala inci.
+       - Step 3: Pengunggahan foto referensi dengan drag-and-drop & pratinjau thumbnail instan.
+       - Step 4: Preferensi jadwal & persetujuan kebijakan deposit studio.
+       - Step 5: Penerbitan tiket digital resmi `#LL-XXXX`.
+  4. **Pengujian Puppeteer & Verifikasi Visual**:
+     - `scripts/test_lucky_leaf_preview.js` memverifikasi pembukaan modal dari hero CTA, pengunggahan foto di Step 3, rendering thumbnail, penerbitan tiket pass, katalog flash, dan tampilan mobile tanpa ada overflow horizontal.
+
+## [2026-09-28] Lucky Leaf Tattoo: Website Konsep Interaktif, Desain Minimalis Botanikal & Sistem Intake Wizard
+- **Status**: Selesai & Terverifikasi (Build SSG Bersih, 0 Error TypeScript, Lolos Verifikasi Visual Puppeteer Desktop 1280px & Mobile 375px)
+- **Pekerjaan yang Dilakukan**:
+  1. **Ekstraksi Aset Visual Nyata Klien (`scripts/crop_lucky_leaf.js`)**:
+     - Mengonversi 5 foto dan screenshot kiriman user di `leads/OFFERING/` menjadi 17 aset web teroptimasi di `public/images/demo/lucky-leaf/`:
+       - `logo-ginkgo.png` (Logo daun ginkgo biloba hitam-putih).
+       - `hero-storefront-leaf.jpg` (Foto asli klien memegang daun ginkgo di depan etalase 1809 Hertel Ave).
+       - 6 Karya Flash 1-of-1: Omamori Swallowtail, Imperial Peony, Goldfish Pair, Geisha Masks, Blue Jay, Ryukin Goldfish.
+       - 8 Portofolio Healed Works: Dagger & Blossom, Silk Moth, Lily of the Valley, Cherry Blossom, Daffodils, Ginkgo Biloba Branch, Tulip, Flora Sleeve.
+       - `google-reviews-proof.png` (Tangkapan layar ulasan Google rating 5.0 dengan 112 reviews).
+  2. **Data & Spesifikasi Bisnis Nyata (`src/data/luckyLeafData.ts`)**:
+     - Memodelkan studio Din Tran di 1809 Hertel Ave, North Buffalo, NY.
+     - Menyematkan narasi proyek budaya **The 1,000 Paper Cranes (Senbazuru)** di Buffalo.
+     - Kebijakan resmi: deposit non-refundable dipotongkan ke total, toleransi keterlambatan 20 menit, penjadwalan ulang minimal 5 hari, pengiriman sketsa digital 3–5 hari sebelum sesi.
+     - Mengintegrasikan ulasan asli dari Katie Ventresca, Nicole Huard, dan Kaitlyn Braun.
+  3. **Arsitektur Komponen & Desain Anti-Slop**:
+     - `src/components/preview/lucky-leaf/LuckyLeafIcons.tsx`: 20 ikon SVG inline profesional (daun ginkgo, bangau kertas, jarum single-needle, perisai sertifikasi, penggaris, kalender, upload, dsb.).
+     - `src/components/preview/lucky-leaf/LuckyLeafBookingModal.tsx`: Wizard 5-langkah yang meniru 100% panduan story Din Tran dengan pengunggah gambar referensi (FileReader thumbnail preview), penempatan tubuh, perkiraan inci, dan penerbitan tiket digital `#LL-HERTEL-XXXX`.
+     - `src/components/preview/lucky-leaf/LuckyLeafFlashModal.tsx`: Modal pratinjau karya flash eksklusif 1-of-1 dengan tombol *"Claim This 1-of-1 Piece"* yang otomatis mengisi formulir konsultasi.
+     - `src/components/preview/PreviewLuckyLeaf.tsx`: Komponen halaman utama dengan palet Warm Silk `#FAF7F2`, Botanical Sage `#4A5F4E`, Sumi Charcoal `#1C1B1A`, tipografi Playfair Display & Plus Jakarta Sans, zero AI slop, dan bilah aksi lengket di ponsel.
+     - `src/app/preview/lucky-leaf/page.tsx`: Route Next.js dengan metadata OpenGraph lengkap untuk preview client outreach.
+  4. **Pengujian Puppeteer & Verifikasi Visual**:
+     - `scripts/test_lucky_leaf_preview.js` memverifikasi seluruh tampilan desktop (1280px), alur modal 5-langkah (input ide, penempatan, upload foto, persetujuan deposit, pass tiket), dan tampilan mobile (375px).
+     - Bukti tangkapan layar tersimpan di `public/images/demo/lucky-leaf/` dan direktori artefak IDE.
+  5. **Dokumentasi & Outreach Copy**:
+     - `WALKTHROUGH.md` dan salinan teks penawaran personal untuk Din Tran (Instagram DM & Email).
+
 ## [2026-09-28] Inktellectual Tattoo Production Push & Cloudflare Deployment (Live Production URL: 200 OK)
 - **Status**: Selesai, Terverifikasi & Live di Production (`https://scalebiz.web.id/preview/inktellectual/` & `/overview/inktellectual/` - Status 200 OK)
 - **Pekerjaan yang Dilakukan**:
