@@ -1374,6 +1374,494 @@ export default function PreviewMiaBella() {
         </div>
       </section>
 
+      {/* 8.5 HOURS & LOCATION INTERACTIVE MAP HUB (#hours / #location) */}
+      <section
+        id="hours"
+        style={{
+          padding: "88px 20px",
+          backgroundColor: "#0F0A18",
+          borderTop: "1px solid rgba(212, 175, 55, 0.18)",
+          position: "relative",
+        }}
+      >
+        <div id="location" style={{ position: "absolute", top: "-40px" }} />
+        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+          {/* Section Header */}
+          <div style={{ textAlign: "center", marginBottom: "48px" }}>
+            <div
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
+                padding: "6px 14px",
+                borderRadius: "30px",
+                backgroundColor: "rgba(212, 175, 55, 0.1)",
+                border: "1px solid rgba(212, 175, 55, 0.3)",
+                color: "#E6C875",
+                fontSize: "12px",
+                fontWeight: 700,
+                letterSpacing: "1.2px",
+                textTransform: "uppercase",
+                marginBottom: "14px",
+              }}
+            >
+              <IconMapPin size={14} color="#D4AF37" />
+              <span>Visit Our Sanctuary &bull; Lockport, NY</span>
+            </div>
+            <h2
+              className="mb-font-serif"
+              style={{
+                fontSize: "clamp(28px, 4vw, 42px)",
+                color: "#FFFFFF",
+                margin: "0 0 14px",
+                letterSpacing: "-0.5px",
+              }}
+            >
+              Sanctuary Location &amp; Chair Hours
+            </h2>
+            <p
+              style={{
+                fontSize: "15px",
+                color: "#C5BDB0",
+                maxWidth: "680px",
+                margin: "0 auto",
+                lineHeight: 1.65,
+              }}
+            >
+              Nestled on historic East Avenue in Lockport. Step into our vintage pinup studio
+              and botanical apothecary for vivid hair transformations, dimensional blonding, and sacred rituals.
+            </p>
+          </div>
+
+          {/* 2-Column Grid: Left Schedule & Arrival, Right Interactive Map */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
+              gap: "32px",
+              alignItems: "start",
+            }}
+          >
+            {/* LEFT COLUMN: Arrival, Address, Operating Hours */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+              {/* Address Card */}
+              <div
+                style={{
+                  backgroundColor: "#160F22",
+                  border: "1px solid rgba(212, 175, 55, 0.28)",
+                  borderRadius: "18px",
+                  padding: "26px",
+                  boxShadow: "0 12px 30px rgba(0, 0, 0, 0.5)",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "flex-start", gap: "14px", marginBottom: "18px" }}>
+                  <div
+                    style={{
+                      width: "44px",
+                      height: "44px",
+                      borderRadius: "12px",
+                      backgroundColor: "rgba(212, 175, 55, 0.15)",
+                      border: "1px solid rgba(212, 175, 55, 0.35)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexShrink: 0,
+                    }}
+                  >
+                    <IconMapPin size={22} color="#E6C875" />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: "12px", color: "#D4AF37", fontWeight: 700, letterSpacing: "1px", textTransform: "uppercase" }}>
+                      Physical Address
+                    </div>
+                    <h3
+                      className="mb-font-serif"
+                      style={{
+                        fontSize: "20px",
+                        color: "#FFFFFF",
+                        margin: "4px 0 6px",
+                      }}
+                    >
+                      {data.fullStreetAddress}
+                    </h3>
+                    <p style={{ fontSize: "13px", color: "#9E9485", margin: 0, lineHeight: 1.5 }}>
+                      Niagara County &bull; Convenient access from Transit Rd (NY-78) &amp; Downtown Lockport.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Parking & Walk-In Badges */}
+                <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginBottom: "20px" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "10px",
+                      padding: "10px 14px",
+                      borderRadius: "10px",
+                      backgroundColor: "rgba(30, 20, 42, 0.8)",
+                      border: "1px solid rgba(212, 175, 55, 0.15)",
+                      fontSize: "12.5px",
+                      color: "#E2DDD3",
+                    }}
+                  >
+                    <IconCheck size={16} color="#4CAF50" />
+                    <span><strong>Parking:</strong> {data.parkingNote}</span>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "10px",
+                      padding: "10px 14px",
+                      borderRadius: "10px",
+                      backgroundColor: "rgba(30, 20, 42, 0.8)",
+                      border: "1px solid rgba(212, 175, 55, 0.15)",
+                      fontSize: "12.5px",
+                      color: "#E2DDD3",
+                    }}
+                  >
+                    <IconSparkles size={16} color="#D4AF37" />
+                    <span><strong>Walk-Ins:</strong> {data.walkInPolicy}</span>
+                  </div>
+                </div>
+
+                {/* Quick Action Navigation Buttons */}
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+                  <a
+                    href={data.directionsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mb-btn-gold"
+                    style={{
+                      flex: 1,
+                      minWidth: "160px",
+                      padding: "11px 18px",
+                      borderRadius: "10px",
+                      fontSize: "13px",
+                      textDecoration: "none",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: "8px",
+                      textAlign: "center",
+                    }}
+                  >
+                    <IconMapPin size={16} color="#0A060E" />
+                    <span>Get Directions</span>
+                  </a>
+
+                  <a
+                    href={data.phoneLink}
+                    className="mb-btn-outline"
+                    style={{
+                      padding: "11px 18px",
+                      borderRadius: "10px",
+                      fontSize: "13px",
+                      textDecoration: "none",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: "8px",
+                    }}
+                  >
+                    <IconPhone size={15} color="#E6C875" />
+                    <span>Call: {data.phone}</span>
+                  </a>
+
+                  <a
+                    href={data.googleMapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      width: "100%",
+                      padding: "8px 12px",
+                      borderRadius: "8px",
+                      fontSize: "12px",
+                      color: "#C5BDB0",
+                      textDecoration: "none",
+                      textAlign: "center",
+                      display: "block",
+                      border: "1px dashed rgba(212, 175, 55, 0.3)",
+                      marginTop: "4px",
+                      transition: "all 0.2s ease",
+                    }}
+                  >
+                    Open in Google Maps App &rarr;
+                  </a>
+                </div>
+              </div>
+
+              {/* Hours Schedule Card */}
+              <div
+                style={{
+                  backgroundColor: "#160F22",
+                  border: "1px solid rgba(212, 175, 55, 0.22)",
+                  borderRadius: "18px",
+                  padding: "24px",
+                  boxShadow: "0 10px 24px rgba(0, 0, 0, 0.4)",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "16px" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                    <IconClock size={18} color="#D4AF37" />
+                    <h3 className="mb-font-serif" style={{ fontSize: "17px", color: "#FFFFFF", margin: 0 }}>
+                      Weekly Chair Hours
+                    </h3>
+                  </div>
+                  <span
+                    style={{
+                      fontSize: "11px",
+                      color: "#4CAF50",
+                      backgroundColor: "rgba(76, 175, 80, 0.12)",
+                      border: "1px solid rgba(76, 175, 80, 0.35)",
+                      borderRadius: "20px",
+                      padding: "3px 10px",
+                      fontWeight: 700,
+                    }}
+                  >
+                    Lockport, NY (EST)
+                  </span>
+                </div>
+
+                <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                  {data.hours.map((h, i) => (
+                    <div
+                      key={i}
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        padding: "8px 12px",
+                        borderRadius: "8px",
+                        backgroundColor: h.isOpenToday ? "rgba(212, 175, 55, 0.08)" : "rgba(255, 255, 255, 0.02)",
+                        border: h.isOpenToday ? "1px solid rgba(212, 175, 55, 0.2)" : "1px solid transparent",
+                      }}
+                    >
+                      <span
+                        style={{
+                          fontSize: "13px",
+                          fontWeight: h.isOpenToday ? 700 : 500,
+                          color: h.isOpenToday ? "#FFFFFF" : "#A89F90",
+                        }}
+                      >
+                        {h.day}
+                      </span>
+                      <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                        <span
+                          style={{
+                            fontSize: "13px",
+                            fontWeight: 600,
+                            color: h.isOpenToday ? "#E6C875" : "#7A7062",
+                          }}
+                        >
+                          {h.time}
+                        </span>
+                        {h.statusBadge && (
+                          <span
+                            style={{
+                              fontSize: "10px",
+                              padding: "2px 6px",
+                              borderRadius: "6px",
+                              fontWeight: 700,
+                              backgroundColor:
+                                h.statusBadge === "Walk-Ins Welcome"
+                                  ? "rgba(76, 175, 80, 0.18)"
+                                  : "rgba(212, 175, 55, 0.15)",
+                              color:
+                                h.statusBadge === "Walk-Ins Welcome"
+                                  ? "#4CAF50"
+                                  : "#D4AF37",
+                              border: "1px solid currentColor",
+                            }}
+                          >
+                            {h.statusBadge}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div style={{ marginTop: "14px", paddingTop: "12px", borderTop: "1px solid rgba(255, 255, 255, 0.06)", fontSize: "12px", color: "#8E8474", fontStyle: "italic", textAlign: "center" }}>
+                  {data.hoursNote}
+                </div>
+              </div>
+            </div>
+
+            {/* RIGHT COLUMN: Interactive Google Maps Frame */}
+            <div
+              style={{
+                backgroundColor: "#160F22",
+                border: "1.5px solid rgba(212, 175, 55, 0.35)",
+                borderRadius: "20px",
+                overflow: "hidden",
+                boxShadow: "0 18px 45px rgba(0, 0, 0, 0.7), 0 0 30px rgba(212, 175, 55, 0.12)",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              {/* Map Top Bar */}
+              <div
+                style={{
+                  padding: "14px 20px",
+                  backgroundColor: "#110B1B",
+                  borderBottom: "1px solid rgba(212, 175, 55, 0.2)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  flexWrap: "wrap",
+                  gap: "10px",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                  <div
+                    style={{
+                      width: "10px",
+                      height: "10px",
+                      borderRadius: "50%",
+                      backgroundColor: "#4CAF50",
+                      boxShadow: "0 0 8px #4CAF50",
+                    }}
+                  />
+                  <div>
+                    <span style={{ fontSize: "13px", fontWeight: 700, color: "#FFFFFF" }}>
+                      Mia Bella&apos;s Pinpoint
+                    </span>
+                    <span style={{ fontSize: "11px", color: "#D4AF37", marginLeft: "6px" }}>
+                      ★ 5.0 Google Verified
+                    </span>
+                  </div>
+                </div>
+
+                {/* Map Mode Switcher */}
+                <div
+                  style={{
+                    display: "flex",
+                    backgroundColor: "rgba(0, 0, 0, 0.4)",
+                    borderRadius: "8px",
+                    padding: "2px",
+                    border: "1px solid rgba(212, 175, 55, 0.2)",
+                  }}
+                >
+                  <button
+                    type="button"
+                    onClick={() => setMapTheme("dark")}
+                    style={{
+                      padding: "4px 12px",
+                      borderRadius: "6px",
+                      fontSize: "11px",
+                      fontWeight: 700,
+                      cursor: "pointer",
+                      border: "none",
+                      backgroundColor: mapTheme === "dark" ? "#D4AF37" : "transparent",
+                      color: mapTheme === "dark" ? "#0A060E" : "#C5BDB0",
+                      transition: "all 0.15s ease",
+                    }}
+                  >
+                    Street Map
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setMapTheme("satellite")}
+                    style={{
+                      padding: "4px 12px",
+                      borderRadius: "6px",
+                      fontSize: "11px",
+                      fontWeight: 700,
+                      cursor: "pointer",
+                      border: "none",
+                      backgroundColor: mapTheme === "satellite" ? "#D4AF37" : "transparent",
+                      color: mapTheme === "satellite" ? "#0A060E" : "#C5BDB0",
+                      transition: "all 0.15s ease",
+                    }}
+                  >
+                    Satellite Aerial
+                  </button>
+                </div>
+              </div>
+
+              {/* Embedded Google Maps iframe */}
+              <div
+                style={{
+                  position: "relative",
+                  width: "100%",
+                  height: "440px",
+                  backgroundColor: "#0A060E",
+                }}
+              >
+                <iframe
+                  title="Mia Bella's Hair Salon Google Maps Location"
+                  src={mapTheme === "satellite" ? data.mapEmbedSatelliteUrl : data.mapEmbedDarkUrl}
+                  width="100%"
+                  height="100%"
+                  style={{
+                    border: 0,
+                    filter: mapTheme === "dark" ? "invert(90%) hue-rotate(180deg) contrast(1.1) brightness(0.95)" : "none",
+                  }}
+                  loading="lazy"
+                  allowFullScreen
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+
+                {/* Pinpoint Floating Badge */}
+                <div
+                  style={{
+                    position: "absolute",
+                    bottom: "16px",
+                    left: "16px",
+                    backgroundColor: "rgba(10, 6, 14, 0.92)",
+                    border: "1px solid #D4AF37",
+                    borderRadius: "10px",
+                    padding: "8px 14px",
+                    backdropFilter: "blur(8px)",
+                    WebkitBackdropFilter: "blur(8px)",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "8px",
+                    boxShadow: "0 6px 16px rgba(0, 0, 0, 0.6)",
+                    maxWidth: "calc(100% - 32px)",
+                  }}
+                >
+                  <IconMapPin size={16} color="#E6C875" />
+                  <span style={{ fontSize: "12px", color: "#FFFFFF", fontWeight: 600 }}>
+                    329 East Ave, Lockport, NY 14094
+                  </span>
+                </div>
+              </div>
+
+              {/* Map Footer Bar */}
+              <div
+                style={{
+                  padding: "14px 20px",
+                  backgroundColor: "#110B1B",
+                  borderTop: "1px solid rgba(212, 175, 55, 0.2)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  fontSize: "12px",
+                  color: "#9E9485",
+                }}
+              >
+                <span>GPS: 43.1744&deg; N, -78.6773&deg; W</span>
+                <a
+                  href={data.googleMapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    color: "#E6C875",
+                    textDecoration: "none",
+                    fontWeight: 600,
+                  }}
+                >
+                  View Large Map &amp; Reviews &rarr;
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* 9. ON-PAGE DIRECT BOOKING & CONSULTATION HUB (#book) */}
       <section
         id="book"

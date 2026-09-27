@@ -1,118 +1,129 @@
-# Ringkasan Pekerjaan (Walkthrough): Pembuatan Prototype Website Mewah & Interaktif Mia Bella's Hair Salon and Magick Boutique
+# Walkthrough: Perapihan Header, Reordering Hero Mobile, & Optimalisasi Tombol Floating Navigation
 
-Dokumen ini disusun setelah pekerjaan selesai sesuai protokol kerja baku workspace ([RULE[user_global]](file:///c:/Users/ZHULL/Documents/Freelance/AGENTS.md)).
-
----
-
-## 1. Identitas Brand & Jiwa Bisnis (Brand Soul & Aesthetics)
-- **Nama Bisnis**: Mia Bella's Hair Salon and Magick Boutique
-- **Lokasi**: Lockport, NY (Niagara County)
-- **Kontak Resmi**: `(716) 395-6352`
-- **Kredensial Pemilik**: *Owned and operated by an Award-Winning Color Specialist*
-- **Karakter & Estetika Unik**:
-  - Perpaduan antara **Vintage Gothic Glamour**, **High-Impact Vivid Hair Alchemy**, dan **Metaphysical Beauty Boutique**.
-  - Skema warna: Obsidian Midnight (`#0A060E`), Beludru Plum/Blackberry (`#130A19`), Emas Antik Gilded (`#D4AF37`), Aksen Rose/Amethyst Mistik (`#8B5A7D`), dan Teks Ivory/Parchment (`#F5F2EB`).
-  - **Bebas AI-Slop & Emoji Kasar**: Seluruh ikon menggunakan custom inline SVG elegan (*crescent moon, ornate shears, crystal prism, potion bottle, candle flame, sacred pendulum, sparkles*).
-  - Mengintegrasikan aset foto asli:
-    - Logo ilustrasi pinup retro glam wanita dengan roll rambut (`logo-pinup.jpg`).
-    - Foto rambut nyata: *Electric Cobalt & Midnight Sapphire Dimension* (`electric-blue-hair.jpg`), *Metallic Steel Blue Layers* (`metallic-blue-layers.jpg`), dan *Hidden Holographic Rainbow Prism Peekaboo* (`rainbow-peekaboo-prism.jpg`).
-    - Visual atmosferik salon gotik mewah (`salon-interior.jpg`) dan apotek botani kristal herbal (`boutique-elixirs.jpg`).
+Dokumen ini mendokumentasikan hasil pekerjaan perapihan header, penambahan interaktivitas mobile, pertukaran posisi hero image di mobile, dan penggantian tombol bottom floating navigation menjadi tombol booking langsung pada website preview **Total Fence**.
 
 ---
 
-## 2. Fitur-Fitur Interaktif Konkret yang Diimplementasikan
+## 1. Daftar Perubahan yang Dilakukan
 
-### A. Hair Alchemy & Color Transformation Calculator ([HairAlchemyQuizModal.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/components/preview/HairAlchemyQuizModal.tsx))
-Kalkulator interaktif untuk memecahkan keraguan calon klien mengenai berapa lama waktu pengerjaan di kursi salon dan estimasi investasinya:
-1. **Pilihan Kanvas Awal**: *Virgin Natural Hair*, *Light Brown / Blonde*, *Dark / Box Dyed (Pigment Extraction)*, *Previously Lightened*.
-2. **Pilihan Transformasi Gaya**:
-   - *Electric Blue & Cobalt Jewels* ($195+)
-   - *Holographic Prism Peekaboo* ($180+)
-   - *Full-Head Vivid Alchemy* ($240+)
-   - *Moonlit Platinum Foilayage* ($210+)
-   - *Lived-In Dimensional Balayage* ($185+)
-   - *Sculptural Cut & Velvet Curls* ($55)
-3. **Penyesuaian Panjang & Ketebalan Rambut**: Short/Bob, Shoulder, Mid-Back, Waist Length & Fine, Medium, Thick/Coarse.
-4. **Ritual Tambahan Butik Metafisika**: *Moon-Charged Botanical Scalp Mask* (+$25), *Amethyst Meridian Scalp Release* (+$20), *Intuitive Tarot & Aura Hair Consultation* (+$15).
-5. **Kalkulasi Real-Time & Catatan Kimiawi**: Menampilkan estimasi jam di kursi (misal: `3.0 – 4.0 Hours`), kisaran investasi (`$220 – $290`), dan formula kimiawi.
-6. **Transfer Data Cerdas**: Tombol `Proceed to Book This Hair Ritual →` otomatis memindahkan seluruh spesifikasi ke formulir booking tanpa perlu input ulang.
-
----
-
-### B. Direct Digital Salon Appointment Wizard ([MiaBellaBookingModal.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/components/preview/MiaBellaBookingModal.tsx))
-Alur pemesanan janji temu salon digital 3-langkah yang membebaskan pemilik dari ketergantungan telepon berulang:
-- **Integrasi Spesifikasi**: Jika dibuka dari kuis kalkulator, otomatis melompat ke **Step 3** dengan banner emas: `✓ Hair Alchemy Calculator Specs Loaded: ...`.
-- **Riwayat Kimiawi Rambut (Step 2)**: Mengumpulkan riwayat pewarnaan 2-3 tahun terakhir untuk mencegah kerusakan rambut di kursi.
-- **Jadwal & Kontak (Step 3)**: Pilihan hari salon (Selasa, Kamis, Jumat, Sabtu 12-8pm, Minggu by appt), jendela kedatangan, nama, no HP, dan email.
-- **Tiket Digital Resmi (`#MB-RITUAL-XXXX`)**: Menampilkan tanda terima digital lengkap dengan status `● CHAIR RESERVATION QUEUED`, instruksi kedatangan, dan tombol cetak/simpan via `window.print()`.
+### A. Perapihan Total Header Navigation Desktop & Penyelarasan Proporsi
+1. **Eliminasi Masalah Word-Wrap Vertikal**:
+   - Menambahkan `white-space: nowrap !important;` pada seluruh link navigasi `.header-nav-link`.
+   - Mengubah styling tautan navigasi desktop menjadi pill hover yang elegan (`padding: 6px 10px`, `border-radius: 6px`, hover background `#F1F5F9` dan warna `#0D3594`).
+   - Menyederhanakan label panjang yang sebelumnya memicu word-wrap: `Good Neighbor Program` -> `Neighbor Co-Op`.
+   - Menambahkan `flex-shrink: 0` pada logo dan tombol aksi header agar tidak pernah menekan navigasi.
+   - Hasilnya: Tautan navigasi (`Fencing Styles`, `42" Frost Standard`, `Neighbor Co-Op`, `Real Projects`, `Reviews`) kini tampil 100% horizontal dalam satu baris dengan tinggi seragam 28.5px, tanpa ada teks yang terpotong menjadi 2 baris vertikal.
+2. **Penyempurnaan Breakpoint Responsif**:
+   - Menaikkan breakpoint menu mobile dari `900px` ke `1024px` (`@media (max-width: 1024px)`).
+   - Pada layar tablet dan ponsel (`<= 1024px`), header beralih bersih ke logo + tombol hamburger menu interaktif.
+   - Pada layar laptop dan desktop (`>= 1025px`), seluruh tautan dan tombol aksi muat secara leluasa dalam satu baris horizontal proporsional.
+3. **Top Dispatch Bar di Mobile**:
+   - Menambahkan class `.top-bar-hours` pada informasi jam operasional dengan media query `@media (max-width: 640px) { display: none !important; }`.
+   - Pada layar sempit, top bar tetap bersih dalam satu baris menampilkan badge musim pagar WNY dan nomor telepon langsung tanpa teks yang bertumpuk canggung.
+4. **Header Mobile Bersih & Interaktif**:
+   - Di layar mobile (`max-width: 1024px`), kedua tombol desktop (`Estimate Cost` & `Book Laser Measure`) dan navigasi desktop disembunyikan (`display: none !important`).
+   - Sisi kiri hanya menampilkan **Logo resmi + TOTAL FENCE WNY**, dan sisi kanan menampilkan tombol **Hamburger Menu** (`☰` / `✕`) interaktif.
+   - Menu drawer slide-down mobile dilengkapi:
+     - 2 Kartu Aksi Cepat: **📅 Book Measure** (Hijau Emerald) dan **⚡ Cost Estimator** (Biru Royal).
+     - Daftar tautan section dengan chevron dan badge diskon ("SAVE 10%").
+     - Jam operasional dan tombol langsung "Call Now".
 
 ---
 
-### C. The Magick Boutique & Apothecary Showcase ([MagickBoutiqueModal.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/components/preview/MagickBoutiqueModal.tsx))
-Etalase interaktif untuk lini produk butik metafisika:
-- Kategori filter: *All Offerings*, *Hair Elixirs & Oils*, *Crystal Scalp Tools*, *Intention Candles*, *Aura Mists & Rituals*.
-- Produk unggulan: *Full-Moon Charged Botanical Hair Elixir* ($28), *Carved Raw Amethyst Scalp Comb* ($36), *Gilded Velvet Radiance Intention Candle* ($24), dan *Sacred Rosemary Aura Mist* ($22).
-- Tombol aksi: `Reserve for Salon Visit Pickup` (terhubung ke sistem reservasi).
+### B. Reordering Hero Section Mobile (Sesuai Permintaan Spesifik User)
+User meminta: *"pada tampilan mobile secara khusus, saya ingin agar hero image bertukar dengan 2 tombol action di section hero."*
+
+- **Struktur Responsif Murni Menggunakan CSS Grid & Flex Order**:
+  - **Tampilan Desktop (`min-width: 861px`)**:
+    - Kolom Kiri: `.hero-intro` (Row 1), `.hero-actions` (Row 2), `.hero-trust` (Row 3).
+    - Kolom Kanan: `.hero-visual` (`grid-row: 1 / span 3`) menampilkan foto proyek asli dengan badge 42" Frost-Line.
+  - **Tampilan Mobile (`max-width: 860px`)**:
+    - `order: 1` -> `.hero-intro`: Rating badge 5.0, Headline H1, paragraf spesifikasi tiang beku 42 inci.
+    - `order: 2` -> `.hero-visual`: **Hero Image Showcase (Foto Vinyl Privacy Fence)** berpindah posisi tampil **tepat sebelum kedua tombol aksi**.
+    - `order: 3` -> `.hero-actions`: **2 Tombol Aksi** ("Estimate Fence Cost Online" & "Book On-Site Laser Measure") tampil tepat di bawah foto pengerjaan.
+    - `order: 4` -> `.hero-trust`: 4 Micro Trust Indicators (No Phone Tag, Fast 3-Day Turnaround, Neighbor Discount, NYS Licensed).
 
 ---
 
-### D. Halaman Utama Komprehensif ([PreviewMiaBella.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/components/preview/PreviewMiaBella.tsx))
-- **Top Announcement Bar**: Lencana resmi *Award-Winning Color Specialist*, penegasan *Walk-Ins Welcome*, dan tombol direct dial `(716) 395-6352`.
-- **Hero Section**: Tipografi Cinzel/Playfair mewah berlatar gradasi obsidian-plum dengan visual frame pinup retro dan CTA ganda (*Book Hair Transformation* & *Calculate Chair Time & Cost*).
-- **Business Hours, Location & Interactive Themed Google Map Section (`#location` / `#hours`)**:
-  - **Penyesuaian Tema Gelap Alchemical Peta**: Mengeliminasi warna putih silau bawaan Google Maps menggunakan styling filter gelap presisi (`invert(90%) hue-rotate(180deg) brightness(85%) contrast(115%)`) sehingga selaras total dengan nuansa hitam obsidian (`#0A060E`), garis jalan slate grey, teks putih tajam, dan marker bernuansa tembaga/emas mistik.
-  - **Mode Satelit Hybrid (`t=h`)**: Menyediakan citra udara nyata Lockport yang gelap alami (atap bangunan, pohon, dan aspal) bagi pengguna yang menginginkan orientasi fisik nyata.
-  - **Pill Switcher Interaktif**: Pengunjung dapat berpindah antara tombol `🌙 Dark Map` dan `🛰️ Satellite` secara instan dengan satu kali klik.
-  - Peta interaktif tersemat dengan titik lokasi tepat di **329 East Ave, Lockport, NY 14094** tanpa memerlukan API key eksternal yang rentan kuota.
-  - Kartu alamat lengkap dengan tombol *Open Full Map* dan *Get Driving Directions*.
-  - Petunjuk parkir khusus klien (*Free dedicated customer parking*).
-  - Lencana status jam operasional *Walk-Ins Welcome Tue, Thu, Fri, Sat (12–8 PM)*.
-  - Tabel jam operasional terperinci lengkap dengan nomor telepon direct dial `(716) 395-6352`.
-- **Hair Alchemy Menu**: 10 layanan terstruktur dengan rincian harga, formula kimiawi, dan tombol ganda di setiap kartu (`Estimate Cost` & `Book Service`).
-- **Real Client Living Portfolio**: Galeri filterable menampilkan foto asli klien (Electric Blue, Steel Teal Layers, Rainbow Peekaboo).
-- **The Magick Boutique Section**: Sorotan lini apotek botani dan kristal.
-- **Client Love & Social Proof**: Ulasan bintang 5 dari warga Lockport, Clarence, dan Niagara Falls.
-- **Booking Station Bawah (`#book`)**: Hub terpusat untuk reservasi online instan.
+### C. Pembaruan Mobile Floating Bottom Bar
+User meminta: *"floating button yang ada di bottom navigation mobile, saya inging agar tombol telpon diganti dengan tombol booking secara langsung"*
+
+- Tombol telepon statis lama `<a> tel:...` telah **DIGANTI** dengan tombol booking interaktif langsung:
+  - **Tombol Kiri (Booking Langsung)**:
+    - Label: `Book Free Measure`
+    - Ikon: `IconCalendar`
+    - Warna: Emerald Green (`#059669`) dengan bayangan halus.
+    - Aksi: Langsung membuka modal 3-langkah pemesanan laser measure (`handleOpenQuote()`).
+  - **Tombol Kanan (Estimator)**:
+    - Label: `Estimate Cost`
+    - Ikon: `IconCalculator`
+    - Warna: Royal Deep Blue (`#0D3594`)
+    - Aksi: Membuka kalkulator estimasi budget pagar (`handleOpenEstimator()`).
+  - Kedua tombol memiliki lebar yang seimbang (`flex: 1`), anti-tumpang tindih, dan nyaman dioperasikan satu jempol pada perangkat mobile.
 
 ---
 
-### E. Next.js Static Route & Metadata OpenGraph Bahasa Inggris ([page.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/app/preview/mia-bellas-hair-salon/page.tsx))
-- Route: `/preview/mia-bellas-hair-salon`
-- Metadata OpenGraph & Twitter Card dalam Bahasa Inggris dengan gambar `logo-pinup.jpg`, deskripsi kredensial master colorist, dan `locale: en_US`.
+## 2. Hasil Pengujian & Bukti Visual
+
+Pengujian dijalankan secara otomatis menggunakan Chrome Headless (Puppeteer) melalui skrip `scripts/test_total_fence_preview.js` pada resolusi Desktop (1280x900) dan Mobile iPhone standard (375x812).
+
+### Ringkasan Log Metrik & Posisi Elemen Mobile:
+```json
+{
+  "scrollWidth": 375,
+  "innerWidth": 375,
+  "hasHorizontalScroll": false,
+  "hasStickyMobileBar": true,
+  "stickyBarContent": "Book Free Measure Estimate Cost",
+  "headerCleanliness": {
+    "desktopNavHidden": true,
+    "desktopHeaderActionsHidden": true,
+    "hamburgerVisible": true
+  },
+  "heroMobileOrdering": {
+    "introTop": 238.3,
+    "visualTop": 587.1,
+    "actionsTop": 864.4,
+    "trustTop": 1002.4,
+    "isVisualAboveActions": true
+  }
+}
+```
+
+### Hasil Verifikasi Utama:
+1. **Zero Horizontal Scroll**: `scrollWidth` sama persis dengan `innerWidth` (375px), tidak ada elemen yang meluap ke luar layar.
+2. **Posisi Hero Image Terbukti di Atas 2 Tombol**: `visualTop` (587.1px) lebih kecil dari `actionsTop` (864.4px) -> terbukti `isVisualAboveActions: true`.
+3. **Header Bersih**: `desktopNavHidden: true` dan `desktopHeaderActionsHidden: true`, tombol hamburger `hamburgerVisible: true`.
+4. **Interaksi Drawer Mobile**: Drawer berhasil dibuka dan ditutup kembali secara dinamis.
+5. **Interaksi Floating Bar**: Klik pada tombol "Book Free Measure" berhasil memicu `TotalFenceQuoteModal` (tiket booking pengukuran laser) di layar mobile.
+
+### Tangkapan Layar Terverifikasi:
+- Tangkapan layar mobile atas: Hero intro dan hero image showcase dengan badge 42" frost-line.
+- Tangkapan layar mobile scroll: Hero image tampil tepat sebelum kedua tombol aksi hero dan trust checkmarks.
+- Tangkapan layar mobile drawer: Menu navigasi interaktif terbuka dengan tombol quick measure dan cost estimator.
+- Tangkapan layar mobile modal: Modal booking terbuka sempurna saat tombol floating "Book Free Measure" diklik.
+- Tangkapan layar desktop hero: Layout 2 kolom proporsional dan header berjarak rapi.
 
 ---
 
-## 3. Hasil Pengujian & Bukti Eksekusi (Verification Results)
-- **Next.js Route Verification**: Status HTTP 200 terverifikasi pada endpoint `/preview/mia-bellas-hair-salon`.
-- **End-to-End Headless Chrome (Puppeteer)**:
-  - Pembukaan kuis kalkulator dan perhitungan dinamis: Berhasil.
-  - Transfer data kuis ke formulir booking: Berhasil (Banner spesifikasi terisi otomatis).
-  - Pembukaan modal Magick Boutique dan filter kategori: Berhasil.
-  - Peta interaktif Google Maps di `#location` ter-render sempurna dengan peralihan instan antara `🌙 Dark Map` dan `🛰️ Satellite`.
-  - 0 uncaught JavaScript runtime errors.
-- **Tangkapan Layar Bukti Visual Tersimpan**:
-  - `mia_bella_map_dark_mode.png` (Tampilan Peta Tema Dark Alchemical menyatu dengan website)
-  - `mia_bella_map_satellite_mode.png` (Tampilan Peta Mode Satelit Udara Nyata tanpa warna putih)
-  - `mia_bella_hero_verified.png` (Tampilan Hero mewah & vintage pinup emblem)
-  - `mia_bella_quiz_verified.png` (Kalkulator konsultasi kimiawi warna rambut)
-  - `mia_bella_booking_prefilled_verified.png` (Formulir booking dengan data terisi otomatis)
-  - `mia_bella_boutique_verified.png` (Etalase apotek mistik & kristal)
-  - `mia_bella_services_verified.png` (Katalog layanan rambut dengan dual-action buttons)
-  - `mia_bella_gallery_verified.png` (Galeri foto asli karya rambut klien)
+## 3. Petunjuk Deploy (Untuk Dijalankan User Secara Manual)
 
----
+Sesuai aturan baku, agent tidak melakukan deploy atau git push otomatis. Silakan jalankan perintah berikut secara mandiri jika ingin mempublikasikan perubahan:
 
-## 4. Petunjuk Deploy Manual untuk Pengguna
-Saat Anda siap meluncurkan halaman preview ini ke server Cloudflare produksi:
 ```bash
-# 1. Jalankan build produksi
+# 1. Jalankan pengecekan tipe TypeScript
+pnpm tsc --noEmit
+
+# 2. Build aplikasi statis Next.js
 pnpm run build
 
-# 2. Deploy ke Cloudflare Pages / Workers
-pnpm run deploy
+# 3. Commit perubahan ke repositori git
+git add src/components/preview/PreviewTotalFence.tsx src/components/preview/FenceIcons.tsx
+git commit -m "feat: refine header, reorder mobile hero image above CTAs, and add direct booking floating button"
 
-# 3. Commit dan push ke GitHub
-git add .
-git commit -m "feat(preview): launch interactive vintage gothic hair salon & magick boutique prototype for Mia Bella"
-git push origin main
+# 4. Push ke GitHub (jika diperlukan)
+git push origin <branch-name>
+
+# 5. Deploy ke production (Cloudflare Pages)
+pnpm run deploy
 ```

@@ -57,10 +57,13 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       // Step A: Priority 1 - URL Query Parameters (?lang=en, ?geo=US, ?country=SG)
       const params = new URLSearchParams(window.location.search);
       const urlLang = params.get("lang")?.toLowerCase();
+      const isPreview = typeof window !== "undefined" && window.location.pathname.includes("/preview/");
       if (urlLang === "id" || urlLang === "en") {
         setLangState(urlLang);
         document.documentElement.lang = urlLang;
-        document.title = TITLES[urlLang];
+        if (!isPreview) {
+          document.title = TITLES[urlLang];
+        }
         setIsAutoDetected(false);
         return;
       }
@@ -71,7 +74,9 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
         setLangState(targetLang);
         setDetectedCountry(urlGeo);
         document.documentElement.lang = targetLang;
-        document.title = TITLES[targetLang];
+        if (!isPreview) {
+          document.title = TITLES[targetLang];
+        }
         setIsAutoDetected(true);
         try {
           sessionStorage.setItem(GEO_STORAGE_KEY, urlGeo);
@@ -160,7 +165,9 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
           if (manualLang === "id" || manualLang === "en") {
             setLangState(manualLang);
             document.documentElement.lang = manualLang;
-            document.title = TITLES[manualLang];
+            if (!isPreview) {
+              document.title = TITLES[manualLang];
+            }
             return;
           }
 
@@ -171,7 +178,9 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
           );
           setLangState(targetLang);
           document.documentElement.lang = targetLang;
-          document.title = TITLES[targetLang];
+          if (!isPreview) {
+            document.title = TITLES[targetLang];
+          }
           setIsAutoDetected(true);
           return;
         }
@@ -181,7 +190,9 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
         if (manualLang === "id" || manualLang === "en") {
           setLangState(manualLang);
           document.documentElement.lang = manualLang;
-          document.title = TITLES[manualLang];
+          if (!isPreview) {
+            document.title = TITLES[manualLang];
+          }
           return;
         }
 
@@ -200,7 +211,9 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
         console.info(`[Scalebiz GeoIP] 🌐 Offline Fallback -> Language: ${fallbackLang.toUpperCase()}`);
         setLangState(fallbackLang);
         document.documentElement.lang = fallbackLang;
-        document.title = TITLES[fallbackLang];
+        if (!isPreview) {
+          document.title = TITLES[fallbackLang];
+        }
         setIsAutoDetected(true);
       };
 
