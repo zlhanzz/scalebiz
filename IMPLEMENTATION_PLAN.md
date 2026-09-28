@@ -1,60 +1,56 @@
-# Implementation Plan: Restorasi Estetika Minimalis & Alur Intake Eksklusif (Lucky Leaf Tattoo)
+# Rencana Implementasi: Optimasi Tampilan Mobile & Centering Tombol CTA (Lucky Leaf Tattoo)
 
-Dokumen ini adalah rencana modifikasi kode untuk mengembalikan kebersihan dan estetika elegan halaman web **Lucky Leaf Tattoo** (1809 Hertel Ave, Buffalo NY) sesuai arahan pengguna.
+Dokumen ini disusun berdasarkan protokol baku workspace `RULE[user_global]` sebelum melakukan modifikasi kode.
 
 ---
 
-## 1. Analisis Masalah & Keputusan Desain
-
-### A. Evaluasi Pengalaman Pengguna (UX) & Estetika Visual
-- **Temuan Pengguna**: Penambahan section formulir *in-page* "Custom Tattoo Order & Reference Desk" di badan landing page dinilai mengurangi kesan tenang, eksklusif, dan minimalis (*cluttered* dan kurang estetik untuk studio tato privat berkonsep santuari).
-- **Kekuatan Sistem Sebelumnya**: Sistem sebelumnya sudah memiliki arsitektur intake yang sangat terorganisir dan elegan:
-  1. **Alur Konsultasi Kustom**: Tombol `[ Request Appointment ]` / `[ Inquire / Book ]` membuka wizard 5-tahap (`LuckyLeafBookingModal.tsx`) yang menuntun klien langkah demi langkah, termasuk pengunggahan foto referensi di **Step 3**, penentuan anatomi di **Step 2**, dan preferensi jadwal serta kebijakan di **Step 4**.
-  2. **Alur Klaim Flash 1-of-1**: Klien dapat memilih langsung dari katalog karya unik Din Tran di bagian Senbazuru / Flash Gallery (`LuckyLeafFlashModal.tsx`), yang secara otomatis mengisi data karya dan membuka formulir reservasi.
-- **Keputusan**:
-  - Menghapus section form *in-page* `#custom-order` agar halaman kembali bersih, elegan, dan berjiwa *mindful sanctuary*.
-  - Mempertahankan gambar hero baru yang modern dan realistik (`hero-tattoo-real.jpg`) yang menampilkan seni tato botani halus pada kulit klien dengan sempurna.
-  - Memastikan alur booking modal dengan upload referensi foto di Step 3 dan klaim flash 1-of-1 tetap berjalan 100% mulus.
+## 1. Analisis Masalah & Kebutuhan
+- **Kebutuhan Pengguna**: Pengguna menginginkan tampilan mobile lebih teroptimasi, khususnya tombol-tombol aksi utama seperti pada Hero Section (`Request Appointment` & `Explore 1-of-1 Flash`) dan Senbazuru Section (`Request a Crane Piece`) agar berada di posisi tengah (*centered*) dan proporsional di layar ponsel, tidak menempel canggung di sebelah kiri dengan banyak ruang kosong di sebelah kanannya.
+- **Kondisi Saat Ini**:
+  - Pada Hero Section, wrapper tombol menggunakan `display: flex; flexWrap: wrap; gap: 12px;` default left-aligned. Pada layar ponsel (< 640px), tombol bertumpuk ke kiri dengan ukuran auto, menyisakan ruang kosong di kanan.
+  - Pada Senbazuru Section, tombol `Request a Crane Piece` berada di kolom ketiga grid desktop yang saat di mobile berubah menjadi 1-kolom dan tertinggal di sebelah kiri bawah card putih.
+- **Tujuan**:
+  - Membuat tombol-tombol CTA di mobile berada tepat di tengah (*center-aligned*) secara simetris dan elegan.
+  - Memberikan lebar sentuh yang ergonomis (*touch-friendly* / `width: 100%; max-width: 320px;`) sehingga nyaman diakses jempol pengguna smartphone.
+  - Mempertahankan tampilan desktop tetap inline side-by-side tanpa regresi.
 
 ---
 
 ## 2. Dampak Perubahan
-
-1. **Komponen Master (`src/components/preview/PreviewLuckyLeaf.tsx`)**:
-   - Menghapus section `<section id="custom-order">`.
-   - Menghapus state lokal dan handler form in-page (`customImages`, `customDescription`, `customPlacement`, `customSize`, `customMonth`, `customDays`, `customName`, `customEmail`, dll.).
-   - Mengembalikan tombol CTA pada Hero Section: `[ Request Appointment -> ]` (membuka modal booking) dan `[ ✦ 1-of-1 Flash Gallery ]` (smooth scroll ke `#flash-gallery`).
-   - Menghapus link "Custom Order & Upload" dari Master Header desktop dan Mobile Navigation Drawer.
-   - Tetap menggunakan foto hero real `hero-tattoo-real.jpg`.
-2. **Skrip Verifikasi (`scripts/test_lucky_leaf_preview.js`)**:
-   - Menyesuaikan pengujian otomatis untuk memverifikasi hero real tato, membuka modal wizard 5-tahap, menguji upload foto referensi di Step 3, dan mengambil screenshot desktop serta mobile tanpa section custom in-page.
-3. **Dokumentasi**:
-   - Memperbarui `WALKTHROUGH.md` dan `functions/PROGRESS.md`.
+- File yang tersentuh:
+  - `src/components/preview/PreviewLuckyLeaf.tsx`:
+    - Blok `<style>` responsif `@media (max-width: 640px)`: penambahan aturan CSS untuk `.ll-hero-cta-group`, `.ll-senbazuru-btn-wrap`, dsb.
+    - Wrapper tombol Hero Section: penambahan className `ll-hero-cta-group`.
+    - Wrapper tombol Senbazuru: penambahan className `ll-senbazuru-btn-wrap`.
+  - `scripts/test_lucky_leaf_preview.js`:
+    - Pembaruan skrip untuk memotret section Senbazuru pada tampilan mobile untuk verifikasi visual otomatis.
+  - `WALKTHROUGH.md` & `functions/PROGRESS.md`:
+    - Pencatatan hasil implementasi dan bukti visual.
 
 ---
 
 ## 3. Langkah-Langkah Eksekusi
-
-1. **Refactoring `src/components/preview/PreviewLuckyLeaf.tsx`**:
-   - Hapus state in-page custom form dan fungsi handler terkait.
-   - Hapus link navigasi "Custom Order".
-   - Kembalikan tombol CTA Hero menjadi `[ Request Appointment -> ]` dan `[ ✦ 1-of-1 Flash Gallery ]`.
-   - Hapus section `#custom-order`.
-2. **Pembersihan & Penyesuaian Skrip Uji (`scripts/test_lucky_leaf_preview.js`)**:
-   - Uji pemuatan Hero Real Image.
-   - Uji alur 5-step modal booking (Step 1 deskripsi, Step 2 penempatan, Step 3 upload referensi & thumbnail, Step 4 jadwal & kebijakan, Step 5 digital pass).
-   - Uji responsivitas mobile 375px.
-3. **Verifikasi Visual & TypeScript**:
-   - Jalankan `node ./scripts/test_lucky_leaf_preview.js`.
-   - Periksa screenshot hasil pengujian.
-   - Jalankan `pnpm tsc --noEmit`.
+1. **Pembaruan CSS Responsif & Kelas Elemen di `PreviewLuckyLeaf.tsx`**:
+   - Definisikan styling `@media (max-width: 640px)`:
+     - `.ll-hero-cta-group`: `display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; margin-bottom: 32px;`
+     - `.ll-hero-cta-group button, .ll-hero-cta-group a`: `width: 100%; max-width: 320px; justify-content: center; text-align: center;`
+     - `.ll-senbazuru-btn-wrap`: `display: flex; justify-content: center; width: 100%; margin-top: 12px;`
+     - `.ll-senbazuru-btn-wrap button`: `width: 100%; max-width: 320px; justify-content: center; text-align: center;`
+   - Terapkan kelas-kelas tersebut pada elemen JSX terkait.
+2. **Kompilasi & Pengecekan Tipe**:
+   - Jalankan `pnpm.cmd tsc --noEmit` untuk memastikan 0 error.
+3. **Verifikasi Visual Puppeteer**:
+   - Jalankan `node ./scripts/test_lucky_leaf_preview.js` untuk mengambil tangkapan layar mobile Hero dan mobile Senbazuru.
+   - Periksa gambar hasil uji secara visual dengan `view_file`.
 4. **Dokumentasi**:
-   - Update `WALKTHROUGH.md` dan `functions/PROGRESS.md`.
+   - Catat progres di `functions/PROGRESS.md` dan `WALKTHROUGH.md`.
 
 ---
 
 ## 4. Rencana Verifikasi
-
-- **Verifikasi Estetika**: Halaman landing page kembali bersih, lapang, berkelas editorial, dan tidak ada formulir panjang yang merusak ritme halaman.
-- **Verifikasi Fungsionalitas**: Tombol booking di header, hero, dan mobile sticky bar membuka modal intake 5-step dengan dropzone referensi di Step 3.
-- **Verifikasi Tipe**: 0 error TypeScript.
+- Uji viewport mobile 375x812:
+  - Memastikan kedua tombol Hero berada di posisi tengah kartu/container, simetris dan mudah dijangkau.
+  - Memastikan tombol Senbazuru berada di tengah card.
+  - Memastikan tidak ada *horizontal overflow* (*no horizontal scrollbar*).
+- Uji viewport desktop 1280x900:
+  - Memastikan tombol Hero tetap berada dalam layout inline kiri seperti desain awal desktop yang disetujui.

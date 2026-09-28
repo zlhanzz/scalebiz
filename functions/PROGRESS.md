@@ -2,6 +2,35 @@
 
 Dokumen ini mencatat seluruh riwayat fitur dan konfigurasi yang sudah diselesaikan agar agent di masa mendatang dapat melanjutkan tugas tanpa kehilangan konteks.
 
+## [2026-09-28] Lucky Leaf Tattoo: Optimasi Responsif Mobile & Centering Tombol CTA
+- **Status**: Selesai & Terverifikasi (Build Bersih, 0 Error TypeScript, Lolos Verifikasi Visual Puppeteer Mobile 375x812 & Desktop 1280x900)
+- **Pekerjaan yang Dilakukan**:
+  1. **Centering & Ergonomi Sentuh Tombol Hero Section**:
+     - Menambahkan class `.ll-hero-cta-group` dengan aturan `@media (max-width: 640px)`.
+     - Tombol CTA `[ Request Appointment ]` dan `[ ✦ Explore 1-of-1 Flash ]` kini berada tepat di posisi tengah layar secara simetris (`align-items: center; justify-content: center;`).
+     - Mengubah lebar tombol menjadi proporsional (`width: 100%; max-width: 320px;`) sehingga nyaman ditekan jempol dan tidak menyisakan ruang kosong di kanan layar.
+  2. **Centering Tombol Senbazuru Journey**:
+     - Menambahkan class `.ll-senbazuru-btn-wrap` pada tombol `[ Request a Crane Piece ]` di section The 1,000 Paper Cranes Project.
+     - Di mobile, tombol ini otomatis berada di tengah kartu putih dengan lebar seimbang (`width: 100%; max-width: 320px;`).
+  3. **Centering Tombol Konsultasi Sekunder**:
+     - Menerapkan `.ll-mobile-center-btn-wrap` pada tombol prompt inquiry di bagian review & portofolio.
+  4. **Pengujian Visual & Integritas Desktop**:
+     - Tampilan desktop tetap utuh (inline side-by-side) tanpa regresi.
+     - Puppeteer berhasil memotret bukti visual `screenshot-mobile-hero-buttons.png` dan `screenshot-mobile-senbazuru.png`.
+
+## [2026-09-28] Lucky Leaf Tattoo Production Push & Cloudflare Live Deployment
+- **Status**: Selesai & Terverifikasi (Build Static 14 Rute Bersih, Git Commit `e5352fe` & `8264cc6` Ter-push ke `origin/main`, Live di Production: `https://scalebiz.web.id/preview/lucky-leaf` & `/overview/lucky-leaf`)
+- **Pekerjaan yang Dilakukan**:
+  1. **Production Build & Route Verification**:
+     - `next build` berhasil mengekspor 14 rute statis ke `./out` tanpa error dalam 10.4 detik.
+     - Menyediakan rute ganda: `/preview/lucky-leaf` dan route alias `/overview/lucky-leaf`.
+  2. **Git Commit & Push**:
+     - Commit `e5352fe`: Mengunggah seluruh komponen Lucky Leaf Tattoo, aset foto yang telah dioptimasi, sistem modal intake 5-step, flash reservation, data studio nyata, dan test script.
+     - Commit `8264cc6`: Mengunggah rute alias `/overview/lucky-leaf`.
+     - Berhasil di-push ke GitHub repository `https://github.com/zlhanzz/scalebiz.git`.
+  3. **Teks Penawaran Outreach Intim & Personal**:
+     - Menyusun teks penawaran bergaya percakapan sesama seniman/kolega (*peer-to-peer / artist-friendly*), menghargai santuari Hertel Ave dan proyek Senbazuru, serta menawarkan solusi atas kelelahan membalas DM booking berulang.
+
 ## [2026-09-28] Lucky Leaf Tattoo: Penyesuaian Proporsi Vertikal Foto Hero & Perbaikan Visual Hierarchy
 - **Status**: Selesai & Terverifikasi (Build Bersih, 0 Error TypeScript, Lolos Verifikasi Visual Puppeteer Desktop 1280px & Mobile 375px)
 - **Pekerjaan yang Dilakukan**:

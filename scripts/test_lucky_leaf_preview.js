@@ -198,17 +198,39 @@ async function runVerification() {
     console.log('[Puppeteer] Testing mobile viewport 375x812...');
     await page.setViewport({ width: 375, height: 812, isMobile: true, hasTouch: true });
     await page.evaluate(() => window.scrollTo(0, 0));
-    await new Promise(r => setTimeout(r, 1000));
+    await new Promise(r => setTimeout(r, 800));
 
     const mobileHeroShotPath = path.join(screenshotDir, 'screenshot-mobile-hero.png');
     await page.screenshot({ path: mobileHeroShotPath });
     fs.copyFileSync(mobileHeroShotPath, path.join(artifactDir, 'screenshot-mobile-hero.png'));
-    console.log(`[Screenshot] Saved mobile hero screenshot`);
+    console.log(`[Screenshot] Saved mobile hero top screenshot`);
+
+    // Scroll to Hero Buttons on Mobile
+    await page.evaluate(() => {
+      const el = document.getElementById('hero-request-appointment-btn');
+      if (el) el.scrollIntoView({ behavior: 'instant', block: 'center' });
+    });
+    await new Promise(r => setTimeout(r, 600));
+    const mobileHeroButtonsShotPath = path.join(screenshotDir, 'screenshot-mobile-hero-buttons.png');
+    await page.screenshot({ path: mobileHeroButtonsShotPath });
+    fs.copyFileSync(mobileHeroButtonsShotPath, path.join(artifactDir, 'screenshot-mobile-hero-buttons.png'));
+    console.log(`[Screenshot] Saved mobile hero centered buttons screenshot`);
+
+    // Scroll to Senbazuru Section on Mobile
+    await page.evaluate(() => {
+      const el = document.getElementById('senbazuru');
+      if (el) el.scrollIntoView({ behavior: 'instant', block: 'center' });
+    });
+    await new Promise(r => setTimeout(r, 600));
+    const mobileSenbazuruShotPath = path.join(screenshotDir, 'screenshot-mobile-senbazuru.png');
+    await page.screenshot({ path: mobileSenbazuruShotPath });
+    fs.copyFileSync(mobileSenbazuruShotPath, path.join(artifactDir, 'screenshot-mobile-senbazuru.png'));
+    console.log(`[Screenshot] Saved mobile senbazuru centered button screenshot`);
 
     // Test Mobile Sticky Bar & Flash
     await page.evaluate(() => {
       const el = document.getElementById('flash-gallery');
-      if (el) el.scrollIntoView({ behavior: 'instant' });
+      if (el) el.scrollIntoView({ behavior: 'instant', block: 'start' });
     });
     await new Promise(r => setTimeout(r, 800));
 

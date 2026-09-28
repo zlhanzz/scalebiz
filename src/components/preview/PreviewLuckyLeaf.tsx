@@ -189,6 +189,50 @@ export default function PreviewLuckyLeaf() {
             font-size: 32px !important;
             line-height: 1.2 !important;
           }
+
+          /* Mobile Button Centering & Touch Optimization */
+          .ll-hero-cta-group {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 12px !important;
+            margin-bottom: 32px !important;
+            width: 100% !important;
+          }
+          .ll-hero-cta-group button,
+          .ll-hero-cta-group a {
+            width: 100% !important;
+            max-width: 320px !important;
+            justify-content: center !important;
+            text-align: center !important;
+          }
+
+          .ll-senbazuru-btn-wrap {
+            display: flex !important;
+            justify-content: center !important;
+            width: 100% !important;
+            margin-top: 16px !important;
+          }
+          .ll-senbazuru-btn-wrap button {
+            width: 100% !important;
+            max-width: 320px !important;
+            justify-content: center !important;
+            text-align: center !important;
+          }
+
+          .ll-mobile-center-btn-wrap {
+            display: flex !important;
+            justify-content: center !important;
+            width: 100% !important;
+          }
+          .ll-mobile-center-btn-wrap button,
+          .ll-mobile-center-btn-wrap a {
+            width: 100% !important;
+            max-width: 320px !important;
+            justify-content: center !important;
+            text-align: center !important;
+          }
         }
       `}</style>
 
@@ -602,6 +646,7 @@ export default function PreviewLuckyLeaf() {
 
                 {/* CTA Action Buttons */}
                 <div
+                  className="ll-hero-cta-group"
                   style={{
                     display: "flex",
                     alignItems: "center",
@@ -946,7 +991,7 @@ export default function PreviewLuckyLeaf() {
               </div>
 
               {/* Action Button */}
-              <div>
+              <div className="ll-senbazuru-btn-wrap">
                 <button
                   onClick={handleCraneProjectBooking}
                   className="ll-btn-primary"
@@ -1386,6 +1431,7 @@ export default function PreviewLuckyLeaf() {
 
             {/* Appointment Consultation Prompt */}
             <div
+              className="ll-mobile-center-btn-wrap"
               style={{
                 marginTop: "32px",
                 textAlign: "center",

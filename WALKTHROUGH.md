@@ -4,7 +4,36 @@ Dokumen ini mencatat seluruh implementasi teknis, estetika desain minimalis-bota
 
 ---
 
-## Update Terbaru: Penyempurnaan Proporsi Vertikal Foto Hero & Visual Balance
+## Update Terbaru: Optimasi Responsif Mobile & Centering Tombol CTA
+- **Tujuan**: Mengoptimalkan tata letak mobile agar tombol-tombol aksi utama berada tepat di tengah (*center-aligned*) dan memiliki lebar sentuh yang ergonomis (*touch-friendly*), menghilangkan ruang kosong di kanan layar ponsel.
+- **Rincian Perubahan**:
+  1. **Hero Section Buttons**:
+     - Menerapkan `.ll-hero-cta-group` di `@media (max-width: 640px)`.
+     - Tombol `[ Request Appointment ]` dan `[ ✦ Explore 1-of-1 Flash ]` kini berada di tengah layar secara vertikal-bertumpuk dengan lebar sentuh nyaman (`width: 100%; max-width: 320px; text-align: center;`).
+  2. **Senbazuru Section Button**:
+     - Menerapkan `.ll-senbazuru-btn-wrap` di `@media (max-width: 640px)`.
+     - Tombol `[ Request a Crane Piece ]` kini berada di tengah kartu putih secara simetris (`width: 100%; max-width: 320px;`).
+  3. **Reviews Prompt Button**:
+     - Menerapkan `.ll-mobile-center-btn-wrap` agar tombol konsultasi sekunder juga terpusat di mobile.
+  4. **Integritas Desktop**:
+     - Seluruh tombol di desktop tetap dalam tata letak horizontal inline aslinya tanpa perubahan.
+- **Hasil Pengujian**:
+  - Lolos kompilasi TypeScript (`0 error`).
+  - Lolos uji Puppeteer mobile (375x812) dengan tangkapan layar `screenshot-mobile-hero-buttons.png` dan `screenshot-mobile-senbazuru.png`.
+
+---
+
+## Petunjuk Deploy ke Production (Manual oleh User)
+Sesuai Rule 6, jika user ingin mengunggah perubahan optimasi mobile ini ke production:
+```bash
+git add src/components/preview/PreviewLuckyLeaf.tsx scripts/test_lucky_leaf_preview.js functions/PROGRESS.md WALKTHROUGH.md IMPLEMENTATION_PLAN.md
+git commit -m "feat(mobile): center CTA buttons on mobile view for optimal touch experience"
+git push origin main
+```
+
+---
+
+## Update Sebelumnya: Penyempurnaan Proporsi Vertikal Foto Hero & Visual Balance
 - **Masalah Awal**: Foto hero menjulur terlalu tinggi ke atas (aspect ratio 3/4 tinggi ~600px+), badge ginkgo melayang di posisi negatif menembus padding atas, dan margin atas yang terlalu rapat membuat foto menempel ke header navigasi sehingga terlihat kurang proporsional terhadap kolom teks headline di sebelah kiri.
 - **Solusi yang Diterapkan**:
   1. **Breathing Room Header**: Padding atas section dinaikkan dari `54px` menjadi `68px`, memberikan ruang bernapas yang lega dan elegan di bawah sticky navbar.
