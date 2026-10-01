@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     template: "%s | Scalebiz",
   },
   description:
-    "Scalebiz - Custom-engineered digital systems, high-converting interactive web platforms, workflow automation, and operational software without monthly subscription lock-ins.",
+    "Scalebiz - Custom-engineered digital systems, high-converting interactive web platforms, workflow automation, and free ongoing maintenance while active.",
   keywords: [
     "Scalebiz",
     "Business Optimization",

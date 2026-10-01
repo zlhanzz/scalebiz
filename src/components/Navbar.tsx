@@ -1,15 +1,10 @@
 "use client";
 
 import React from "react";
-import { useLanguage } from "@/context/LanguageContext";
-import { TRANSLATIONS } from "@/data/translations";
 
 export default function Navbar() {
-  const { lang, setLang } = useLanguage();
-  const t = TRANSLATIONS[lang].nav;
-
   const whatsappUrl = `https://wa.me/6281527080656?text=${encodeURIComponent(
-    t.waMessage
+    "Hello Scalebiz, I'd like to discuss a custom high-converting website for my business."
   )}`;
 
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
@@ -51,41 +46,18 @@ export default function Navbar() {
               <h2>
                 <span className="brand-scale">SCALE</span><span className="brand-accent-biz">BIZ</span>
               </h2>
-              <p>{t.tagline}</p>
+              <p>Scale Up And Grow Your Business</p>
             </div>
           </a>
 
           <nav className="nav-links">
-            <a href="#layanan" onClick={(e) => scrollToSection(e, "layanan")}>{t.services}</a>
-            <a href="#portofolio" onClick={(e) => scrollToSection(e, "portofolio")}>{t.portfolio}</a>
-            <a href="#diagnosa-sistem" onClick={(e) => scrollToSection(e, "diagnosa-sistem")}>{t.diagnosis}</a>
-            <a href="#faq" onClick={(e) => scrollToSection(e, "faq")}>{t.faq}</a>
+            <a href="#work" onClick={(e) => scrollToSection(e, "work")}>Work</a>
+            <a href="#services" onClick={(e) => scrollToSection(e, "services")}>Services</a>
+            <a href="#why-us" onClick={(e) => scrollToSection(e, "why-us")}>Why Scalebiz</a>
+            <a href="#faq" onClick={(e) => scrollToSection(e, "faq")}>FAQ</a>
           </nav>
 
           <div className="nav-actions">
-            {/* Language Switcher */}
-            <div className="lang-switcher" role="group" aria-label="Language Selector">
-              <button
-                type="button"
-                onClick={() => setLang("id")}
-                className={`lang-btn ${lang === "id" ? "active" : ""}`}
-                aria-pressed={lang === "id"}
-                title="Bahasa Indonesia"
-              >
-                ID
-              </button>
-              <span className="lang-divider">/</span>
-              <button
-                type="button"
-                onClick={() => setLang("en")}
-                className={`lang-btn ${lang === "en" ? "active" : ""}`}
-                aria-pressed={lang === "en"}
-                title="English"
-              >
-                EN
-              </button>
-            </div>
-
             <a
               href={whatsappUrl}
               target="_blank"
@@ -105,7 +77,7 @@ export default function Navbar() {
               >
                 <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
               </svg>
-              <span>{t.consultWa}</span>
+              <span>Consult on WhatsApp</span>
             </a>
           </div>
         </div>

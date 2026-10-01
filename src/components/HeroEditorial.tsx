@@ -2,113 +2,201 @@
 
 import React, { useState, useEffect } from "react";
 import ScalebizTypography from "./ScalebizTypography";
-import { useLanguage } from "@/context/LanguageContext";
-import { TRANSLATIONS } from "@/data/translations";
 
 interface HeroProject {
   id: string;
   name: string;
-  badge: { id: string; en: string };
-  category: { id: string; en: string };
-  description: { id: string; en: string };
+  badge: string;
+  category: string;
+  description: string;
   urlBar: string;
   phoneImg: string;
   tabletImg: string;
   previewImg: string;
   portraitImg: string;
   accentColor: string;
-  tagline: { id: string; en: string };
-  metric: { id: string; en: string };
+  tagline: string;
+  metric: string;
+  pillName?: string;
 }
 
 const HERO_PROJECTS: HeroProject[] = [
   {
     id: "ruangsinggah",
     name: "RuangSinggah.id",
-    badge: { id: "Live Platform", en: "Live Platform" },
-    category: {
-      id: "Marketplace Proptech Hunian & Kost",
-      en: "Proptech Marketplace & Student Housing",
-    },
-    description: {
-      id: "Cari kost, filter kampus terdekat, & booking online terhubung ke WhatsApp.",
-      en: "Student housing search, campus proximity filter, & direct WhatsApp bookings.",
-    },
+    pillName: "RuangSinggah.id",
+    badge: "Live Platform",
+    category: "Proptech Marketplace & Student Housing",
+    description: "Student housing search, campus proximity filter, & direct WhatsApp bookings.",
     urlBar: "ruangsinggah.id/cari-kost",
     phoneImg: "/images/ruangsinggah-mobile.png",
-    tabletImg: "/images/ruangsinggah-desktop.png",
+    tabletImg: "/images/ruangsinggah-desktop.webp",
     previewImg: "/images/ruangsinggah-preview.jpg",
     portraitImg: "/images/developer-portrait.webp",
     accentColor: "#e11d48",
-    tagline: {
-      id: "Proptech Real-time Search & Filter",
-      en: "Proptech Real-time Search & Filter",
-    },
-    metric: {
-      id: "10+ Unit Terverifikasi",
-      en: "10+ Verified Units",
-    },
+    tagline: "Proptech Real-time Search & Filter",
+    metric: "10+ Verified Units",
   },
   {
     id: "ruangtani",
     name: "rUang Tani",
-    badge: { id: "Aplikasi Riil", en: "Live Enterprise App" },
-    category: {
-      id: "Pencatatan Keuangan & Lahan Tani",
-      en: "Agri-Finance & Land Yield Management",
-    },
-    description: {
-      id: "Monitoring laba keuntungan, arus kas panen, pengeluaran berjalan, & progress panen.",
-      en: "Harvest profit monitoring, seasonal cash flows, running OPEX, & yield progress.",
-    },
+    pillName: "rUang Tani",
+    badge: "Live Enterprise App",
+    category: "Agri-Finance & Land Yield Management",
+    description: "Harvest profit monitoring, seasonal cash flows, running OPEX, & yield progress.",
     urlBar: "ruangtani.app/keuangan",
     phoneImg: "/images/ruang-tani-mobile.png",
-    tabletImg: "/images/ruang-tani-desktop.png",
+    tabletImg: "/images/ruang-tani-desktop.webp",
     previewImg: "/images/ruang-tani-mobile.png",
     portraitImg: "/images/developer-portrait-ruangtani.webp",
     accentColor: "#10b981",
-    tagline: {
-      id: "Manajemen Keuangan Lahan & Panen Terintegrasi",
-      en: "Integrated Harvest Yield & Farm Financials",
-    },
-    metric: {
-      id: "Laba Rp 646,2 Jt Terdata",
-      en: "IDR 646.2M Profit Tracked",
-    },
+    tagline: "Integrated Harvest Yield & Farm Financials",
+    metric: "IDR 646.2M Profit Tracked",
   },
   {
     id: "mentlife",
     name: "Mentlife",
-    badge: { id: "AI Mentor", en: "AI Intelligence" },
-    category: {
-      id: "AI Finance & Career Mentor",
-      en: "AI Finance & Career Advisory",
-    },
-    description: {
-      id: "Pencatatan arus kas, diagnosis kesehatan finansial (Runway & Cashflow), roadmap bebas hutang, & saran AI personal.",
-      en: "Cash flow tracking, financial health runway diagnosis, debt-freedom roadmap, & personal AI insights.",
-    },
+    pillName: "Mentlife",
+    badge: "AI Intelligence",
+    category: "AI Finance & Career Advisory",
+    description: "Cash flow tracking, financial health runway diagnosis, debt-freedom roadmap, & personal AI insights.",
     urlBar: "mentlife.ai/beranda",
     phoneImg: "/images/mentlife-mobile.png",
-    tabletImg: "/images/mentlife-desktop.png",
-    previewImg: "/images/mentlife-desktop.png",
+    tabletImg: "/images/mentlife-desktop.webp",
+    previewImg: "/images/mentlife-desktop.webp",
     portraitImg: "/images/developer-portrait-mentlife.webp",
     accentColor: "#38bdf8",
-    tagline: {
-      id: "Personal Financial Runway & AI Coaching",
-      en: "Personal Financial Runway & AI Coaching",
-    },
-    metric: {
-      id: "Runway 7.9 Bln • AI Diagnosis",
-      en: "7.9 Mo Runway • AI Diagnosis",
-    },
+    tagline: "Personal Financial Runway & AI Coaching",
+    metric: "7.9 Mo Runway • AI Diagnosis",
+  },
+  {
+    id: "totalfence",
+    name: "Total Fence of WNY",
+    pillName: "Total Fence",
+    badge: "Contractor Platform",
+    category: "Fence Contractor & Cost Estimator",
+    description: "42-inch frost-line standard, interactive fencing style estimator, and instant dispatch booking.",
+    urlBar: "totalfencewny.com/estimate",
+    phoneImg: "/images/total-fence-mobile.png",
+    tabletImg: "/images/total-fence-desktop.webp",
+    previewImg: "/images/total-fence-desktop.webp",
+    portraitImg: "/images/developer-portrait-totalfence.webp",
+    accentColor: "#3b82f6",
+    tagline: "Instant Online Fence Cost Calculator",
+    metric: "5.0 ★ Google • Instant Quotes",
+  },
+  {
+    id: "luckyleaf",
+    name: "Lucky Leaf Tattoo",
+    pillName: "Lucky Leaf",
+    badge: "Custom Atelier",
+    category: "Fine-Line Botanical Tattoo Sanctuary",
+    description: "Private sanctuary intake wizard, 1-of-1 flash reservation system, and deposit tracking.",
+    urlBar: "luckyleaftattoo.com/sanctuary",
+    phoneImg: "/images/lucky-leaf-mobile.png",
+    tabletImg: "/images/lucky-leaf-desktop.webp",
+    previewImg: "/images/lucky-leaf-desktop.webp",
+    portraitImg: "/images/developer-portrait-luckyleaf.webp",
+    accentColor: "#10b981",
+    tagline: "1-of-1 Botanical Flash Claim Engine",
+    metric: "1,000 Cranes • Zero Walk-Ins",
+  },
+  {
+    id: "inktellectual",
+    name: "Inktellectual Atelier",
+    pillName: "Inktellectual",
+    badge: "Studio Platform",
+    category: "Resident Collective & Pricing Engine",
+    description: "6-resident collective showcase, dynamic hourly tattoo cost estimator, and Buffalo State student hub.",
+    urlBar: "inktellectualtattoo.com/booking",
+    phoneImg: "/images/inktellectual-mobile.png",
+    tabletImg: "/images/inktellectual-desktop.webp",
+    previewImg: "/images/inktellectual-desktop.webp",
+    portraitImg: "/images/developer-portrait-inktellectual.webp",
+    accentColor: "#f59e0b",
+    tagline: "Dynamic Hourly & Custom Art Pricing",
+    metric: "6 Resident Artists • 4.9 ★",
+  },
+  {
+    id: "fhland",
+    name: "F.H. Land Services",
+    pillName: "FH Land",
+    badge: "Commercial Trades",
+    category: "Excavation & Commercial Site Estimator",
+    description: "Lot clearing, commercial site grading, emergency storm response, and 24-hour turnaround quotes.",
+    urlBar: "fhlandservices.com/site-quote",
+    phoneImg: "/images/fh-land-mobile.png",
+    tabletImg: "/images/fh-land-desktop.webp",
+    previewImg: "/images/fh-land-desktop.webp",
+    portraitImg: "/images/developer-portrait-fhland.webp",
+    accentColor: "#84cc16",
+    tagline: "24-Hour Commercial Excavation SLA",
+    metric: "100% Insured • 24h Quotes",
+  },
+  {
+    id: "trendy",
+    name: "Trendy Nail Spa",
+    pillName: "Trendy Nail",
+    badge: "Boutique Spa",
+    category: "Medical-Grade Nail Studio & Booking",
+    description: "Transparent tiered manicure menu, medical-grade hospital sterilization proof, and calendar reservations.",
+    urlBar: "trendynailspa.com/appointments",
+    phoneImg: "/images/trendy-mobile.png",
+    tabletImg: "/images/trendy-desktop.webp",
+    previewImg: "/images/trendy-desktop.webp",
+    portraitImg: "/images/developer-portrait-trendy.webp",
+    accentColor: "#ec4899",
+    tagline: "Zero-Wait Real-time Chair Scheduling",
+    metric: "Medical Sterilization • 4.8 ★",
+  },
+  {
+    id: "miabella",
+    name: "Mia Bella's Salon",
+    pillName: "Mia Bella",
+    badge: "Salon & Aesthetics",
+    category: "Gothic Hair Boutique & Vivid Color",
+    description: "Vivid color correction wizard, hair extension consultations, and holistic elixir inventory.",
+    urlBar: "miabellashair.com/consultation",
+    phoneImg: "/images/mia-bella-mobile.png",
+    tabletImg: "/images/mia-bella-desktop.webp",
+    previewImg: "/images/mia-bella-desktop.webp",
+    portraitImg: "/images/developer-portrait-miabella.webp",
+    accentColor: "#a855f7",
+    tagline: "Vivid Color Correction & Extensions",
+    metric: "Signature Boutique • 5.0 ★",
+  },
+  {
+    id: "trulyorganic",
+    name: "Truly Organic Studio",
+    pillName: "Truly Organic",
+    badge: "Eco Sanctuary",
+    category: "Ammonia-Free Organic Hair Care",
+    description: "Non-toxic organic treatments, bridal updo portfolios, and transparent botanical pricing.",
+    urlBar: "trulyorganichairstudio.com/services",
+    phoneImg: "/images/truly-organic-mobile.png",
+    tabletImg: "/images/truly-organic-desktop.webp",
+    previewImg: "/images/truly-organic-desktop.webp",
+    portraitImg: "/images/developer-portrait-trulyorganic.webp",
+    accentColor: "#14b8a6",
+    tagline: "100% Ammonia-Free Hair Chemistry",
+    metric: "Certified Organic • 4.9 ★",
   },
 ];
 
 export default function HeroEditorial() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const { lang } = useLanguage();
-  const t = TRANSLATIONS[lang].hero;
+
+  // Preload portrait images and tablet previews to ensure instant zero-latency transitions
+  useEffect(() => {
+    const baseImg = new Image();
+    baseImg.src = "/images/developer-portrait-base.webp";
+    HERO_PROJECTS.forEach((proj) => {
+      const pImg = new Image();
+      pImg.src = proj.portraitImg;
+      const tImg = new Image();
+      tImg.src = proj.tabletImg;
+    });
+  }, []);
 
   // Auto-rotate continuously every 3.5s
   useEffect(() => {
@@ -119,6 +207,21 @@ export default function HeroEditorial() {
   }, [activeIndex]);
 
   const currentProject = HERO_PROJECTS[activeIndex];
+
+  const scrollToServices = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const el = document.getElementById("services") || document.getElementById("layanan");
+    if (el) {
+      const topOffset = el.getBoundingClientRect().top + window.scrollY - 30;
+      window.scrollTo({
+        top: Math.max(0, topOffset),
+        behavior: "smooth",
+      });
+      window.history.pushState(null, "", "#services");
+    } else {
+      window.location.hash = "services";
+    }
+  };
 
   return (
     <section className="hero-editorial" id="portofolio">
@@ -140,14 +243,14 @@ export default function HeroEditorial() {
         {/* Top Manifesto Box */}
         <div className="hero-manifesto">
           <h1>
-            <span className="hero-title-highlight">{t.highlight}</span>
-            <span className="hero-title-sub">{t.sub}</span>
+            <span className="hero-title-highlight">Stop Limiting Your Business Potential!</span>
+            <span className="hero-title-sub">by relying on outdated legacy workflows</span>
           </h1>
 
           {/* Interactive Portfolio Navigation with Guiding Eyebrow */}
           <div className="hero-portfolio-nav-group">
-            <span className="hero-portfolio-label">{t.workLabel}</span>
-            <div className="hero-project-pills" role="tablist" aria-label="Pilih Proyek Showcase">
+            <span className="hero-portfolio-label">Our Selected Work:</span>
+            <div className="hero-project-pills" role="tablist" aria-label="Select Showcase Project">
               {HERO_PROJECTS.map((proj, idx) => {
                 const isActive = idx === activeIndex;
                 return (
@@ -165,7 +268,7 @@ export default function HeroEditorial() {
                       className="pill-dot"
                       style={{ backgroundColor: proj.accentColor }}
                     />
-                    <span className="pill-name">{proj.name}</span>
+                    <span className="pill-name">{proj.pillName || proj.name}</span>
                     {isActive && (
                       <span
                         key={`timer-${idx}-${activeIndex}`}
@@ -179,14 +282,15 @@ export default function HeroEditorial() {
             </div>
           </div>
 
-          {/* Anchor to Diagnostic Section */}
+          {/* Anchor to Services Section */}
           <div className="hero-cta-wrapper">
             <a
-              href="#diagnosa-sistem"
+              href="#services"
+              onClick={scrollToServices}
               className="hero-primary-cta-btn"
               id="cta-hero-main"
             >
-              <span>{t.ctaMain}</span>
+              <span>Scale Up and Grow My Business!</span>
               <svg
                 width="16"
                 height="16"
@@ -269,7 +373,7 @@ export default function HeroEditorial() {
                         className="browser-status-tag"
                         style={{ color: proj.accentColor }}
                       >
-                        ● {proj.badge[lang]}
+                        ● {proj.badge}
                       </div>
                     </div>
                     <div className="browser-screen-viewport">
@@ -285,14 +389,35 @@ export default function HeroEditorial() {
             </div>
           </div>
 
-          {/* Layer 3: Central Portrait Stage (ROCK-SOLID OPAQUE - ZERO GHOSTING / ZERO BAYANG-BAYANG) */}
+          {/* Layer 3: Central Portrait Stage (ROCK-SOLID PERMANENT BASE + SMOOTH SCREEN CROSSFADE) */}
           <div className="hero-portrait-stage">
+            {/* 1. Permanent Base Character: Never unmounts, never blinks, 100% solid in DOM */}
             <img
-              src={currentProject.portraitImg}
-              alt={`Scalebiz - Scaleup & Optimalisasi Bisnis (${currentProject.name})`}
-              className="portrait-img"
-              key={`portrait-solid`}
+              src="/images/developer-portrait-base.webp"
+              alt="Scalebiz Lead Architect & Fullstack Systems Engineer"
+              className="portrait-img portrait-base-character"
+              loading="eager"
+              decoding="sync"
             />
+
+            {/* 2. Pre-mounted Screen Overlays: Zero DOM thrashing, zero GPU texture reload, instant crossfade */}
+            {HERO_PROJECTS.map((proj, idx) => {
+              const isActive = idx === activeIndex;
+              return (
+                <img
+                  key={proj.id}
+                  src={proj.portraitImg}
+                  alt={`Scalebiz - Custom Web Architecture (${proj.name})`}
+                  aria-hidden={!isActive}
+                  className="portrait-img portrait-screen-overlay"
+                  style={{
+                    opacity: isActive ? 1 : 0,
+                  }}
+                  loading="eager"
+                  decoding="async"
+                />
+              );
+            })}
           </div>
 
           {/* Layer 4: Front Line-Art Stroke Typography (Overlapping Character) */}

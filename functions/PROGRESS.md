@@ -2,6 +2,445 @@
 
 Dokumen ini mencatat seluruh riwayat fitur dan konfigurasi yang sudah diselesaikan agar agent di masa mendatang dapat melanjutkan tugas tanpa kehilangan konteks.
 
+## [2026-10-01] Pengalihan CTA Hero ke Section Services & Copywriting "Scale Up and Grow My Business!"
+- **Status**: Selesai & Terverifikasi (Tombol CTA Hero Mengarah Tepat ke Section Services `#services`, Copywriting Diubah Menjadi "Scale Up and Grow My Business!", 0 Error TypeScript)
+- **Detail Pekerjaan**:
+  1. **Pengalihan Navigasi & Penyesuaian Copywriting Hero ([src/components/HeroEditorial.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/components/HeroEditorial.tsx))**:
+     - Mengubah fungsi navigasi `scrollToWork` menjadi `scrollToServices` yang secara mulus melakukan scroll ke `#services`.
+     - Mengubah atribut tautan dari `href="#work"` menjadi `href="#services"`.
+     - Mengubah teks tombol CTA utama dari *"Upgrade My Website & Business Systems Now!"* menjadi:
+       `<span>Scale Up and Grow My Business!</span>`
+  2. **Penyelarasan Kamus Terjemahan ([src/data/translations/index.ts](file:///c:/Users/ZHULL/Documents/Freelance/src/data/translations/index.ts))**:
+     - Memperbarui `hero.ctaMain` pada kamus `id` dan `en` menjadi `"Scale Up and Grow My Business!"`.
+  3. **Hasil Verifikasi**:
+     - Kompilasi TypeScript (`cmd /c npx tsc --noEmit`) lolos exit code `0` (nol error).
+     - Live Puppeteer screenshot (`screenshot-hero-cta-button.png` dan `screenshot-after-cta-scroll.png`) memverifikasi tombol tampil rapi dan ketika diklik langsung bergulir mulus ke section `#services`.
+
+## [2026-10-01] Pengembalian Tagline Brand Navbar "Scale Up And Grow Your Business"
+- **Status**: Selesai & Terverifikasi (Tagline Navbar Dikembalikan 100% Sesuai Brand Motto Pengguna: "Scale Up And Grow Your Business", 0 Error TypeScript)
+- **Detail Pekerjaan**:
+  1. **Pembaruan Tagline Brand di Navbar ([src/components/Navbar.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/components/Navbar.tsx))**:
+     - Mengganti teks tagline `<p>` di bawah logo `SCALEBIZ` yang sebelumnya tertulis *"High-Converting Websites & Systems"* menjadi:
+       `<p>Scale Up And Grow Your Business</p>`
+  2. **Penyelarasan Kamus Terjemahan ([src/data/translations/index.ts](file:///c:/Users/ZHULL/Documents/Freelance/src/data/translations/index.ts))**:
+     - Menyelaraskan properti `nav.tagline` pada objek `id` dan `en` menjadi `"Scale Up And Grow Your Business"`.
+  3. **Hasil Verifikasi**:
+     - Kompilasi TypeScript (`cmd /c npx tsc --noEmit`) lolos exit code `0` (nol error).
+     - Live Puppeteer screenshot (`screenshot-navbar-tagline.png`) mengonfirmasi logo dan tagline *"Scale Up And Grow Your Business"* tampil rapi, tajam, dan proporsional.
+
+## [2026-10-01] Transformasi Poin Manfaat Pilar 04: Email Marketing, Promo Campaign & Brand Loyalty
+- **Status**: Selesai & Terverifikasi (Tolak Ukur Keberhasilan Komisi Marketplace Diganti Total Menjadi Email Marketing & Promo Campaigns Demi Repeat Order dan Brand Loyalty, 0 Error TypeScript)
+- **Detail Pekerjaan**:
+  1. **Pembaruan Kartu Pilar 04 ([src/components/ServicePillars.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/components/ServicePillars.tsx))**:
+     - Mengubah poin `★ Benefit:` dari yang sebelumnya *"Drive predictable repeat sales with zero marketplace commission cuts"* menjadi:
+       - **EN**: `Use customer data for email marketing & promo campaigns to drive repeat orders and brand loyalty`
+       - **ID**: `Gunakan database pelanggan untuk email marketing & promo demi repeat order dan loyalitas brand`
+  2. **Penyelarasan Kamus Terjemahan ([src/data/translations/index.ts](file:///c:/Users/ZHULL/Documents/Freelance/src/data/translations/index.ts))**:
+     - Memperbarui butir detail `p4Items` pada ID dan EN agar konsisten menonjolkan kekuatan data pelanggan untuk promo marketing dan loyalitas brand seumur hidup.
+  3. **Hasil Verifikasi**:
+     - Kompilasi TypeScript (`cmd /c npx tsc --noEmit`) lolos exit code `0` (nol error).
+     - Live Puppeteer screenshot (`screenshot-services-micro-ui.png`) mengonfirmasi kartu pilar ke-4 tampil presisi, proporsional, dan selaras dengan seluruh pilar lainnya.
+
+## [2026-10-01] Penyelarasan Model Bisnis Langganan Tahunan & Gratis Maintenance Selama Aktif
+- **Status**: Selesai & Terverifikasi (Poin "You Own Everything • Zero Monthly Subscriptions" Dihapus Total, Diganti "Gratis Maintenance Selama Website Aktif", Seluruh Konten Q&A / FAQ Diperbarui Selaras dengan Langganan Tahunan & Maintenance Gratis, 0 Error TypeScript)
+- **Detail Pekerjaan**:
+  1. **Penghapusan Klaim Usang di Header Section Services (`src/components/ServicePillars.tsx`)**:
+     - Menghapus badge `"You Own Everything • Zero Monthly Subscriptions"`.
+     - Menggantinya dengan badge minimalis `"Gratis Maintenance Selama Website Aktif"` (ID) / `"Free Maintenance While Website Active"` (EN) dengan ikon perisai SVG (`shield`).
+     - Tampilan header menjadi rapi, bersih, dan bernuansa minimalis tanpa teks berlebih.
+  2. **Penyelarasan Bagian Q&A / FAQ (`src/data/faqData.ts` & `src/data/translations/index.ts`)**:
+     - Kategori FAQ diubah dari `Kepemilikan & Dukungan` / `Ownership & Support` menjadi:
+       - ID: `Langganan & Maintenance`
+       - EN: `Subscription & Maintenance`
+     - Pertanyaan `pricing-cost` diperbarui untuk menjelaskan model langganan tahunan transparan ($500/tahun dengan commitment fee awal $50) yang sudah mencakup pembuatan sistem, cloud hosting, dan gratis maintenance tanpa biaya kejutan.
+     - Pertanyaan `maintenance-support` diperbarui untuk menegaskan bahwa pemeliharaan teknis, keamanan, perbaikan bug, dan pemantauan performa 100% GRATIS selama website aktif.
+     - Pertanyaan `access-ownership` diperbarui: klien memiliki penuh data bisnis, database pelanggan (CRM), dan domain resmi; sedangkan infrastruktur teknis dan maintenance dikelola ScaleBiz.
+     - Pertanyaan `domain-hosting-ownership` diperbarui: hosting cloud kecepatan tinggi dan SSL sudah termasuk dalam paket tahunan dengan garansi gratis maintenance.
+  3. **Penyelarasan Footer & Metadata**:
+     - [src/components/Footer.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/components/Footer.tsx): Mengganti `Zero Monthly Vendor Lock-in` menjadi `High-Converting Systems & Free Ongoing Maintenance`.
+     - [src/app/layout.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/app/layout.tsx): Menghapus frasa `without monthly subscription lock-ins` menjadi `and free ongoing maintenance while active`.
+     - [src/components/preview/ClaimDemoBar.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/components/preview/ClaimDemoBar.tsx): Menghapus `Flat Fee, No Subscriptions` dan menggantinya dengan `Includes Free Ongoing Maintenance`.
+  4. **Hasil Verifikasi**:
+     - `cmd /c npx tsc --noEmit` lolos exit code `0` (nol error kompilasi).
+     - Live Puppeteer screenshots (`screenshot-services-micro-ui.png` dan `screenshot-faq-maintenance.png`) memverifikasi keselarasan visual header layanan dan bagian FAQ.
+
+## [2026-10-01] Penyelarasan 4 Pilar Layanan Persis Sesuai 4 Poin Spesifik Pengguna
+- **Status**: Selesai & Terverifikasi (4 Poin Inti Layanan 100% Selaras dengan Permintaan Pengguna, Desain Visual SVG Bersih & Elegan, 2 Poin Ringkas Solusi & Manfaat, 0 Error TypeScript)
+- **Detail Pekerjaan**:
+  1. **Pemetaan & Penyelarasan 4 Poin Inti Permintaan Pengguna**:
+     - **Poin 1**: *"customer can find your business easilly on google"* -> Pilar 01: `Customer Can Find Your Business Easily on Google` (Ilustrasi SVG: Google Search Bar, Local Map Pin, Google Verified ★ 4.9).
+     - **Poin 2**: *"You dont have to Answer Repepetitive Question"* -> Pilar 02: `You Don't Have to Answer Repetitive Questions` (Ilustrasi SVG: FAQ 24/7 Active, Transparent Menu & Prices, Ready to Pay badge).
+     - **Poin 3**: *"Customer Easy to Booking & Appointment To your Business"* -> Pilar 03: `Customer Easy to Booking & Appointment To Your Business` (Ilustrasi SVG: Kalender pintar, pemilihan slot waktu 01:30 PM ✓, badge Deposit Secured).
+     - **Poin 4**: *"You Can Make Membership System For CRM and Repeat Order"* -> Pilar 04: `You Can Make Membership System For CRM and Repeat Order` (Ilustrasi SVG: VIP Club CRM Pass, jaringan kontak pelanggan, Repeat Order Machine).
+  2. **Format Konten Super Ringkas & Minimalis**:
+     - Setiap kartu hanya memiliki:
+       - Badge kategori top.
+       - Ilustrasi grafis SVG tematik dengan efek radial glow & animasi float mikro.
+       - Judul pilar lugas.
+       - 1 kalimat deskripsi padat.
+       - Tepat 2 butir poin konkret (`✓ Solution:` dan `★ Benefit:`).
+       - 1 pill highlight di bawah kartu.
+  3. **Hasil Verifikasi**:
+     - `cmd /c npx tsc --noEmit` lolos exit code `0` (nol error).
+     - Dev server Next.js berjalan aktif dan melayani request HTTP 200 di port 3000.
+     - Puppeteer screenshot (`screenshot-services-micro-ui.png`) mengonfirmasi 4 pilar tertata sangat seimbang, bersih, estetik, dan langsung menjawab kebutuhan bisnis.
+
+## [2026-10-01] Penyederhanaan Total Section Layanan dengan Ilustrasi Grafis SVG Bersih (Anti-Semrawut)
+- **Status**: Selesai & Terverifikasi (Desain Sangat Simpel & Bersih, Kesemrawutan Dieliminasi Total, 4 Ilustrasi Grafis SVG Khusus Aktif, 2 Poin Ringkas Padat, 0 Error TypeScript)
+- **Detail Pekerjaan**:
+  1. **Evaluasi Ulang & Penghapusan Kesemrawutan**:
+     - Pengguna menegur keras implementasi mockup UI mini sebelumnya yang terlalu banyak kotak dan terkesan semrawut.
+     - Menghapus seluruh simulator UI mini yang padat (search bar mini, chat WhatsApp bertingkat, slider mini, deretan slot jam, tabel CRM).
+  2. **Implementasi 4 Ilustrasi Grafis SVG Tematik Bersih**:
+     - **Pilar 1 (Inquiry Relief)**: Radar pencarian 24/7 + chat WhatsApp terverifikasi + bintang rating.
+     - **Pilar 2 (Instant Cost Estimator)**: Frame kalkulator bersih dengan slider ukuran + badge filter penanya iseng.
+     - **Pilar 3 (Automated Booking)**: Kalender terintegrasi + slot waktu terpilih + badge deposit terkunci.
+     - **Pilar 4 (Private CRM & Promos)**: Jaringan node kontak pelanggan + petir eksekusi promo repeat order.
+     - Animasi mengambang halus (`pillarArtFloat`) dan latar belakang radial glow tematik.
+  3. **Penyederhanaan Teks Menjadi Sangat Ringkas**:
+     - Judul singkat, 1 kalimat deskripsi padat.
+     - Tepat 2 butir poin konkret: `✓ Solusi:` dan `★ Manfaat:`.
+     - 1 pill highlight di bawah kartu.
+  4. **Hasil Verifikasi**:
+     - Kompilasi TypeScript (`cmd /c npx tsc --noEmit`) lolos exit code `0` (nol error).
+     - Live Puppeteer screenshot (`screenshot-services-micro-ui.png`) mengonfirmasi kartu tampil sangat bersih, lega, proporsional, dan elegan.
+
+## [2026-10-01] Transformasi Copywriting Section Services (Fokus Manfaat Riil & Sentuhan Emosi Pemilik Bisnis)
+- **Status**: Selesai & Terverifikasi (Copywriting 100% Menjawab Pain Point Pemilik Usaha, Selaras dengan Pesan Penawaran WhatsApp, Zero Jargon Developer, 0 Error TypeScript)
+- **Detail Pekerjaan**:
+  1. **Investigasi & Analisis Filosofi Penawaran Pengguna**:
+     - Pengguna mengkritik copywriting lama yang terlalu berbasis fitur teknis developer (*"Sub-1.2s page load"*, *"interactive dimension calculators"*, *"100% code ownership"*, *"KEY ENGINEERED CAPABILITIES"*) yang dingin dan tidak menyentuh emosi pemilik bisnis.
+     - Mengadopsi esensi pesan penawaran nyata pengguna ke calon klien (seperti pada draf pesan WhatsApp ke "Din"):
+       - *"It's about letting customers search and find info of your business easily on google"*
+       - *"you don't have to answer the same questions manually every day"*
+       - *"you don’t need to take bookings by hand when a site can do it for you"*
+       - *"having customer info in a CRM lets you send them promo offers anytime"*
+       - *"set up a membership system to build a community and drive repeat orders"*
+  2. **Restrukturisasi & Penulisan Ulang 4 Pilar Layanan (`src/components/ServicePillars.tsx`)**:
+     - **Header Manifesto**:
+       - Eyebrow: `NOT JUST A WEBSITE — YOUR 24/7 AUTOMATED BUSINESS ENGINE`
+       - Judul: *"Stop Wasting Hours on Manual Tasks. Let Your System Work for You."*
+       - Subtitle: Menjelaskan bahwa website bukan sekadar brosur pasif, melainkan mesin alur kerja yang menjawab pertanyaan berulang, menghilangkan kekacauan jadwal, dan mengubah pencari di Google menjadi pelanggan setia.
+       - Badges: *"✓ Saves You 2–3 Hours Every Day"*, *"✓ 100% Customized to Your Actual Workflow"*, *"✓ You Own Everything • Zero Monthly Software Fees"*.
+     - **Pilar 1 (Inquiry Relief & Search)**:
+       - Judul: *"Stop Answering the Same Questions Manually Every Day"*
+       - Fokus: Mudah dicari di Google, harga transparan, portofolio meyakinkan sebelum tawar-menawar, dan hanya meladeni prospek yang sudah teredukasi dan siap bayar.
+       - Benefit Pill: *"Saves You 2+ Hours Daily on Repetitive Explanations"*.
+     - **Pilar 2 (Instant Quoting & Filtering)**:
+       - Judul: *"Let Customers Quote Themselves While You Sleep"*
+       - Fokus: Estimator harga mandiri 24/7, mengeliminasi penanya iseng (*tire-kickers*), dan bangun tidur mendapati rincian proyek lengkap di HP.
+       - Benefit Pill: *"Only Talk to Serious Clients Who Already Know Your Pricing"*.
+     - **Pilar 3 (Hands-Free Scheduling)**:
+       - Judul: *"Never Take Bookings by Hand Again"*
+       - Fokus: Kalender mandiri 24/7 tersinkronisasi, nol drama jadwal tabrakan, pengingat otomatis anti no-show, dan kunci uang muka (DP) di awal.
+       - Benefit Pill: *"Your Calendar Fills Itself & Clients Actually Show Up"*.
+     - **Pilar 4 (Repeat Orders & CRM)**:
+       - Judul: *"Own Your Customer Data & Drive Repeat Orders"*
+       - Fokus: Database CRM milik sendiri 100%, broadcast promo kapan saja saat usaha sepi, membership berulang, dan bebas potongan 20% komisi marketplace.
+       - Benefit Pill: *"Turn One-Time Walk-Ins into Lifetime Repeat Revenue"*.
+     - **Label Modul**: Diubah dari jargon *"KEY ENGINEERED CAPABILITIES"* menjadi *"How This Frees Up Your Time & Drives Revenue:"*.
+  3. **Penyelarasan Kamus Terjemahan (`src/data/translations/index.ts`)**:
+     - Memperbarui objek `pillars` pada bahasa Indonesia dan bahasa Inggris agar senantiasa konsisten dengan sudut pandang manfaat bisnis emosional.
+  4. **Hasil Verifikasi**:
+     - `cmd /c npx tsc --noEmit` lolos dengan status exit code `0` (nol error).
+     - Pengujian live screenshot Puppeteer mengonfirmasi tata letak, keterbacaan, dan tipografi kartu layanan tampil sangat memikat, elegan, dan profesional.
+
+## [2026-10-01] Penyembunyian Section Analisis Sistem Bisnis Sesuai Preferensi Pengguna
+- **Status**: Selesai & Terverifikasi (Section Diagnosis Disembunyikan, Kode Tetap Utuh di Codebase, FAQ Dialihkan ke WhatsApp, Landing Page Bersih & Fokus)
+- **Detail Pekerjaan**:
+  1. **Penyembunyian dari Alur Halaman (`src/app/page.tsx`)**:
+     - Menghapus pemanggilan `<BusinessSolutions />` dari landing page utama agar alur konversi tetap ringkas, bersih, dan langsung fokus ke inti penawaran serta portofolio.
+     - Kode sumber `src/components/BusinessSolutions.tsx`, seluruh modul `src/components/diagnosis/`, dan mesin rekomendasi di `src/lib/recommendationEngine.ts` **tetap dipertahankan 100% di codebase** secara non-destruktif.
+  2. **Penyelarasan Tautan FAQ (`src/data/faqData.ts`)**:
+     - Mengubah tombol aksi pada butir FAQ terkait kebutuhan bisnis yang sebelumnya mengarah ke anchor `#diagnosa-sistem` menjadi tautan konsultasi WhatsApp langsung (*"Konsultasikan Kebutuhan via WhatsApp →"*), sehingga tidak ada broken/dead anchor link.
+  3. **Susunan Halaman Final yang Bersih & Ramping**:
+     1. `Navbar`
+     2. `HeroEditorial` (Visual potret interaktif)
+     3. `ServicePillars` (4 Pilar Layanan Unggulan)
+     4. `FAQSection` (Tanya Jawab Terstruktur)
+     5. `PortfolioShowcase` (Showcase Portofolio Klien minimalis)
+     6. `Footer`
+  4. **Hasil Verifikasi**:
+     - `cmd /c npx tsc --noEmit` lolos dengan exit code `0` (nol error).
+     - Pengujian Puppeteer memastikan alur elemen halaman utama berjalan tanpa hambatan dan rapi.
+
+## [2026-10-01] Restorasi Section Analisis Sistem Bisnis (Diagnosis Wizard & Business Solutions)
+- **Status**: Selesai & Terverifikasi (Section Analisis & Diagnosis Wizard Aktif Kembali 100%, Interaksi 4-Langkah Berjalan Mulus, Urutan Halaman Sempurna)
+- **Detail Pekerjaan**:
+  1. **Investigasi Masalah**:
+     - Pengguna menanyakan hilangnya section analisis kebutuhan sistem bisnis (*"kemana hilangnya section untuk analisis sistem apa yang yang cocok untuk bisnis saya? kenapa terhapus?"*).
+     - Berkas [src/components/BusinessSolutions.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/components/BusinessSolutions.tsx) dan seluruh komponen wizard di `src/components/diagnosis/` (`DiagnosisWizard.tsx`, `DiagnosisStepView.tsx`, `DiagnosisResultView.tsx`, `AnalysisTransition.tsx`) dipastikan **100% aman dan tidak pernah terhapus dari codebase**.
+     - Akar masalah adalah pergantian import dan pemanggilan pada [src/app/page.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/app/page.tsx) saat pengenalan `PortfolioShowcase` sebelumnya, di mana `<BusinessSolutions />` tidak sengaja tertimpa.
+  2. **Pemulihan & Penyelarasan Tata Letak Halaman (`src/app/page.tsx`)**:
+     - Mengembalikan komponen `<BusinessSolutions />` di antara `<ServicePillars />` dan `<FAQSection />`.
+     - Susunan landing page kini lengkap, terstruktur, dan utuh:
+       1. `Navbar`
+       2. `HeroEditorial` (Visual potret pengembang interaktif)
+       3. `ServicePillars` (4 Pilar Layanan Unggulan)
+       4. `BusinessSolutions` (**Interactive Multi-Step Diagnostic Wizard & Directory 10 Sistem**)
+       5. `FAQSection` (Tanya Jawab Terstruktur)
+       6. `PortfolioShowcase` (Showcase Portofolio Klien minimalis di posisi bawah)
+       7. `Footer`
+  3. **Verifikasi Teknis & Visual**:
+     - `cmd /c npx tsc --noEmit` lolos dengan exit code `0` (nol error).
+     - Pengujian Puppeteer mengonfirmasi section `#diagnosa-sistem` dan wizard 4 langkah (*Business, Bottlenecks, Flow, Scale*) kembali tampil aktif dan berfungsi interaktif secara normal.
+
+## [2026-10-01] Pemindahan Section Portfolio ke Bagian Bawah & Desain Minimalis Hemat Ruang
+- **Status**: Selesai & Terverifikasi (Portfolio Berada di Bawah Sebelum Footer, Ultra-Clean & Compact, Zero Deskripsi, Hemat Ruang >60%)
+- **Detail Pekerjaan**:
+  1. **Relokasi Urutan Halaman (`src/app/page.tsx`)**:
+     - Memindahkan komponen `<PortfolioShowcase />` dari urutan kedua ke urutan paling bawah halaman (setelah `<FAQSection />` dan tepat sebelum `<Footer />`).
+     - Alur halaman kini: `Navbar` -> `HeroEditorial` -> `ServicePillars` -> `FAQSection` -> `PortfolioShowcase` -> `Footer`.
+     - Tautan navigasi `#work` di `Navbar.tsx` tetap berfungsi mulus menuju section portofolio.
+  2. **Redesain Minimalis & Eliminasi Teks Berlebih (`src/components/PortfolioShowcase.tsx`)**:
+     - **Header Bersih**: Menghapus seluruh paragraf deskripsi panjang. Menggunakan judul simpel dan elegan: *"Client Websites & Production Platforms"* dengan eyebrow badge ringkas *"Selected Work"*.
+     - **Filter Tabs Kompak**: Menyederhanakan 6 baris tombol pill menjadi 3 filter kategori esensial: *All (10)*, *Client Websites (7)*, dan *Enterprise & AI (3)*.
+     - **Kartu Kompak (Hanya Judul & Preview)**:
+       - Menghapus seluruh teks deskripsi: tagline panjang, headline kalimat lengkap, dan daftar 3 bullet point sistem dieleminasi 100%.
+       - Setiap kartu kini hanya menampilkan: Thumbnail preview desktop (rasio 16:10), badge kategori ringkas di pojok, dan di bawahnya **hanya Judul Proyek (`name`)** disertai ikon panah peluncuran `↗`.
+       - Mengurangi tinggi kartu dari ~650px menjadi ~240px (penghematan tinggi vertikal >60%).
+     - **Penghapusan Banner Konsultasi Raksasa**: Menghilangkan banner konversi raksasa 500px di bawah portofolio yang sebelumnya memakan banyak ruang dan tumpang tindih dengan Footer.
+  3. **Penambahan Gaya CSS Khusus (`src/app/globals.css`)**:
+     - Menambahkan kelas `.portfolio-minimal-*` dengan dark glassmorphism modern, transisi hover halus, dan responsivitas penuh di desktop maupun mobile.
+  4. **Hasil Verifikasi**:
+     - `cmd /c npx tsc --noEmit` lolos dengan exit code `0` (nol error).
+     - Pengujian tangkapan layar Puppeteer memastikan section portofolio tampil rapi, proporsional, hemat ruang, dan estetik tepat di atas footer.
+
+## [2026-10-01] Optimasi Transisi Preview Hero (Karakter Tetap Stay, Eliminasi Kedip/Flicker, & 60 FPS Mulus)
+- **Status**: Selesai & Terverifikasi (Karakter 100% Statis & Stay di DOM, Zero-Flicker, Crossfade Layar Hardware-Accelerated 60 FPS, Payload Desktop Berkurang 75%)
+- **Detail Pekerjaan**:
+  1. **Investigasi Masalah & Akar Penyebab**:
+     - *Foto Karakter Berkedip (Blink/Flicker)*: Pada `src/components/HeroEditorial.tsx`, `<img>` potret sebelumnya memiliki `key={currentProject.id}`. Hal ini membuat React meng-unmount dan me-mount ulang tag `<img>` pada setiap perpindahan proyek (tiap 3.5s atau saat klik tombol pill). Saat unmount/mount terjadi, browser menghancurkan node DOM dan harus mendekompresi WebP resolusi 1152x2048 (~9.4 MB bitmap raw di RAM) serta mengunggah ulang tekstur GPU. Selama 1–3 frame, area potret kosong sehingga karakter berkedip/hilang sesaat.
+     - *Animasi Tersendak/Jank*: Bersamaan dengan dekompresi potret 9.4 MB pada main thread, slider background menggeser 10 screenshot PNG berukuran besar (~500 KB per file, total ~3.7 MB) dengan `backdrop-filter: blur(20px)` di tiap slide, memicu GPU compositor stall dan frame drop.
+  2. **Implementasi Solusi Arsitektur Dual-Layer**:
+     - **Permanent Base Character (`portrait-base-character`)**:
+       - Menghasilkan `developer-portrait-base.webp` (79.8 KB) dengan layar neutral dark glass `#0a0b0e`.
+       - Merender base character secara permanen di layer dasar dengan `opacity: 1`, tanpa atribut `key`, dan tanpa pernah di-unmount dari DOM.
+       - Memindahkan properti `filter: drop-shadow(...)` hanya pada base character, menghilangkan 9 filter pass redundan dari GPU.
+       - Karakter (wajah, mata, rambut, kaos ScaleBiz, tangan, casing tablet) kini 100% diam (*stay*), kokoh, dan tidak berkedip satu milidetik pun.
+     - **Pre-Mounted Screen Overlays (`portrait-screen-overlay`)**:
+       - Ke-10 potret proyek di-render secara pre-mounted di DOM dengan posisi bertumpuk di atas base character.
+       - Pergantian proyek hanya mengubah `opacity: isActive ? 1 : 0` dengan akselerasi GPU `will-change: opacity` dan transisi `opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1)`.
+       - Karena piksel tubuh dan wajah pengembang pada seluruh varian potret bernilai identik dengan base character, perubahan opacity hanya mengubah tampilan antarmuka pada layar tablet dan smartphone secara halus dan instan (*zero stutter*).
+     - **Kompresi & Optimasi Slider Background**:
+       - Mengonversi ke-10 screenshot desktop menjadi WebP (`*-desktop.webp`), memangkas total ukuran file dari ~3.7 MB menjadi ~740 KB (hemat 75%).
+       - Memindahkan `backdrop-filter: blur(20px)` ke container statis `.hero-backdrop-preview-stage` dan menambahkan `contain: layout paint` pada `.backdrop-slider-track` untuk isolasi reflow.
+  3. **Hasil Verifikasi**:
+     - Pengujian interaksi Puppeteer live di browser Chrome mengonfirmasi peralihan antar-portofolio berjalan mulus tanpa kedip pada karakter dan perpindahan preview responsif.
+     - `cmd /c npx tsc --noEmit` lolos dengan exit code `0` (nol error).
+     - Local dev server aktif di `http://localhost:3000`.
+
+## [2026-09-30] Kalibrasi Presisi "Fit to Layar" (Edge-to-Edge Fill) Layar Tablet & HP Potret Hero
+- **Status**: Selesai & Terverifikasi (100% Fit to Screen, Eliminasi Void Bawah, Zero Jagged Artifact, 7 Portofolio Ter-bake Ulang)
+- **Detail Pekerjaan**:
+  1. **Investigasi Akar Masalah ("Belum Fit to Layar")**:
+     - **Layar Tablet**: Screenshot desktop sebelumnya diambil dengan ukuran kaku 1440x900. Karena konten hero klien rata-rata berakhir di y=620–798px, sepertiga bagian bawah (200–280px) merupakan latar belakang hitam kosong atau potongan section lain yang tidak tuntas. Saat di-warp ke tablet (aspek rasio ~1.54:1), ruang kosong tersebut muncul sebagai kekosongan gelap di sepertiga bawah layar.
+     - **Layar Smartphone**: Banner demo internal (*"LIVE PREVIEW"*, *"Interactive Studio Concept"*, *"Claim This Website"*) dan badge Next.js memakan tinggi 60–90px, mendorong konten riil ke bawah dan memotong tombol CTA pada bezel bawah ponsel.
+     - **Garis Putih Bezel**: Basis gambar lama (`developer-portrait.webp`) memiliki latar putih RuangSinggah yang memantul ke bezel jika ada deviasi sub-piksel.
+  2. **Eksekusi Solusi Presisi (`scripts/bake_hero_projects.js`)**:
+     - **Ground Truth Coordinates**: Menggunakan 4 titik sudut terkalibrasi dari diff perbandingan foto referensi resmi (`mentlife` vs `ruangtani` vs `ruangsinggah`):
+       - Tablet: `TL: { u: 657, v: 1129 }`, `TR: { u: 1043, v: 1157 }`, `BR: { u: 1045, v: 1414 }`, `BL: { u: 647, v: 1381 }`
+       - Ponsel: `TL: { u: 264, v: 1047 }`, `TR: { u: 368, v: 1061 }`, `BR: { u: 325, v: 1308 }`, `BL: { u: 212, v: 1289 }`
+     - **Ground Truth 3-Way Diff Mask**: Menggunakan mask biner dinamis yang memetakan kaca layar secara akurat 100% per piksel tanpa mengganggu jemari atau casing tablet.
+     - **Pre-Clear Dark Glass**: Membersihkan area kaca layar dengan warna gelap `#0a0b0e` sebelum proses warp sehingga nol garis putih yang bisa bocor.
+     - **Optimal Desktop Capture**: Menyesuaikan tinggi viewport desktop (1200x`optimalHeight`, rasio ~1.50–1.54) sehingga seluruh elemen hero (header, headline, foto showcase, tombol CTA, kartu trust) terisi penuh tanpa letterboxing void.
+     - **Clean Mobile Capture (411x930)**: Membersihkan banner demo wrapper dan dev portal secara aman tanpa menyentuh root DOM, menghasilkan framing mobile yang proporsional dengan tombol CTA duduk manis di atas bezel bawah.
+  3. **Re-Baking & Hasil Verifikasi Visual**:
+     - Seluruh 7 portofolio proyek (*Total Fence, Lucky Leaf, Inktellectual, FH Land, Trendy Nail, Mia Bella, Truly Organic*) berhasil di-bake ulang ke WebP kualitas tinggi.
+     - Verifikasi crop menunjukkan 100% layar tablet dan ponsel terisi penuh (*Fit to Layar*), teks tajam, kontras tinggi, dan bezel bersih alami.
+     - `tsc --noEmit`: 0 error. Dev server running di `http://localhost:3000`.
+
+## [2026-09-30] Kalibrasi Presisi Geometri Layar HP & Tablet Potret Hero (Eliminasi Kebocoran Visual RuangSinggah & Distorsi Tampilan)
+- **Status**: Selesai & Terverifikasi (Kaca Layar Terkalibrasi Sub-Piksel, Zero Bleed RuangSinggah, Build 14 Rute Statis 100% Sukses)
+- **Detail Pekerjaan**:
+  1. **Investigasi Akar Masalah Kebocoran & Distorsi**:
+     - Masking perbedaan piksel lama (`screen_glass_mask.png`) menyisakan "lubang" pada piksel yang sama-sama putih antara RuangSinggah dan rUang Tani/Mentlife. Akibatnya, elemen filter RuangSinggah (*"Semua Kecamatan"*, *"Rp 1.300.000"*) tidak tertimpa dan bocor ke layar tablet portofolio baru (*Total Fence, Lucky Leaf, Inktellectual, FH Land, Trendy Nail, Mia Bella, Truly Organic*).
+     - Titik kuadran tablet lama salah memposisikan titik awal di `u: 335` (dada/baju hitam pengembang), padahal kaca layar tablet sesungguhnya dimulai pada `u: 640` hingga `1045`. Hal ini mendistorsi tangkapan layar 1440x900 hingga tertekan 200% secara horizontal.
+     - Kuadran ponsel lama terpotong hanya 50px lebar dengan sudut miring tidak alami.
+  2. **Kalibrasi Kuadran Konveks & Anti-Aliased Rounded Corner Clipping (`scripts/bake_hero_projects.js`)**:
+     - Mengalibrasi `TABLET_QUAD` tepat pada kaca layar tablet:
+       - `TL: { u: 640, v: 1105 }`
+       - `TR: { u: 1056, v: 1158 }` (menjangkau seluruh lebar hingga bezel kanan tablet)
+       - `BR: { u: 1045, v: 1422 }`
+       - `BL: { u: 633, v: 1400 }` (menjangkau seluruh tinggi hingga bezel bawah tablet)
+       - Corner Radius: 20px pada viewport 1440x900.
+     - Mengalibrasi `PHONE_QUAD` tepat pada layar smartphone:
+       - `TL: { u: 264, v: 1034 }`
+       - `TR: { u: 377, v: 1053 }`
+       - `BR: { u: 326, v: 1318 }`
+       - `BL: { u: 207, v: 1297 }`
+       - Corner Radius: 48px pada viewport 414x896.
+     - Menerapkan pengujian poligon `isInsideQuad` dan `isInsideRoundedRect` langsung saat pengambilan sampel bilinear, menimpa 100% piksel kaca tanpa celah.
+  3. **Capture Otentik & Re-Baking**:
+     - Memperbaiki URL dengan trailing slash (`/preview/.../`) dan menambahkan jeda render 1200ms agar font, layout, dan elemen hero ter-render sempurna sebelum di-capture.
+     - Mem-bake ulang ke-7 file potret WebP (`developer-portrait-totalfence.webp`, `developer-portrait-luckyleaf.webp`, `developer-portrait-inktellectual.webp`, `developer-portrait-fhland.webp`, `developer-portrait-trendy.webp`, `developer-portrait-miabella.webp`, `developer-portrait-trulyorganic.webp`).
+  4. **Hasil Verifikasi Visual**:
+     - Layar smartphone dan tablet menampilkan UI/UX website klien secara otentik, tajam, dan proporsional.
+     - 100% bersih dari teks dan elemen RuangSinggah (*zero bleed*).
+     - Jari-jemari pengembang dan casing transparan tablet tetap utuh dan alami.
+     - Build `next build` 100% sukses (14 rute statis).
+     - `tsc --noEmit` 0 error. Dev server running di `http://localhost:3000` (HTTP 200).
+  2. **Ekspansi Array Proyek Hero (`src/components/HeroEditorial.tsx`)**:
+     - Memperluas `HERO_PROJECTS` menjadi 10 proyek terpadu (3 Flagship Enterprise + 7 Website Klien AS):
+       1. *RuangSinggah.id* (Proptech Marketplace)
+       2. *rUang Tani* (Agri-Finance ERP)
+       3. *Mentlife* (AI Finance Intelligence)
+       4. *Total Fence of WNY* (Fencing Contractor & Instant Cost Estimator)
+       5. *Lucky Leaf Tattoo* (Fine-Line Botanical Sanctuary & 1-of-1 Claims)
+       6. *Inktellectual Atelier* (Resident Collective & Pricing Engine)
+       7. *F.H. Land Services* (Commercial Excavation & 24h Site SLA)
+       8. *Trendy Nail Spa* (Medical Sterilization & Real-time Booking)
+       9. *Mia Bella's Salon* (Gothic Hair Boutique & Vivid Color)
+       10. *Truly Organic Studio* (Ammonia-Free Hair Sanctuary)
+     - Setiap entri memiliki warna aksen, badge, deskripsi, metrik, URL bar browser, desktop UI screenshot (`tabletImg`), dan potret WebP tersinkronisasi (`portraitImg`).
+     - Menggunakan `pillName` ringkas untuk tata letak tombol navigasi yang estetik dan rapi di Hero manifesto.
+  3. **Verifikasi Stabilitas & Sinkronisasi**:
+     - Layar HP dan tablet di tangan pengembang berganti serentak menampilkan UI/UX aplikasi bersangkutan saat pill proyek diklik atau auto-rotate berjalan.
+     - Jendela browser background bergeser mulus menampilkan desktop dashboard UI/UX asli dan URL bar yang tepat.
+     - Geometri dan kalibrasi tipografi `SCALEBIZ` (Layer 1 fill dan Layer 4 stroke) tetap 100% presisi sub-piksel.
+     - `tsc --noEmit`: 0 error.
+     - `next build`: 14 rute statis diekspor 100% sukses. Dev server aktif di `http://localhost:3000` (HTTP 200).
+
+## [2026-09-30] Restorasi Presisi Geometri Foto Utama & Tipografi SCALEBIZ (Dual-Layer 3D Depth)
+- **Status**: Selesai & Terverifikasi (Terkalibrasi Sempurna 1:1, Build Sukses Zero-Error)
+- **Detail Pekerjaan**:
+  1. **Investigasi & Analisis Akar Masalah (Root Cause)**:
+     - Ditemukan bahwa penambahan inline style `style={{ position: "relative" }}` pada `.hero-portrait-stage` di `src/components/HeroEditorial.tsx` menimpa (`override`) aturan absolut CSS `.hero-portrait-stage` (`position: absolute; bottom: 0; left: 50%; transform: translateX(-41.7%)`).
+     - Akibatnya, elemen foto pengembang masuk ke dalam aliran dokumen normal (*in-flow*), mengambil ruang fisik, dan mendistorsi layout internal `.hero-poster-frame`.
+     - Pergeseran sumbu ini menyebabkan huruf neon stroke `SCALEBIZ` (Layer 4) melenceng dan tidak menumpuk presisi di atas huruf solid fill `SCALEBIZ` (Layer 1), serta gradient mask horizontal bocor sehingga stroke outline tampak menabrak tablet/ponsel pengembang.
+  2. **Eksekusi Solusi Presisi**:
+     - Menghapus 100% inline style `style={{ position: "relative" }}` pada `.hero-portrait-stage`.
+     - Mengembalikan kontainer foto pengembang murni menggunakan kelas CSS `.hero-portrait-stage` dan `.portrait-img` yang dikendalikan oleh koordinat absolut terkalibrasi di `globals.css`.
+     - Menggunakan `key={currentProject.id}` pada tag `<img>` sehingga saat rotasi proyek aktif (RuangSinggah.id, rUang Tani, Mentlife), foto potret pengembang berganti instan dan mulus tanpa merusak pohon layout DOM.
+     - Menambahkan image preloader hook pada saat komponen mount (`new Image()`) untuk `portraitImg` dan `tabletImg` guna menjamin rotasi antar proyek 100% instan dan tanpa kedip (*zero flicker*).
+  3. **Hasil Geometri**:
+     - Layer 1 (Backdrop fill `SCALEBIZ`), Layer 3 (Foto pengembang ber-z-index: 20), dan Layer 4 (Front stroke outline `SCALEBIZ` ber-z-index: 25) kembali bertumpuk dengan presisi sub-piksel 100% sempurna.
+     - Efek kedalaman 3D tipografi (karakter pengembang berada di antara teks solid di belakang dan garis tepi stroke neon di depan pakaian) pulih seutuhnya.
+
+## [2026-09-30] Hero Restoration & 10-Project Unified Portfolio: Kembalikan Hero Copywriting & Proyek Flagship
+- **Status**: Selesai & Terverifikasi (Build Next.js 15 Berhasil 100% Zero-Error, 14 Rute Statis, Dev Server Aktif)
+- **Detail Pekerjaan**:
+  1. **Restorasi Hero Title Copywriting Asli**:
+     - Mengembalikan judul Hero asli rancangan pemilik:
+       - Highlight: `Stop Limiting Your Business Potential!`
+       - Subtitle: `by relying on outdated legacy workflows`
+       - CTA: `Upgrade My Website & Business Systems Now!` (smooth scroll ke `#work`)
+       - Eyebrow: `Our Selected Work:`
+  2. **Restorasi 3 Proyek Flagship di Hero (`src/components/HeroEditorial.tsx`)**:
+     - Mengembalikan 3 platform teknologi utama:
+       1. **RuangSinggah.id** (Proptech Marketplace & Student Housing) → Browser desktop screenshot UI/UX asli + Potret pengembang memegang tablet & HP berlayar RuangSinggah.
+       2. **rUang Tani** (Agri-Finance & Farm ERP) → Browser desktop screenshot UI/UX asli + Potret pengembang memegang tablet & HP berlayar rUang Tani.
+       3. **Mentlife** (AI Finance & Career Advisory) → Browser desktop screenshot UI/UX asli + Potret pengembang memegang tablet & HP berlayar Mentlife.
+     - Memperbaiki sistem rotasi potret dengan multi-layer opacity crossfade (`opacity: idx === activeIndex ? 1 : 0`), sehingga layar di tangan berganti secara mulus dan sinkron dengan pergeseran browser background.
+  3. **Portofolio Terpadu 10 Proyek (`src/components/PortfolioShowcase.tsx`)**:
+     - Mengintegrasikan seluruh proyek ke dalam satu showcase:
+       - 7 Website Klien AS: *Total Fence of WNY, Lucky Leaf Tattoo, Inktellectual Tattoo Atelier, F.H. Land Services, Trendy Nail Spa, Mia Bella's Hair Salon, Truly Organic Hair Studio*.
+       - 3 Platform Enterprise & AI: *RuangSinggah.id, rUang Tani, Mentlife*.
+     - Filter kategori lengkap: `All Projects (10)`, `US Client Websites (7)`, `Enterprise Systems & AI (3)`, `Contractors & Trades (2)`, `Tattoo Studios (2)`, `Salons & Spas (3)`.
+  4. **Verifikasi Build**:
+     - `tsc --noEmit`: 0 error.
+     - `next build`: 14 rute statis diekspor sukses tanpa kendala.
+
+
+- **Status**: Selesai & Terverifikasi (Build Next.js 15 Berhasil 100% Zero-Error, 14 Static Routes Emitted)
+- **Detail Pekerjaan**:
+  1. **Showcase Eksklusif 7 Web Klien Nyata (`src/components/PortfolioShowcase.tsx`)**:
+     - Membangun komponen showcase portofolio baru yang menampilkan ke-7 website klien yang telah dibuat:
+       1. **Total Fence of WNY** (`/preview/total-fence`): Kontraktor pagar pagar premium, 42" frost-line standard, dan kalkulator estimasi biaya pagar online instan.
+       2. **Lucky Leaf Tattoo** (`/preview/lucky-leaf`): Private fine-line botanical sanctuary, sistem klaim flash 1-of-1, dan proyek 1,000 Cranes (Buffalo, NY).
+       3. **Inktellectual Tattoo Studio** (`/preview/inktellectual`): Kolektif 6 artist resident, kalkulator harga tato interaktif, dan student promo hub Buffalo State.
+       4. **F.H. Land Services** (`/preview/fh-land-services`): Ekskavasi komersial, clearing lahan, perataan tanah, dan SLA estimasi 24 jam.
+       5. **Trendy Nail Spa** (`/preview/trendy-nail-spa`): Salon kuku butik, menu harga transparan, autoclave medical-grade, dan booking janji temu instan.
+       6. **Mia Bella's Hair Salon & Aesthetics** (`/preview/mia-bellas-hair-salon`): Salon rambut mewah, vivid color correction, dan konsultasi extension.
+       7. **Truly Organic Hair Studio** (`/preview/truly-organic-hair-studio`): Studio rambut organik bebas amonia, perawatan holistik balayage & bridal updo.
+     - Setiap kartu portofolio dilengkapi: Tag Industri, Badge Lokasi Nyata, Bukti Rating Google/FB, 3 Fitur Sistem Utama, dan tombol **"Launch Live Client Website Demo →"** langsung ke `/preview/[slug]`.
+     - Filter kategori interaktif: *All Projects (7)*, *Contractors & Trades (2)*, *Tattoo & Art Studios (2)*, dan *Salons, Spas & Aesthetics (3)*.
+     - Banner konversi di bagian bawah dengan jaminan *Zero Monthly Vendor Lock-in* dan *100% Code Ownership*.
+  2. **Transisi Penuh ke Bahasa Inggris (100% English-Only)**:
+     - **Navbar (`src/components/Navbar.tsx`)**: Menghapus tombol toggle bahasa `ID / EN`, mengubah menu navigasi menjadi English (`Work`, `Services`, `Why Scalebiz`, `FAQ`), serta tombol WhatsApp konsultasi internasional.
+     - **Hero Section (`src/components/HeroEditorial.tsx`)**: Mengganti proyek lama internal (RuangTani/RuangSinggah) dengan preview sliding track dari 5 website klien teratas. Copywriting manifesto difokuskan untuk meyakinkan klien bisnis lokal AS.
+     - **Service Pillars (`src/components/ServicePillars.tsx`)**: 4 pilar kemampuan teknis berstandar internasional (*High-Converting Websites, Instant Cost Estimators, Automated Calendars & Ingestion, 100% Code Ownership*).
+     - **FAQ (`src/components/FAQSection.tsx`)**: Tanya-jawab bahasa Inggris seputar pengerjaan 3-7 hari, kepemilikan aset, hosting cloud edge, dan tanpa biaya langganan bulanan. Anchor internal diperbarui ke `#work` dan `#services`.
+     - **Language Context (`src/context/LanguageContext.tsx`)**: Mengunci default bahasa ke `en`, menghapus aturan paksaan Geo-IP Indonesia yang sebelumnya membalikkan tampilan ke bahasa Indonesia saat diakses lokal.
+     - **Footer (`src/components/Footer.tsx`) & Layout (`src/app/layout.tsx`)**: Selaras 100% bahasa Inggris dengan hak cipta global.
+  3. **Verifikasi Build**:
+     - `tsc --noEmit`: 0 error.
+     - `next build`: 14 rute statis diekspor sukses tanpa kendala.
+
+
+- **Status**: Selesai & Terverifikasi (File Excel Terpisah Dihasilkan: `DATABASE_OSINT_DEEP_SEARCH_RICHMOND_CA.xlsx` 5 Sheet, 1.253 Entitas Master, 460 Golden Leads, Profil Bisnis & Owner Lengkap)
+- **Detail Pekerjaan**:
+  1. **Pembangunan Engine OSINT Dua-Layer (`scripts/engine/richmond_deep_osint_engine.js`)**:
+     - Memproses 100% seluruh leads (1.253 master bisnis & 460 Golden Leads tanpa batasan).
+     - **Layer 1 (Bisnis)**: Nomor telepon E.164, direct link WhatsApp dengan pesan pembuka otomatis, link fanpage/pencarian Facebook, Instagram, TikTok search, Yelp directory, dan Booksy link.
+     - **Layer 2 (Pemilik / Founder)**: Identifikasi nama owner/founder (*Jose, Jim Sciarroni, Lizandro, Ledesma, Gramajo Family, Lorenzo, Rene, dll.*), jabatan/role spesifik, direct WhatsApp khusus ke nama owner, direct search akun pribadi Facebook (`facebook.com/search/people?q=...`), Instagram personal, dan LinkedIn profil profesional.
+  2. **Pembuatan File Excel Terpisah (`DATABASE_OSINT_DEEP_SEARCH_RICHMOND_CA.xlsx`)**:
+     - **Sheet 1**: `🎯 VIP OSINT - GOLDEN LEADS` (460 baris, tombol WhatsApp hijau `💬 Chat on WhatsApp`, link FB, IG, TikTok, maps, rating, dan teks penawaran).
+     - **Sheet 2**: `👤 OWNER & FOUNDER PROFILES` (460 baris, fokus eksklusif pada nama owner, role, confidence level, direct WA owner, FB People search, IG search, dan LinkedIn search).
+     - **Sheet 3**: `⭐ HIGH-TICKET CONTRACTORS` (218 baris kontraktor & bengkel $1k - $15k).
+     - **Sheet 4**: `📋 ALL 1253 BUSINESSES OSINT` (Direktori master lengkap).
+     - **Sheet 5**: `📊 OSINT ACTION PLAYBOOK` (Panduan eksekusi penawaran dari Indonesia & konversi waktu WIB ke California PDT/PST).
+  3. **Output Berkas Terpisah**:
+     - `DATABASE_OSINT_DEEP_SEARCH_RICHMOND_CA.xlsx` (Root & `leads/`, 527 KB)
+     - `leads/leads_richmond_ca_osint_deep_search.json` (5.1 MB, 1.253 master data)
+     - `leads/leads_richmond_ca_osint_deep_search_golden.csv` (1.31 MB, 460 Golden Leads)
+     - `leads/leads_richmond_ca_osint_deep_search_master.csv` (1.51 MB, 1.253 Master Leads)
+
+## [2026-09-30] Richmond CA: OSINT Profiling & Akses Kontak Digital (WhatsApp, Owner & Social DM)
+- **Status**: Selesai & Terverifikasi (1.253 Entitas Terprofil, 460 Golden Leads Diperkaya, 420 Akses WhatsApp/SMS Langsung / 91.3%, Workbook Excel Diperbarui dengan Sheet VIP Outreach)
+- **Detail Pekerjaan**:
+  1. **Pembuatan Engine OSINT Profiler (`scripts/engine/richmond_osint_profiler.js`)**:
+     - Memprofilkan 100% entitas bisnis master (1.253 bisnis) dan 460 Golden Leads.
+     - Ekstraksi dan inferensi profil pemilik/pengambil keputusan riil (e.g. *Jose*, *Jim Sciarroni*, *Lizandro*, *Lilly*, *Ledesma*, *Gramajo Family*).
+     - Identifikasi koridor komersial Richmond CA (23rd St Commercial Spine, Macdonald Ave, Cutting Blvd, Point Richmond, San Pablo Ave, El Sobrante, Hilltop).
+     - Pembuatan tautan langsung **WhatsApp Click-to-Chat API** (`https://wa.me/1...`) lengkap dengan template pesan penawaran personal yang dirancang khusus untuk pemilik bisnis di Richmond, CA.
+     - Klasifikasi Tier Prospek & estimasi nilai proyek (Tier 1 Kontraktor $2.5k - $15k, Tier 2 Bengkel $800 - $5k, Tier 3 Lansekap $1.2k - $8k, Tier 4 Personal Care $500 - $2.5k).
+  2. **Pembaruan Workbook Excel (`DATABASE_LEADS_RICHMOND_CA_EXCEL.xlsx`)**:
+     - Menghadirkan **Sheet 1: `🎯 VIP OUTREACH (WA & DM)`** berdesain Forest Emerald, berisi 460 Golden Leads dengan tombol aksi WhatsApp (`💬 Chat on WhatsApp`), SMS (`📱 Send SMS`), dan VoIP Call (`📞 Call VoIP`).
+     - Sheet 2: `⭐ HIGH-VALUE TRADES & SERVICES` (218 baris kontraktor & bengkel).
+     - Sheet 3: `📋 ALL 1253 BUSINESSES` (Master direktori).
+     - Sheet 4: `📊 SUMMARY & ACTION PLAN` (Playbook penawaran dari Indonesia).
+  3. **Output Berkas Data**:
+     - `leads/leads_richmond_ca_enriched.json` (1.253 entitas bisnis terprofil lengkap)
+     - `leads/leads_richmond_ca_vip_outreach.csv` (460 Golden Leads siap outreach)
+     - `DATABASE_LEADS_RICHMOND_CA_EXCEL.xlsx` (Root & Leads folder)
+
+## [2026-09-30] Richmond CA: Deep Google Maps Scraping & Database Leads Tanpa Website (100% Full Scan)
+- **Status**: Selesai & Terverifikasi (1.253 Master Businesses, 460 Golden Leads Tanpa Website, 421 Kontak Telepon Riil / 91.5%, 209 High-Value Trades, Excel Workbook 4 Tab Lengkap)
+- **Detail Pekerjaan**:
+  1. **Eksekusi Pipeline Otomatis Puppeteer (`scripts/scrape_richmond_ca.js`)**:
+     - Menjalankan 59 klaster pencarian mendalam di seluruh distrik dan koridor komersial Richmond, California (CA) — Area Code 510/341 (Macdonald Ave, 23rd St, Cutting Blvd, San Pablo Ave, Point Richmond, Hilltop, Richmond Parkway).
+     - Mengumpulkan 1.253 listing unik dan mengekstrak data 100% dari seluruh 1.253 bisnis aktif tanpa batasan kuota.
+     - Audit website mengisolasi 460 bisnis yang 100% TIDAK MEMILIKI WEBSITE atau hanya mengandalkan profil media sosial/direktori (*Golden Leads*).
+  2. **Kurasi & Prioritasi Kontak**:
+     - 421 dari 460 Golden Leads (91.5%) memiliki nomor telepon bisnis terverifikasi AS.
+     - 209 bisnis tergolong ke dalam sektor bernilai tinggi (*High-Value Trades*): Bengkel otomotif (33 bengkel), atap/roofing, HVAC, tukang pipa, tukang listrik, kontraktor beton, lansekap dengan estimasi rata-rata nilai order $1,000 – $15,000+.
+     - Data diurutkan berdasarkan rating tertinggi (5.0, 4.9, dst.) dengan kontak telepon prioritas di baris teratas.
+  3. **Generasi Workbook Excel Profesional (`DATABASE_LEADS_RICHMOND_CA_EXCEL.xlsx`)**:
+     - `🎯 GOLDEN LEADS (NO WEBSITE)`: 460 baris prospek siap kontak lengkap dengan link direct dial (`tel:`) dan SMS (`sms:`).
+     - `⭐ HIGH-VALUE TRADES & SERVICES`: 209 baris kontraktor & bengkel bernilai tinggi dengan estimasi deal size dan sudut strategi penawaran.
+     - `📋 ALL 1253 BUSINESSES`: Master direktori seluruh bisnis yang terscan.
+     - `📊 SUMMARY & ACTION PLAN`: Matriks data & template naskah outreach telepon & SMS berbahasa Inggris.
+  4. **Sinkronisasi Berkas Data**:
+     - `leads/leads_richmond_ca_all.csv` (1.253 baris)
+     - `leads/leads_richmond_ca_no_website.csv` (460 baris Golden Leads)
+     - `leads/leads_richmond_ca.json` (JSON komprehensif 1.253 entitas bisnis)
+     - `DATABASE_LEADS_RICHMOND_CA_EXCEL.xlsx` (tersedia di root dan folder `leads/DATABASE_LEADS_RICHMOND_CA_EXCEL_latest.xlsx`)
+
+## [2026-09-28] Lucky Leaf Tattoo: Deployment Cloudflare Workers Live (Versi 2df06d1e)
+- **Status**: Selesai & Terverifikasi Live di Production (HTTP 200 OK dengan HTML Lucky Leaf Tattoo)
+- **Detail Rilis**:
+  1. **Deployment Cloudflare Workers (`pnpm wrangler deploy`)**:
+     - Berhasil mengunggah 59 aset baru/termodifikasi ke jaringan edge Cloudflare.
+     - Versi aktif rilis: `2df06d1e-d3ae-4870-afb3-1d6137e9e10f`.
+     - URL Production Terverifikasi:
+       - `https://scalebiz.web.id/preview/lucky-leaf` (200 OK - Title: Lucky Leaf Tattoo • Buffalo, NY)
+       - `https://scalebiz.web.id/overview/lucky-leaf` (200 OK)
+       - `https://scalebiz.sulhan77777.workers.dev/preview/lucky-leaf` (200 OK)
+  2. **Penyebab Sebelumnya Muncul Homepage**:
+     - Sebelumnya baru dilakukan `git push` ke GitHub, sedangkan domain `scalebiz.web.id` terhubung langsung ke Cloudflare Workers Assets yang membutuhkan eksekusi `wrangler deploy`. Tanpa `wrangler deploy`, route yang belum terdaftar di-fallback oleh Cloudflare ke SPA homepage (`index.html`).
+     - Masalah kini teratasi 100% dan halaman preview studio Lucky Leaf Tattoo sudah tayang aktif di production.
+
 ## [2026-09-28] Lucky Leaf Tattoo: Optimasi Responsif Mobile & Centering Tombol CTA
 - **Status**: Selesai & Terverifikasi (Build Bersih, 0 Error TypeScript, Lolos Verifikasi Visual Puppeteer Mobile 375x812 & Desktop 1280x900)
 - **Pekerjaan yang Dilakukan**:

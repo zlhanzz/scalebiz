@@ -207,7 +207,7 @@ export default function ClaimDemoBar({ businessName, owners }: ClaimDemoBarProps
 
             <div style={{ background: "#1f2937", borderRadius: "12px", padding: "16px", marginBottom: "20px" }}>
               <div style={{ fontSize: "13px", fontWeight: 700, color: "#fbbf24", marginBottom: "8px" }}>
-                What&apos;s Included for $399 (Flat Fee, No Subscriptions):
+                What&apos;s Included (Includes Free Ongoing Maintenance):
               </div>
               <ul style={{ margin: 0, paddingLeft: "18px", fontSize: "13px", color: "#e5e7eb", lineHeight: 1.6 }}>
                 <li>Custom <strong>.com</strong> domain connected &amp; 1st year included</li>
@@ -215,7 +215,7 @@ export default function ClaimDemoBar({ businessName, owners }: ClaimDemoBarProps
                 <li>Direct 1-tap call, text SMS, directions, and direct booking buttons</li>
                 <li>Full artist directory updates with your team and service menu</li>
                 <li>Google Business Profile website link integration</li>
-                <li>Zero monthly builder fees (unlike Wix/Squarespace $25/mo)</li>
+                <li>100% Free ongoing maintenance &amp; hosting support while active</li>
               </ul>
             </div>
 

@@ -6,7 +6,7 @@ export const FAQ_CATEGORIES_ID: FaqCategory[] = [
   { id: "about", label: "Tentang Scalebiz" },
   { id: "process", label: "Proses & Biaya" },
   { id: "services", label: "Website & Sistem" },
-  { id: "ownership", label: "Kepemilikan & Dukungan" },
+  { id: "ownership", label: "Langganan & Maintenance" },
 ];
 
 export const FAQ_CATEGORIES_EN: FaqCategory[] = [
@@ -14,7 +14,7 @@ export const FAQ_CATEGORIES_EN: FaqCategory[] = [
   { id: "about", label: "About Scalebiz" },
   { id: "process", label: "Process & Pricing" },
   { id: "services", label: "Web & Systems" },
-  { id: "ownership", label: "Ownership & Support" },
+  { id: "ownership", label: "Subscription & Maintenance" },
 ];
 
 export const FAQ_ITEMS_ID: FaqItem[] = [
@@ -41,9 +41,9 @@ export const FAQ_ITEMS_ID: FaqItem[] = [
     category: "process",
     categoryLabel: "Proses & Biaya",
     priority: 3,
-    question: "Berapa biaya pembuatan website atau sistem?",
+    question: "Berapa biaya pembuatan website atau sistem di Scalebiz?",
     answer:
-      "Biaya bergantung pada jenis website atau sistem, jumlah fitur, tingkat kompleksitas, integrasi, dan kebutuhan khusus. Untuk kebutuhan sederhana, estimasi dapat diberikan berdasarkan scope. Untuk sistem custom, kami akan memahami kebutuhan terlebih dahulu sebelum memberikan penawaran.",
+      "Scalebiz menerapkan model langganan tahunan yang terjangkau dan transparan ($500/tahun dengan commitment fee awal $50). Biaya ini sudah mencakup pembuatan sistem website otomatis, cloud hosting berkecepatan tinggi, serta garansi 100% gratis maintenance dan pemantauan performa selama masa aktif website tanpa biaya kejutan.",
     cta: {
       label: "Konsultasikan kebutuhan Anda →",
       href: "https://wa.me/6281527080656?text=Halo%20Scalebiz,%20saya%20ingin%20konsultasi%20mengenai%20estimasi%20biaya%20proyek%20saya.",
@@ -116,25 +116,25 @@ export const FAQ_ITEMS_ID: FaqItem[] = [
   {
     id: "maintenance-support",
     category: "ownership",
-    categoryLabel: "Kepemilikan & Dukungan",
+    categoryLabel: "Langganan & Maintenance",
     priority: 10,
-    question: "Apakah tersedia maintenance setelah website selesai?",
+    question: "Bagaimana sistem maintenance? Apakah ada biaya pemeliharaan tambahan?",
     answer:
-      "Bisa. Scalebiz dapat membantu maintenance dan pengembangan lanjutan seperti update konten, perbaikan bug, perubahan fitur, monitoring, dan pengembangan modul baru. Detail maintenance disesuaikan dengan kebutuhan proyek.",
+      "Maintenance teknis 100% GRATIS selama masa langganan website Anda aktif. Pemeliharaan ini mencakup pengelolaan server cloud, pembaruan keamanan berkala, perbaikan bug, pemantauan uptime 24/7, dan penyesuaian minor. Anda tidak akan dikenakan tagihan perbaikan teknis tak terduga.",
   },
   {
     id: "access-ownership",
     category: "ownership",
-    categoryLabel: "Kepemilikan & Dukungan",
+    categoryLabel: "Langganan & Maintenance",
     priority: 11,
-    question: "Apakah saya mendapatkan akses ke website setelah proyek selesai?",
+    question: "Bagaimana kepemilikan data dan akses akun dalam model langganan?",
     answer:
-      "Ya. Akses dan kredensial yang menjadi hak klien akan diserahkan sesuai dengan scope dan teknologi yang digunakan. Untuk sistem tertentu, akses administrator dapat diberikan berdasarkan kebutuhan dan struktur pengguna.",
+      "Data bisnis Anda 100% milik Anda. Anda memegang kendali penuh atas database pelanggan (CRM), kontak, riwayat transaksi, dan nama domain resmi Anda. Scalebiz bertindak sebagai pengelola teknis dan infrastruktur sistem, sehingga Anda dapat fokus mengelola bisnis tanpa repot mengurus kerumitan server.",
   },
   {
     id: "revision-policy",
     category: "ownership",
-    categoryLabel: "Kepemilikan & Dukungan",
+    categoryLabel: "Langganan & Maintenance",
     priority: 12,
     question: "Apakah ada revisi?",
     answer:
@@ -161,11 +161,11 @@ export const FAQ_ITEMS_ID: FaqItem[] = [
   {
     id: "domain-hosting-ownership",
     category: "ownership",
-    categoryLabel: "Kepemilikan & Dukungan",
+    categoryLabel: "Langganan & Maintenance",
     priority: 15,
-    question: "Apakah domain dan hosting menjadi milik saya?",
+    question: "Apakah hosting dan domain sudah termasuk dalam paket?",
     answer:
-      "Untuk proyek website, domain dan hosting dapat menggunakan akun milik klien sehingga kepemilikan dan akses tetap berada pada pihak klien. Scalebiz dapat membantu proses setup dan konfigurasi jika diperlukan.",
+      "Ya. Cloud hosting berkecepatan tinggi, sertifikat SSL, dan pemeliharaan server sudah termasuk langsung dalam paket langganan tahunan dengan jaminan gratis maintenance. Domain terdaftar atas nama bisnis Anda sehingga hak identitas merek Anda tetap terlindungi seutuhnya.",
   },
   {
     id: "diagnosis-guidance",
@@ -176,9 +176,9 @@ export const FAQ_ITEMS_ID: FaqItem[] = [
     answer:
       "Anda tidak harus mengetahui solusi teknisnya terlebih dahulu. Ceritakan bisnis, kendala, dan tujuan Anda. Scalebiz dapat membantu memetakan kebutuhan tersebut dan menentukan solusi yang paling relevan.",
     cta: {
-      label: "Mulai Business Diagnosis →",
-      href: "#diagnosa-sistem",
-      isExternal: false,
+      label: "Konsultasikan Kebutuhan via WhatsApp →",
+      href: "https://wa.me/6281527080656?text=Halo%20Scalebiz%2C%20saya%20ingin%20konsultasi%20kebutuhan%20website%20dan%20sistem%20bisnis%20saya.",
+      isExternal: true,
     },
   },
 ];
@@ -207,9 +207,9 @@ export const FAQ_ITEMS_EN: FaqItem[] = [
     category: "process",
     categoryLabel: "Process & Pricing",
     priority: 3,
-    question: "How much does a custom website or system cost?",
+    question: "How much does a custom website or system cost at Scalebiz?",
     answer:
-      "Pricing depends on the system type, feature complexity, third-party integrations, and bespoke business requirements. For standard projects, fixed quotes are provided based on deliverables. For custom systems, we review your operational workflow first before providing a transparent proposal.",
+      "Scalebiz operates on a clear, all-inclusive yearly subscription model ($500/year with a $50 initial commitment fee). This includes custom automated website development, high-speed cloud infrastructure, and 100% free technical maintenance and monitoring for as long as your website is active—with zero surprise fees.",
     cta: {
       label: "Consult on your project requirements →",
       href: "https://wa.me/6281527080656?text=Hello%20Scalebiz,%20I%20would%20like%20to%20consult%20on%20pricing%20estimates%20for%20my%20project.",
@@ -282,25 +282,25 @@ export const FAQ_ITEMS_EN: FaqItem[] = [
   {
     id: "maintenance-support",
     category: "ownership",
-    categoryLabel: "Ownership & Support",
+    categoryLabel: "Subscription & Maintenance",
     priority: 10,
-    question: "Is ongoing maintenance provided after launch?",
+    question: "How does maintenance work, and is there any extra cost?",
     answer:
-      "Yes. Scalebiz provides post-launch maintenance, performance monitoring, security patches, feature iterations, and technical assistance tailored to your business needs.",
+      "Technical maintenance is 100% FREE for as long as your website subscription is active. This includes continuous cloud server management, security updates, bug fixes, 24/7 uptime monitoring, and technical assistance. You never have to deal with unexpected repair invoices or backend maintenance headaches.",
   },
   {
     id: "access-ownership",
     category: "ownership",
-    categoryLabel: "Ownership & Support",
+    categoryLabel: "Subscription & Maintenance",
     priority: 11,
-    question: "Do I get full ownership and access after project completion?",
+    question: "How does data ownership and access work under the subscription model?",
     answer:
-      "Yes. All system deliverables, credentials, and source files belonging to your business scope are handed over upon completion. Full administrative access is provided.",
+      "Your business data is 100% yours. You retain full control and ownership over your customer database (CRM), contact lists, transaction history, and official domain name. Scalebiz manages the technical code and cloud servers so you enjoy a state-of-the-art system without operational friction.",
   },
   {
     id: "revision-policy",
     category: "ownership",
-    categoryLabel: "Ownership & Support",
+    categoryLabel: "Subscription & Maintenance",
     priority: 12,
     question: "What is the revision policy?",
     answer:
@@ -327,11 +327,11 @@ export const FAQ_ITEMS_EN: FaqItem[] = [
   {
     id: "domain-hosting-ownership",
     category: "ownership",
-    categoryLabel: "Ownership & Support",
+    categoryLabel: "Subscription & Maintenance",
     priority: 15,
-    question: "Will domain and cloud hosting belong directly to me?",
+    question: "Are cloud hosting and domain included?",
     answer:
-      "Yes. Domains and cloud infrastructure can be provisioned under your own accounts, ensuring you retain 100% legal ownership and control. Scalebiz handles the technical setup and deployment.",
+      "Yes. High-performance cloud hosting, SSL certificates, and server upkeep are completely bundled under your annual subscription with free ongoing maintenance. Your domain name remains registered to your business, safeguarding your brand equity.",
   },
   {
     id: "diagnosis-guidance",
@@ -342,9 +342,9 @@ export const FAQ_ITEMS_EN: FaqItem[] = [
     answer:
       "You don't need to know the technical solution upfront. Tell us about your operational flow and bottlenecks. Scalebiz will audit your requirements and recommend the most effective architecture.",
     cta: {
-      label: "Start Business Audit →",
-      href: "#diagnosa-sistem",
-      isExternal: false,
+      label: "Consult on WhatsApp →",
+      href: "https://wa.me/6281527080656?text=Hello%20Scalebiz%2C%20I%20would%20like%20to%20consult%20on%20my%20business%20website%20and%20system%20needs.",
+      isExternal: true,
     },
   },
 ];

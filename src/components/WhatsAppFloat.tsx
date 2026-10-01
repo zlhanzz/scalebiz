@@ -2,7 +2,8 @@ import React from "react";
 
 export default function WhatsAppFloat() {
   const whatsappUrl =
-    "https://wa.me/6281527080656?text=Halo%20Scalebiz,%20saya%20tertarik%20tanya%20jasa%20pembuatan%20website%20dan%20sistem%20bisnis.";
+    "https://wa.me/6281527080656?text=" +
+    encodeURIComponent("Hello Scalebiz, I would like to inquire about a custom website and booking system for my business.");
 
   return (
     <a
@@ -24,9 +25,9 @@ export default function WhatsAppFloat() {
         strokeLinecap="round"
         strokeLinejoin="round"
       >
-        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
       </svg>
-      <span>Tanya via WA</span>
+      <span>Chat on WhatsApp</span>
     </a>
   );
 }

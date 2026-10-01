@@ -1,56 +1,54 @@
-# Rencana Implementasi: Optimasi Tampilan Mobile & Centering Tombol CTA (Lucky Leaf Tattoo)
+# Rencana Implementasi: Pengalihan Target CTA Hero ke Section Services & Penyesuaian Copywriting "Scale Up and Grow My Business!"
 
-Dokumen ini disusun berdasarkan protokol baku workspace `RULE[user_global]` sebelum melakukan modifikasi kode.
-
----
-
-## 1. Analisis Masalah & Kebutuhan
-- **Kebutuhan Pengguna**: Pengguna menginginkan tampilan mobile lebih teroptimasi, khususnya tombol-tombol aksi utama seperti pada Hero Section (`Request Appointment` & `Explore 1-of-1 Flash`) dan Senbazuru Section (`Request a Crane Piece`) agar berada di posisi tengah (*centered*) dan proporsional di layar ponsel, tidak menempel canggung di sebelah kiri dengan banyak ruang kosong di sebelah kanannya.
-- **Kondisi Saat Ini**:
-  - Pada Hero Section, wrapper tombol menggunakan `display: flex; flexWrap: wrap; gap: 12px;` default left-aligned. Pada layar ponsel (< 640px), tombol bertumpuk ke kiri dengan ukuran auto, menyisakan ruang kosong di kanan.
-  - Pada Senbazuru Section, tombol `Request a Crane Piece` berada di kolom ketiga grid desktop yang saat di mobile berubah menjadi 1-kolom dan tertinggal di sebelah kiri bawah card putih.
-- **Tujuan**:
-  - Membuat tombol-tombol CTA di mobile berada tepat di tengah (*center-aligned*) secara simetris dan elegan.
-  - Memberikan lebar sentuh yang ergonomis (*touch-friendly* / `width: 100%; max-width: 320px;`) sehingga nyaman diakses jempol pengguna smartphone.
-  - Mempertahankan tampilan desktop tetap inline side-by-side tanpa regresi.
+Dokumen ini disusun sebagai protokol kerja baku (`RULE[user_global]`) untuk merespons instruksi pengguna:
+> *"i think this button not supposed to be direct to work secttion, but better direct to service section. instead upgrade my website and system, better to say, 'Scale Up and Grow My Business!'"*
 
 ---
 
-## 2. Dampak Perubahan
-- File yang tersentuh:
-  - `src/components/preview/PreviewLuckyLeaf.tsx`:
-    - Blok `<style>` responsif `@media (max-width: 640px)`: penambahan aturan CSS untuk `.ll-hero-cta-group`, `.ll-senbazuru-btn-wrap`, dsb.
-    - Wrapper tombol Hero Section: penambahan className `ll-hero-cta-group`.
-    - Wrapper tombol Senbazuru: penambahan className `ll-senbazuru-btn-wrap`.
-  - `scripts/test_lucky_leaf_preview.js`:
-    - Pembaruan skrip untuk memotret section Senbazuru pada tampilan mobile untuk verifikasi visual otomatis.
-  - `WALKTHROUGH.md` & `functions/PROGRESS.md`:
-    - Pencatatan hasil implementasi dan bukti visual.
+## 1. Analisis Masalah & Tujuan Perubahan
+
+### Masalah yang Ditemukan:
+1. **Target Scroll CTA Kurang Tepat Sasaran**:
+   - Tombol utama CTA di Hero section sebelumnya mengarah ke `#work` (Portofolio).
+   - Pengguna menghendaki tombol utama tersebut mengarahkan calon klien langsung ke **`#services`** (Pilar Layanan Otomasi & Solusi Bisnis), yang menyajikan 4 pilar manfaat sistem.
+2. **Copywriting Tombol Kurang Relevan dengan Brand Visi**:
+   - Teks tombol sebelumnya: *"Upgrade My Website & Business Systems Now!"*.
+   - Pengguna menghendaki teks tombol diubah menjadi:
+     **"Scale Up and Grow My Business!"**
+
+---
+
+## 2. Dampak Perubahan (Berkas yang Tersentuh)
+
+1. [src/components/HeroEditorial.tsx](file:///c:/Users/ZHULL/Documents/Freelance/src/components/HeroEditorial.tsx):
+   - Mengubah fungsi `scrollToWork` menjadi `scrollToServices` yang menargetkan elemen `#services` (dengan fallback smooth scroll).
+   - Mengubah atribut `href="#work"` menjadi `href="#services"`.
+   - Mengubah teks tombol `<span>` menjadi `"Scale Up and Grow My Business!"`.
+2. [src/data/translations/index.ts](file:///c:/Users/ZHULL/Documents/Freelance/src/data/translations/index.ts):
+   - Menyelaraskan properti `hero.ctaMain` pada objek `id` dan `en` menjadi `"Scale Up and Grow My Business!"`.
+3. Dokumentasi Protokol:
+   - [functions/PROGRESS.md](file:///c:/Users/ZHULL/Documents/Freelance/functions/PROGRESS.md)
+   - [WALKTHROUGH.md](file:///c:/Users/ZHULL/Documents/Freelance/WALKTHROUGH.md)
 
 ---
 
 ## 3. Langkah-Langkah Eksekusi
-1. **Pembaruan CSS Responsif & Kelas Elemen di `PreviewLuckyLeaf.tsx`**:
-   - Definisikan styling `@media (max-width: 640px)`:
-     - `.ll-hero-cta-group`: `display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; margin-bottom: 32px;`
-     - `.ll-hero-cta-group button, .ll-hero-cta-group a`: `width: 100%; max-width: 320px; justify-content: center; text-align: center;`
-     - `.ll-senbazuru-btn-wrap`: `display: flex; justify-content: center; width: 100%; margin-top: 12px;`
-     - `.ll-senbazuru-btn-wrap button`: `width: 100%; max-width: 320px; justify-content: center; text-align: center;`
-   - Terapkan kelas-kelas tersebut pada elemen JSX terkait.
-2. **Kompilasi & Pengecekan Tipe**:
-   - Jalankan `pnpm.cmd tsc --noEmit` untuk memastikan 0 error.
-3. **Verifikasi Visual Puppeteer**:
-   - Jalankan `node ./scripts/test_lucky_leaf_preview.js` untuk mengambil tangkapan layar mobile Hero dan mobile Senbazuru.
-   - Periksa gambar hasil uji secara visual dengan `view_file`.
-4. **Dokumentasi**:
-   - Catat progres di `functions/PROGRESS.md` dan `WALKTHROUGH.md`.
+
+1. **Modifikasi `src/components/HeroEditorial.tsx`**:
+   - Ubah logika click handler `scrollToServices` ke target elemen `#services` / `#layanan`.
+   - Perbarui markup tombol CTA utama dengan teks `"Scale Up and Grow My Business!"`.
+2. **Penyelarasan `src/data/translations/index.ts`**:
+   - Perbarui kamus `hero.ctaMain`.
+3. **Verifikasi Teknis & Visual**:
+   - Jalankan `npx tsc --noEmit` untuk memastikan kepatuhan tipe TypeScript.
+   - Ambil screenshot visual tombol CTA Hero dan verifikasi scroll perilaku ke section `#services`.
+4. **Dokumentasi Hasil**:
+   - Perbarui [functions/PROGRESS.md](file:///c:/Users/ZHULL/Documents/Freelance/functions/PROGRESS.md) dan [WALKTHROUGH.md](file:///c:/Users/ZHULL/Documents/Freelance/WALKTHROUGH.md).
 
 ---
 
 ## 4. Rencana Verifikasi
-- Uji viewport mobile 375x812:
-  - Memastikan kedua tombol Hero berada di posisi tengah kartu/container, simetris dan mudah dijangkau.
-  - Memastikan tombol Senbazuru berada di tengah card.
-  - Memastikan tidak ada *horizontal overflow* (*no horizontal scrollbar*).
-- Uji viewport desktop 1280x900:
-  - Memastikan tombol Hero tetap berada dalam layout inline kiri seperti desain awal desktop yang disetujui.
+
+- **Kompilasi TypeScript**: Memastikan 0 error.
+- **Verifikasi UI**: Tangkapan layar pada tombol utama Hero (`.hero-primary-cta-btn`) membuktikan teks telah berganti menjadi `"Scale Up and Grow My Business!"`.
+- **Verifikasi Navigasi**: Memastikan target tautan mengarah tepat ke `#services`.
